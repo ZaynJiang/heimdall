@@ -6,10 +6,12 @@
 
     <groupId>cn.heimdall</groupId>
     <artifactId>heimdall-parent</artifactId>
+    <packaging>pom</packaging>
     <version>${heimdall-vision}</version>
 
     <modules>
         <module>heimdall-client</module>
+        <module>heimdall-core</module>
     </modules>
 
     <properties>
