@@ -15,6 +15,8 @@
         <module>heimdall-computor</module>
         <module>heimdall-storage</module>
         <module>heimdall-view</module>
+        <module>heimdall-server</module>
+        <module>heimdall-discovery</module>
     </modules>
 
     <properties>
@@ -25,11 +27,6 @@
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>4.1.39.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.18</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
