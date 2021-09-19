@@ -7,18 +7,14 @@
         <groupId>cn.heimdall</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
+    <version>${heimdall-vision}</version>
+    <artifactId>heimdall-computor</artifactId>
 
-    <artifactId>heimdall-core</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>config</module>
-        <module>network</module>
-        <module>message</module>
-    </modules>
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
 
-
-    <dependencies>
-
-    </dependencies>
 </project>
