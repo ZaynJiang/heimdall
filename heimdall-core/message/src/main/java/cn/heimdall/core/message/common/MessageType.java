@@ -9,9 +9,11 @@ public interface MessageType {
     short TYPE_CLIENT_MONITOR_REPORT = 4;
     //节点发送的监控数据持久化消息
     short TYPE_NODE_MONITOR_STORAGE = 5;
-    //节点发送的server注册消息
-    short TYPE_NODE_COMPUTE_HEARTBEAT = 5;
-    //节点发送的server注册消息
-    short TYPE_NODE_STORAGE_HEARTBEAT = 5;
+    //计算节点发送心跳的消息
+    short TYPE_NODE_COMPUTE_HEARTBEAT = 6;
+    //存储节点发送心跳的消息
+    short TYPE_NODE_STORAGE_HEARTBEAT = 7;
+    //查询节点发送心跳的消息
+    short TYPE_NODE_QUERY_HEARTBEAT = 8;
 
 }

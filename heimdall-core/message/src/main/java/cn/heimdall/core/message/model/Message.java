@@ -1,12 +1,11 @@
 package cn.heimdall.core.message.model;
 
 import io.netty.buffer.ByteBuf;
-import lombok.Data;
 
-@Data
 public abstract class Message<T extends MessageBody> {
 
     private MessageHeader messageHeader;
+
     private T messageBody;
 
     public T getMessageBody(){
@@ -15,8 +14,7 @@ public abstract class Message<T extends MessageBody> {
 
     public void encode(ByteBuf byteBuf) {
         byteBuf.writeInt(messageHeader.getVersion());
-        byteBuf.writeLong(messageHeader.getStreamId());
-        byteBuf.writeInt(messageHeader.getOpCode());
+
         //byteBuf.writeBytes();
     }
 
@@ -26,8 +24,6 @@ public abstract class Message<T extends MessageBody> {
         int version = msg.readInt();
         long streamId = msg.readLong();
         int opCode = msg.readInt();
-
-
     }
 
 }

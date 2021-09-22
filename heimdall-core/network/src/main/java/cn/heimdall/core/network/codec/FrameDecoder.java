@@ -1,4 +1,4 @@
-package cn.heimdall.core.message.server.codec;
+package cn.heimdall.core.network.codec;
 
 
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;

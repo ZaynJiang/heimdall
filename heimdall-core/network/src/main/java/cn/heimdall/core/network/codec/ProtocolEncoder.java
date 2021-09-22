@@ -1,4 +1,4 @@
-package cn.heimdall.core.message.server.codec;
+package cn.heimdall.core.network.codec;
 
 import cn.heimdall.core.message.model.ResponseMessage;
 import io.netty.channel.ChannelHandlerContext;
