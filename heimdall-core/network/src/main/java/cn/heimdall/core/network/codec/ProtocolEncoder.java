@@ -1,6 +1,6 @@
 package cn.heimdall.core.network.codec;
 
-import cn.heimdall.core.message.model.ResponseMessage;
+import cn.heimdall.core.message.request.ResponseMessage;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
 

@@ -1,10 +1,9 @@
-package cn.heimdall.core.message.model;
+package cn.heimdall.core.message;
 
 public class MessageHeader {
 
     private int version = 1;
     private short typeCode;
-    private String messageId;
 
     public int getVersion() {
         return version;
@@ -22,11 +21,4 @@ public class MessageHeader {
         this.typeCode = typeCode;
     }
 
-    public String getMessageId() {
-        return messageId;
-    }
-
-    public void setMessageId(String messageId) {
-        this.messageId = messageId;
-    }
 }

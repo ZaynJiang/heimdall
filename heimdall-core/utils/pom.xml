@@ -8,14 +8,8 @@
         <version>${heimdall.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>network</artifactId>
-    <packaging>jar</packaging>
-    <dependencies>
-        <dependency>
-            <groupId>cn.heimdall</groupId>
-            <artifactId>message</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
+
+    <artifactId>utils</artifactId>
+
 
 </project>
