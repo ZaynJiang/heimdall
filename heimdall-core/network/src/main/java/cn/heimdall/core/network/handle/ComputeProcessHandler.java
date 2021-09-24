@@ -27,7 +27,7 @@ public class ComputeProcessHandler extends SimpleChannelInboundHandler<RequestMe
         if (ctx.channel().isActive() && ctx.channel().isWritable()) {
             ctx.writeAndFlush(responseMessage);
         } else {
-            log.error("is not writable, message is missing, {}");
+            log.error("not writable, message is missing, {}");
         }
     }
 
