@@ -1,4 +1,4 @@
-package cn.heimdall.core.utils;
+package cn.heimdall.core.utils.common;
 
 import com.google.gson.Gson;
 

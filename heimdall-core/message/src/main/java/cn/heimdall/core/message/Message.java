@@ -1,7 +1,7 @@
 package cn.heimdall.core.message;
 
 import cn.heimdall.core.message.body.MessageBody;
-import cn.heimdall.core.utils.JsonUtils;
+import cn.heimdall.core.utils.common.JsonUtils;
 import io.netty.buffer.ByteBuf;
 
 import java.nio.charset.StandardCharsets;
