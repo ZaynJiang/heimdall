@@ -1,4 +1,4 @@
-package cn.heimdall.core.utils.window;
+package cn.heimdall.core.utils.metric;
 
 public enum MetricEvent {
     PASS,

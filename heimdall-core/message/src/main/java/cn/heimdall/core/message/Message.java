@@ -1,7 +1,7 @@
 package cn.heimdall.core.message;
 
 import cn.heimdall.core.message.body.MessageBody;
-import cn.heimdall.core.utils.common.JsonUtils;
+import cn.heimdall.core.utils.common.JsonUtil;
 import io.netty.buffer.ByteBuf;
 
 import java.nio.charset.StandardCharsets;
@@ -19,7 +19,7 @@ public abstract class Message<T extends MessageBody>  {
     public void encode(ByteBuf byteBuf) {
         byteBuf.writeInt(messageHeader.getVersion());
         byteBuf.writeInt(messageHeader.getTypeCode());
-        byteBuf.writeBytes(JsonUtils.toJson(messageBody).getBytes());
+        byteBuf.writeBytes(JsonUtil.toJson(messageBody).getBytes());
     }
 
     public void decode(ByteBuf msg) {
@@ -28,7 +28,7 @@ public abstract class Message<T extends MessageBody>  {
         this.messageHeader = wrapHeader(typeCode, version);
         Class<T> bodyClazz = getMessageBodyClass(typeCode);
         //目前使用json协议，需要改成自定义协议
-        T body = JsonUtils.fromJson(msg.toString(StandardCharsets.UTF_8), bodyClazz);
+        T body = JsonUtil.fromJson(msg.toString(StandardCharsets.UTF_8), bodyClazz);
         this.messageBody = body;
     }
 

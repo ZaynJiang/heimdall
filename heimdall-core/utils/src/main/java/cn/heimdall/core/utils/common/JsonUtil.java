@@ -2,7 +2,7 @@ package cn.heimdall.core.utils.common;
 
 import com.google.gson.Gson;
 
-public final class JsonUtils {
+public final class JsonUtil {
 
     private static final Gson GSON = new Gson();
 
