@@ -1,5 +1,8 @@
 package cn.heimdall.core.message.body;
 
-public abstract class MessageBody{
-
+public interface MessageBody{
+    String getDomain();
+    void setDomain(String domain);
+    String getIpAddress();
+    void setIpAddress(String ipAddress);
 }

@@ -1,5 +1,7 @@
 package cn.heimdall.core.utils.metric;
 
+import cn.heimdall.core.utils.window.WindowBucket;
+
 public interface Metric {
     //获取成功数量
     long getSuccessCount();
@@ -9,4 +11,6 @@ public interface Metric {
     void addSuccessCount(int n);
     //添加异常数量
     void addException(int n);
+    //获取时间窗口
+    WindowBucket[] windows();
 }

@@ -6,7 +6,7 @@ package cn.heimdall.core.utils.metric;
 public interface SpanMetric extends Metric {
 
     //获取平均响应时间
-    long getAvgRT();
+    long getTotalRT();
 
     //获取最小响应时间
     long getMinRT();

@@ -3,10 +3,12 @@ package cn.heimdall.core.utils.window;
 import cn.heimdall.core.utils.common.AssertUtil;
 import cn.heimdall.core.utils.common.CurrentTimeFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
 
-public abstract class AbstractWindowBuilder<T> {
+public abstract class AbstractWindowManager<T> {
     /**
      * 滑动时间窗口的大小（毫秒）
      */
@@ -29,7 +31,7 @@ public abstract class AbstractWindowBuilder<T> {
 
     private final ReentrantLock updateLock = new ReentrantLock();
 
-    public AbstractWindowBuilder(int sampleCount, int intervalInMs) {
+    public AbstractWindowManager(int sampleCount, int intervalInMs) {
         AssertUtil.isTrue(intervalInMs > 0, "intervalInMs is invalid: " + intervalInMs);
         AssertUtil.isTrue(sampleCount > 0, "bucket count is invalid: " + sampleCount);
         AssertUtil.isTrue(intervalInMs % sampleCount == 0, "time span divided is invalid");
@@ -43,7 +45,6 @@ public abstract class AbstractWindowBuilder<T> {
     public TimeWindow<T> currentWindow() {
         return currentWindow(CurrentTimeFactory.currentTimeMillis());
     }
-
 
     public TimeWindow<T> currentWindow(long timeMillis) {
         if (timeMillis < 0) {
@@ -79,6 +80,14 @@ public abstract class AbstractWindowBuilder<T> {
         return oldWindow;
     }
 
+    /**
+     * 获取当前时间的上一个时间窗口
+     * @return
+     */
+    public TimeWindow<T> getPreviousWindow() {
+        return getPreviousWindow(CurrentTimeFactory.currentTimeMillis());
+    }
+
     public TimeWindow<T> getPreviousWindow(long timeMillis) {
         if (timeMillis < 0) {
             return null;
@@ -95,8 +104,64 @@ public abstract class AbstractWindowBuilder<T> {
         return window;
     }
 
-    public TimeWindow<T> getPreviousWindow() {
-        return getPreviousWindow(CurrentTimeFactory.currentTimeMillis());
+    public List<T> values() {
+        return values(CurrentTimeFactory.currentTimeMillis());
+    }
+
+    public List<T> values(long timeMillis) {
+        if (timeMillis < 0) {
+            return new ArrayList<T>();
+        }
+        int size = timeWindows.length();
+        List<T> result = new ArrayList<T>(size);
+
+        for (int i = 0; i < size; i++) {
+            TimeWindow<T> timeWindow = timeWindows.get(i);
+            if (timeWindow == null || isWindowDeprecated(timeMillis, timeWindow)) {
+                continue;
+            }
+            result.add(timeWindow.value());
+        }
+        return result;
+    }
+
+    /**
+     * 获取当前时间的所有时间窗口桶
+     * @return
+     */
+    public List<TimeWindow<T>> list() {
+        return list(CurrentTimeFactory.currentTimeMillis());
+    }
+
+    public List<TimeWindow<T>> list(long validTime) {
+        int size = timeWindows.length();
+        List<TimeWindow<T>> result = new ArrayList<TimeWindow<T>>(size);
+        for (int i = 0; i < size; i++) {
+            TimeWindow<T> timeWindow = timeWindows.get(i);
+            if (timeWindow == null || isWindowDeprecated(validTime, timeWindow)) {
+                continue;
+            }
+            result.add(timeWindow);
+        }
+        return result;
+    }
+
+    /**
+     * 获取所有时间窗口桶
+     * @return
+     */
+    public List<TimeWindow<T>> listAll() {
+        int size = timeWindows.length();
+        List<TimeWindow<T>> result = new ArrayList<TimeWindow<T>>(size);
+        for (int i = 0; i < size; i++) {
+            TimeWindow<T> timeWindow = timeWindows.get(i);
+            if (timeWindow == null) {
+                continue;
+            }
+            result.add(timeWindow);
+        }
+
+        return result;
     }
 
     /**

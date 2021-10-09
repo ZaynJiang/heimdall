@@ -38,9 +38,8 @@ public class WindowBucket {
     }
 
     /**
-     * Reset the adders.
-     *
-     * @return new metric bucket in initial state
+     * 重构收集器
+     * @return
      */
     public WindowBucket reset() {
         for (MetricEvent event : MetricEvent.values()) {
@@ -59,18 +58,6 @@ public class WindowBucket {
         return this;
     }
 
-    public long pass() {
-        return get(MetricEvent.PASS);
-    }
-
-    public long occupiedPass() {
-        return get(MetricEvent.OCCUPIED_PASS);
-    }
-
-    public long block() {
-        return get(MetricEvent.BLOCK);
-    }
-
     public long exception() {
         return get(MetricEvent.EXCEPTION);
     }
@@ -87,20 +74,8 @@ public class WindowBucket {
         return get(MetricEvent.SUCCESS);
     }
 
-    public void addPass(int n) {
-        add(MetricEvent.PASS, n);
-    }
-
-    public void addOccupiedPass(int n) {
-        add(MetricEvent.OCCUPIED_PASS, n);
-    }
-
     public void addException(int n) {
         add(MetricEvent.EXCEPTION, n);
-    }
-
-    public void addBlock(int n) {
-        add(MetricEvent.BLOCK, n);
     }
 
     public void addSuccess(int n) {
@@ -110,7 +85,7 @@ public class WindowBucket {
     public void addRT(long rt) {
         add(MetricEvent.RT, rt);
 
-        // Not thread-safe, but it's okay.
+        //线程不安全，但无关紧要
         if (rt < minRt) {
             minRt = rt;
         }
@@ -118,6 +93,6 @@ public class WindowBucket {
 
     @Override
     public String toString() {
-        return "p: " + pass() + ", b: " + block() + ", w: " + occupiedPass();
+        return "s: " + success() + ", e: " + exception() ;
     }
 }

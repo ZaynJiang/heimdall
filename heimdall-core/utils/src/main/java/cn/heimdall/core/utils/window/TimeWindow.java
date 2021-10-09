@@ -50,7 +50,7 @@ public class TimeWindow<T> {
 
     @Override
     public String toString() {
-        return "WindowWrap{" +
+        return "TimeWindow{" +
                 "windowLengthInMs=" + windowLengthInMs +
                 ", windowStart=" + windowStart +
                 ", value=" + value +
