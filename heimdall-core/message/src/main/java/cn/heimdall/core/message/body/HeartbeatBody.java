@@ -1,30 +1,11 @@
 package cn.heimdall.core.message.body;
 
 /**
- * 客户端的jvm等指标
+ * 客户端的心跳等信息指标
  */
-public class HeartbeatBody implements MessageBody{
+public class HeartbeatBody extends MessageBody{
     private String gcJson;
     private String sysJson;
     private String threadJson;
 
-    @Override
-    public String getDomain() {
-        return null;
-    }
-
-    @Override
-    public void setDomain(String domain) {
-
-    }
-
-    @Override
-    public String getIpAddress() {
-        return null;
-    }
-
-    @Override
-    public void setIpAddress(String ipAddress) {
-
-    }
 }

@@ -1,6 +1,8 @@
-package cn.heimdall.core.utils.window;
+package cn.heimdall.core.message.window;
 
-import cn.heimdall.core.utils.metric.MetricEvent;
+
+import cn.heimdall.core.message.constants.MessageConstants;
+import cn.heimdall.core.message.metric.MetricConstant;
 
 import java.util.concurrent.atomic.LongAdder;
 
@@ -8,24 +10,21 @@ import java.util.concurrent.atomic.LongAdder;
  * 时间窗口桶
  */
 public class WindowBucket {
-
-    public static final int DEFAULT_STATISTIC_MAX_RT = 5000;
-
     private final LongAdder[] counters;
 
     private volatile long minRt;
 
     public WindowBucket() {
-        MetricEvent[] events = MetricEvent.values();
+        MetricConstant[] events = MetricConstant.values();
         this.counters = new LongAdder[events.length];
-        for (MetricEvent event : events) {
+        for (MetricConstant event : events) {
             counters[event.ordinal()] = new LongAdder();
         }
         initMinRt();
     }
 
     public WindowBucket reset(WindowBucket bucket) {
-        for (MetricEvent event : MetricEvent.values()) {
+        for (MetricConstant event : MetricConstant.values()) {
             counters[event.ordinal()].reset();
             counters[event.ordinal()].add(bucket.get(event));
         }
@@ -34,7 +33,7 @@ public class WindowBucket {
     }
 
     private void initMinRt() {
-        this.minRt = DEFAULT_STATISTIC_MAX_RT;
+        this.minRt = MessageConstants.DEFAULT_STATISTIC_MAX_RT;
     }
 
     /**
@@ -42,28 +41,28 @@ public class WindowBucket {
      * @return
      */
     public WindowBucket reset() {
-        for (MetricEvent event : MetricEvent.values()) {
+        for (MetricConstant event : MetricConstant.values()) {
             counters[event.ordinal()].reset();
         }
         initMinRt();
         return this;
     }
 
-    public long get(MetricEvent event) {
+    public long get(MetricConstant event) {
         return counters[event.ordinal()].sum();
     }
 
-    public WindowBucket add(MetricEvent event, long n) {
+    public WindowBucket add(MetricConstant event, long n) {
         counters[event.ordinal()].add(n);
         return this;
     }
 
     public long exception() {
-        return get(MetricEvent.EXCEPTION);
+        return get(MetricConstant.EXCEPTION);
     }
 
     public long rt() {
-        return get(MetricEvent.RT);
+        return get(MetricConstant.RT);
     }
 
     public long minRt() {
@@ -71,20 +70,19 @@ public class WindowBucket {
     }
 
     public long success() {
-        return get(MetricEvent.SUCCESS);
+        return get(MetricConstant.SUCCESS);
     }
 
     public void addException(int n) {
-        add(MetricEvent.EXCEPTION, n);
+        add(MetricConstant.EXCEPTION, n);
     }
 
     public void addSuccess(int n) {
-        add(MetricEvent.SUCCESS, n);
+        add(MetricConstant.SUCCESS, n);
     }
 
     public void addRT(long rt) {
-        add(MetricEvent.RT, rt);
-
+        add(MetricConstant.RT, rt);
         //线程不安全，但无关紧要
         if (rt < minRt) {
             minRt = rt;

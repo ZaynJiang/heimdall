@@ -1,4 +1,4 @@
-package cn.heimdall.core.utils.metric;
+package cn.heimdall.core.message.metric;
 
 /**
  * 跨度指标

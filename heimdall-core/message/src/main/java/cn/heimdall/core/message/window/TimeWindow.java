@@ -1,4 +1,4 @@
-package cn.heimdall.core.utils.window;
+package cn.heimdall.core.message.window;
 
 public class TimeWindow<T> {
 

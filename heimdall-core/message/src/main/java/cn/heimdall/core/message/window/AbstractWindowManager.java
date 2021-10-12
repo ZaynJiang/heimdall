@@ -1,4 +1,4 @@
-package cn.heimdall.core.utils.window;
+package cn.heimdall.core.message.window;
 
 import cn.heimdall.core.utils.common.AssertUtil;
 import cn.heimdall.core.utils.common.CurrentTimeFactory;
