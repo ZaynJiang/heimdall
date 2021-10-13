@@ -3,7 +3,6 @@ package cn.heimdall.core.message.compute;
 import cn.heimdall.core.message.body.MessageBody;
 import cn.heimdall.core.message.body.MessageTreeBody;
 import cn.heimdall.core.message.constants.MessageConstants;
-import cn.heimdall.core.message.metric.MetricKey;
 import cn.heimdall.core.message.metric.SpanMetricKey;
 import cn.heimdall.core.message.trace.Span;
 import org.apache.log4j.LogManager;
@@ -11,7 +10,7 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
-public class MessageTreeTask implements Runnable{
+public class MessageTreeTask implements MessageTask{
 
     private MessageQueue messageQueue;
 
@@ -27,6 +26,7 @@ public class MessageTreeTask implements Runnable{
         this.messageQueue = messageQueue;
     }
 
+    @Override
     public boolean offerQueue(MessageBody tree) {
         boolean result = messageQueue.offer(tree);
         if (!result) {
