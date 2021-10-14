@@ -1,32 +1,29 @@
 package cn.heimdall.core.message.metric;
 
-import cn.heimdall.core.message.body.MessageTreeBody;
-import cn.heimdall.core.message.trace.Span;
-
 import java.util.Objects;
 
-public class SpanMetricKey extends MetricKey{
+public class DefaultMetricKey extends MetricKey{
     private String domain;
     private String ip;
     private String type;
     private String name;
 
-    public SpanMetricKey() {
+    public DefaultMetricKey() {
     }
 
-    public SpanMetricKey(MessageTreeBody messageTreeBody, Span span) {
-        this.domain = messageTreeBody.getDomain();
-        this.ip = messageTreeBody.getIpAddress();
-        this.type = span.getType();
-        this.name = span.getName();
+    public DefaultMetricKey(String domain, String ip, String type, String name) {
+        this.domain = domain;
+        this.ip = ip;
+        this.type = type;
+        this.name = name;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof SpanMetricKey)) {
+        if (obj == null || !(obj instanceof DefaultMetricKey)) {
             return false;
         }
-        SpanMetricKey newObj = (SpanMetricKey) obj;
+        DefaultMetricKey newObj = (DefaultMetricKey) obj;
         return Objects.equals(newObj.getMetricKey(), this.getMetricKey());
     }
 

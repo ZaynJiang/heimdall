@@ -2,13 +2,13 @@ package cn.heimdall.core.message.trace;
 
 import java.util.List;
 
-public class Span {
+public class SpanLog extends TraceLog{
     private String type;
     private String name;
     private long costInMillis;
     private boolean completed;
-    private List<Span> childrenSpan;
-    private List<Event> events;
+    private List<SpanLog> childrenSpanLog;
+    private List<EventLog> eventLogs;
     private boolean errorTag;
 
     public String getType() {
@@ -43,20 +43,20 @@ public class Span {
         this.completed = completed;
     }
 
-    public List<Span> getChildrenSpan() {
-        return childrenSpan;
+    public List<SpanLog> getChildrenSpanLog() {
+        return childrenSpanLog;
     }
 
-    public void setChildrenSpan(List<Span> childrenSpan) {
-        this.childrenSpan = childrenSpan;
+    public void setChildrenSpanLog(List<SpanLog> childrenSpanLog) {
+        this.childrenSpanLog = childrenSpanLog;
     }
 
-    public List<Event> getEvents() {
-        return events;
+    public List<EventLog> getEventLogs() {
+        return eventLogs;
     }
 
-    public void setEvents(List<Event> events) {
-        this.events = events;
+    public void setEventLogs(List<EventLog> eventLogs) {
+        this.eventLogs = eventLogs;
     }
 
     public boolean isErrorTag() {

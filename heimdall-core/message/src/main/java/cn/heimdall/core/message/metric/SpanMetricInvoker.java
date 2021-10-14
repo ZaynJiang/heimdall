@@ -6,9 +6,9 @@ import cn.heimdall.core.message.window.WindowBucket;
 
 import java.util.List;
 
-public class SpanMetricCompute extends AbstractMetric implements SpanMetric{
+public class SpanMetricInvoker extends AbstractMetricInvoker implements SpanMetric{
 
-    public SpanMetricCompute(int sampleCount, int intervalInMs) {
+    public SpanMetricInvoker(int sampleCount, int intervalInMs) {
         super(sampleCount, intervalInMs);
     }
 

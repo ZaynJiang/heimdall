@@ -7,6 +7,10 @@ public interface MessageConstants {
     int METRIC_SPAN_WINDOW_INTERVAL = 1000;
     //指标计算:跨度窗口个数
     int METRIC_SPAN_WINDOW_COUNT = 2;
+    //指标计算:event窗口区间
+    int METRIC_EVENT_WINDOW_INTERVAL = 1000;
+    //指标计算:event窗口区间
+    int METRIC_EVENT_WINDOW_COUNT = 2;
 
     /**
      * 统计最大耗时

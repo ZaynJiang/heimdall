@@ -1,9 +1,18 @@
 package cn.heimdall.core.message.trace;
 
-public class Event {
+public class EventLog extends TraceLog{
     private String type;
     private String name;
     private String content;
+    private boolean errorTag;
+
+    public boolean isErrorTag() {
+        return errorTag;
+    }
+
+    public void setErrorTag(boolean errorTag) {
+        this.errorTag = errorTag;
+    }
 
     public String getType() {
         return type;

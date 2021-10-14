@@ -2,28 +2,25 @@ package cn.heimdall.core.message.compute;
 
 import cn.heimdall.core.message.body.MessageBody;
 import cn.heimdall.core.message.body.MessageTreeBody;
+import cn.heimdall.core.message.compute.impl.Compute;
 import cn.heimdall.core.message.constants.MessageConstants;
-import cn.heimdall.core.message.metric.SpanMetricKey;
-import cn.heimdall.core.message.trace.Span;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.util.List;
-
-public class MessageTreeTask implements MessageTask{
+public class DefaultMessageTask implements MessageTask{
 
     private MessageQueue messageQueue;
+
+    private Compute compute;
 
     private int queueOverflow;
 
     private final Logger log = LogManager.getLogger(getClass());
 
-    private int m_index;
 
-    private MetricManager spanMetricManager;
-
-    public MessageTreeTask(MessageQueue messageQueue) {
+    public DefaultMessageTask(MessageQueue messageQueue, Compute compute) {
         this.messageQueue = messageQueue;
+        this.compute = compute;
     }
 
     @Override
@@ -43,15 +40,14 @@ public class MessageTreeTask implements MessageTask{
         for (;;){
             try {
                 if (!messageQueue.isEmpty()) {
-                    //FIXME 优化
+                    //TODO 优化dd
                     MessageTreeBody tree = (MessageTreeBody) messageQueue.poll();
-                    List<Span> childSpans = tree.getSpans();
-                    childSpans.stream().forEach(span -> spanMetricManager.invokeSpanMetric(new SpanMetricKey(tree, span), span));
+                    compute.compute(tree);
                 } else {
                    Thread.sleep(10L);
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error(e);
             }
         }
     }

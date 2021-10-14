@@ -1,0 +1,7 @@
+package cn.heimdall.core.message.compute.impl;
+
+import cn.heimdall.core.message.body.MessageBody;
+
+public interface Compute {
+    void compute(MessageBody messageBody);
+}

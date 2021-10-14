@@ -7,10 +7,10 @@ import cn.heimdall.core.message.window.WindowBucket;
 
 import java.util.List;
 
-public abstract class AbstractMetric implements Metric{
+public abstract class AbstractMetricInvoker implements Metric{
     protected final AbstractWindowManager<WindowBucket> data;
 
-    public AbstractMetric(int sampleCount, int intervalInMs) {
+    public AbstractMetricInvoker(int sampleCount, int intervalInMs) {
         this.data = new BucketWindowManager(sampleCount, intervalInMs);
     }
 

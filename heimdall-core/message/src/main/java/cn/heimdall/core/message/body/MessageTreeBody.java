@@ -1,7 +1,7 @@
 package cn.heimdall.core.message.body;
 
-import cn.heimdall.core.message.trace.Event;
-import cn.heimdall.core.message.trace.Span;
+import cn.heimdall.core.message.trace.EventLog;
+import cn.heimdall.core.message.trace.SpanLog;
 import io.netty.buffer.ByteBuf;
 
 import java.util.ArrayList;
@@ -31,11 +31,11 @@ public class MessageTreeBody extends MessageBody{
     /**
      * 事件记录
      */
-    private List<Event> events = new ArrayList<Event>();
+    private List<EventLog> eventLogs = new ArrayList<EventLog>();
     /**
      * 跨度记录
      */
-    private List<Span> spans = new ArrayList<Span>();
+    private List<SpanLog> spanLogs = new ArrayList<SpanLog>();
 
     public ByteBuf getByteBuf() {
         return byteBuf;
@@ -101,19 +101,19 @@ public class MessageTreeBody extends MessageBody{
         this.hitSample = hitSample;
     }
 
-    public List<Event> getEvents() {
-        return events;
+    public List<EventLog> getEventLogs() {
+        return eventLogs;
     }
 
-    public void setEvents(List<Event> events) {
-        this.events = events;
+    public void setEventLogs(List<EventLog> eventLogs) {
+        this.eventLogs = eventLogs;
     }
 
-    public List<Span> getSpans() {
-        return spans;
+    public List<SpanLog> getSpanLogs() {
+        return spanLogs;
     }
 
-    public void setSpans(List<Span> spans) {
-        this.spans = spans;
+    public void setSpanLogs(List<SpanLog> spanLogs) {
+        this.spanLogs = spanLogs;
     }
 }
