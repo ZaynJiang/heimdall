@@ -3,7 +3,7 @@ package cn.heimdall.core.message.compute;
 import cn.heimdall.core.message.body.MessageBody;
 import cn.heimdall.core.message.body.MessageTreeBody;
 import cn.heimdall.core.message.compute.impl.Compute;
-import cn.heimdall.core.message.constants.MessageConstants;
+import cn.heimdall.core.config.constants.MessageConstants;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -16,7 +16,6 @@ public class DefaultMessageTask implements MessageTask{
     private int queueOverflow;
 
     private final Logger log = LogManager.getLogger(getClass());
-
 
     public DefaultMessageTask(MessageQueue messageQueue, Compute compute) {
         this.messageQueue = messageQueue;

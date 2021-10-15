@@ -1,7 +1,7 @@
 package cn.heimdall.core.message.response;
 
 import cn.heimdall.core.message.Message;
-import cn.heimdall.core.message.constants.MessageType;
+import cn.heimdall.core.config.constants.MessageType;
 
 public class ResponseMessage extends Message {
     @Override

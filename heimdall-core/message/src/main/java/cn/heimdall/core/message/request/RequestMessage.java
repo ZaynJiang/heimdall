@@ -2,7 +2,7 @@ package cn.heimdall.core.message.request;
 
 import cn.heimdall.core.message.Message;
 import cn.heimdall.core.message.body.MessageBody;
-import cn.heimdall.core.message.constants.MessageType;
+import cn.heimdall.core.config.constants.MessageType;
 
 public abstract class RequestMessage extends Message<MessageBody> {
 

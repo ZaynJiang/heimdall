@@ -1,6 +1,5 @@
 package cn.heimdall.core.message.metric;
 
-import cn.heimdall.core.message.constants.MessageConstants;
 import cn.heimdall.core.message.window.TimeWindow;
 import cn.heimdall.core.message.window.WindowBucket;
 
@@ -11,6 +10,7 @@ public class SpanMetricInvoker extends AbstractMetricInvoker implements SpanMetr
     public SpanMetricInvoker(int sampleCount, int intervalInMs) {
         super(sampleCount, intervalInMs);
     }
+
 
     @Override
     public long getTotalRT() {

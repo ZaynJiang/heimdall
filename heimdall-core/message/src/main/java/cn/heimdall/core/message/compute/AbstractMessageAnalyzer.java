@@ -1,7 +1,7 @@
 package cn.heimdall.core.message.compute;
 
 import cn.heimdall.core.message.body.MessageBody;
-import cn.heimdall.core.message.constants.MessageConstants;
+import cn.heimdall.core.config.constants.MessageConstants;
 
 import java.util.List;
 import java.util.Map;

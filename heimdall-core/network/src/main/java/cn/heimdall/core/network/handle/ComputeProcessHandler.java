@@ -1,6 +1,5 @@
 package cn.heimdall.core.network.handle;
 
-import cn.heimdall.core.message.body.MessageBody;
 import cn.heimdall.core.message.request.RequestMessage;
 import cn.heimdall.core.message.response.ProcessResult;
 import cn.heimdall.core.message.response.ResponseMessage;

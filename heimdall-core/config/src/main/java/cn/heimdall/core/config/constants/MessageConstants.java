@@ -1,4 +1,4 @@
-package cn.heimdall.core.message.constants;
+package cn.heimdall.core.config.constants;
 
 public interface MessageConstants {
     //分析队列大小

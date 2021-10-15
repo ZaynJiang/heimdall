@@ -174,8 +174,6 @@ public abstract class AbstractWindowManager<T> {
 
     /**
      * 创建一个时间窗口对应的桶
-     * @param timeMillis
-     * @return
      */
     public abstract T newEmptyBucket(long timeMillis);
 
