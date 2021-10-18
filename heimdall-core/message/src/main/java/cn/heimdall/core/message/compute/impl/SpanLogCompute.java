@@ -14,7 +14,7 @@ import cn.heimdall.core.utils.common.CollectionUtil;
 
 import java.util.List;
 
-public class SpanLogCompute extends AbstractTraceLogCompute {
+public class SpanLogCompute extends AbstractMetricCompute {
 
     public SpanLogCompute() {
         super();

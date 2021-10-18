@@ -18,8 +18,8 @@ public class HeartbeatAnalyzer extends AbstractMessageAnalyzer{
         List<MessageTask> tasks = new ArrayList<>(MessageConstants.MESSAGE_TREE_ANALYZER_LIST_SIZE);
         analyzerTasks.put("heartComputes", tasks);
         for (int i = 0; i < MessageConstants.MESSAGE_TREE_ANALYZER_LIST_SIZE; i++) {
-            tasks.add(new DefaultMessageTask(new DefaultMessageQueue(MessageConstants.MESSAGE_ANALYZER_QUEUE_SIZE),
-                    new HeartbeatCompute()));
+            tasks.add(new DefaultMessageTask(MessageConstants.MESSAGE_ANALYZER_QUEUE_SIZE,
+                    ComputeManager.singleHeartbeatMetricCompute()));
         }
     }
 }

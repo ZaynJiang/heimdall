@@ -1,5 +1,6 @@
 package cn.heimdall.core.message.metric;
 
+import cn.heimdall.core.config.constants.MessageConstants;
 import cn.heimdall.core.message.window.TimeWindow;
 import cn.heimdall.core.message.window.WindowBucket;
 

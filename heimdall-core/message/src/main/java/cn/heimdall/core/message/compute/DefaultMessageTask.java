@@ -17,8 +17,8 @@ public class DefaultMessageTask implements MessageTask{
 
     private final Logger log = LogManager.getLogger(getClass());
 
-    public DefaultMessageTask(MessageQueue messageQueue, Compute compute) {
-        this.messageQueue = messageQueue;
+    public DefaultMessageTask(int queueSize, Compute compute) {
+        this.messageQueue = new DefaultMessageQueue(queueSize);
         this.compute = compute;
     }
 

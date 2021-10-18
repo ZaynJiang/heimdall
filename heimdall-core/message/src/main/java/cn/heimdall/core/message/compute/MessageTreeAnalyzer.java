@@ -23,8 +23,8 @@ public class MessageTreeAnalyzer extends AbstractMessageAnalyzer{
         analyzerTasks.put("spanComputes", spanComputes);
         analyzerTasks.put("eventComputes", eventComputes);
         for (int i = 0; i < MessageConstants.MESSAGE_TREE_ANALYZER_LIST_SIZE; i++) {
-            spanComputes.add(new DefaultMessageTask(new DefaultMessageQueue(MessageConstants.MESSAGE_ANALYZER_QUEUE_SIZE), new SpanLogCompute()));
-            eventComputes.add(new DefaultMessageTask(new DefaultMessageQueue(MessageConstants.MESSAGE_ANALYZER_QUEUE_SIZE), new EventLogCompute()));
+            spanComputes.add(new DefaultMessageTask(MessageConstants.MESSAGE_ANALYZER_QUEUE_SIZE, ComputeManager.singleSpanMetricCompute()));
+            eventComputes.add(new DefaultMessageTask(MessageConstants.MESSAGE_ANALYZER_QUEUE_SIZE, ComputeManager.singleEventMetricCompute()));
         }
     }
 }

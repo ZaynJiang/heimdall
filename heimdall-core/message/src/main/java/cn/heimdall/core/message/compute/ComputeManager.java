@@ -1,21 +1,57 @@
 package cn.heimdall.core.message.compute;
 
+import cn.heimdall.core.message.compute.impl.Compute;
 import cn.heimdall.core.message.compute.impl.EventLogCompute;
 import cn.heimdall.core.message.compute.impl.SpanLogCompute;
-import cn.heimdall.core.message.compute.impl.AbstractTraceLogCompute;
-
-import java.util.ArrayList;
-import java.util.List;
+import cn.heimdall.core.message.compute.impl.TraceLogCompute;
 
 public class ComputeManager {
-    //metricKey: domain:key
-    private static List<AbstractTraceLogCompute> treeComputes;
-    private static List<AbstractTraceLogCompute> heartComputes;
+    private static volatile Compute spanMetricCompute;
+    private static volatile Compute eventMetricCompute;
+    private static volatile Compute heartbeatMetricCompute;
+    private static volatile Compute traceLogCompute;
 
-    public ComputeManager() {
-        treeComputes = new ArrayList<>();
-        treeComputes.add(new SpanLogCompute());
-        treeComputes.add(new EventLogCompute());
+    public static Compute singleSpanMetricCompute(){
+        if (spanMetricCompute == null){
+            synchronized (Compute.class){
+                if (spanMetricCompute == null){
+                    spanMetricCompute = new SpanLogCompute();
+                }
+            }
+        }
+        return spanMetricCompute;
     }
 
+    public static Compute singleTraceLogCompute(){
+        if (traceLogCompute == null){
+            synchronized (Compute.class){
+                if (traceLogCompute == null){
+                    traceLogCompute = new TraceLogCompute();
+                }
+            }
+        }
+        return traceLogCompute;
+    }
+
+    public static Compute singleEventMetricCompute(){
+        if (eventMetricCompute == null){
+            synchronized (Compute.class){
+                if (eventMetricCompute == null){
+                    eventMetricCompute = new EventLogCompute();
+                }
+            }
+        }
+        return eventMetricCompute;
+    }
+
+    public static Compute singleHeartbeatMetricCompute(){
+        if (heartbeatMetricCompute == null){
+            synchronized (Compute.class){
+                if (heartbeatMetricCompute == null){
+                    heartbeatMetricCompute = new EventLogCompute();
+                }
+            }
+        }
+        return heartbeatMetricCompute;
+    }
 }

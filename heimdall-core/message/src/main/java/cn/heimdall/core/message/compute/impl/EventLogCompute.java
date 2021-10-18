@@ -15,7 +15,7 @@ import cn.heimdall.core.utils.common.CollectionUtil;
 
 import java.util.List;
 
-public class EventLogCompute extends AbstractTraceLogCompute {
+public class EventLogCompute extends AbstractMetricCompute {
 
     @Override
     public void compute(MessageBody messageBody) {

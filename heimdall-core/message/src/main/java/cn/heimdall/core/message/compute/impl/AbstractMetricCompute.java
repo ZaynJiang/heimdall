@@ -7,11 +7,11 @@ import cn.heimdall.core.message.trace.TraceLog;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public abstract class AbstractTraceLogCompute extends AbstractCompute {
+public abstract class AbstractMetricCompute extends AbstractCompute {
 
     private Map<MetricKey, Metric> metrics;
 
-    public AbstractTraceLogCompute() {
+    public AbstractMetricCompute() {
         metrics = new ConcurrentHashMap<>();
     }
 
@@ -28,4 +28,8 @@ public abstract class AbstractTraceLogCompute extends AbstractCompute {
     protected abstract Metric newMetric();
 
     protected abstract MetricKey wrapMetricKey(TraceLog tracelog);
+
+    public Map<MetricKey, Metric> getMetrics(){
+        return this.metrics;
+    }
 }
