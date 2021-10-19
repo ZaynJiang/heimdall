@@ -1,31 +1,29 @@
 package cn.heimdall.core.message.compute;
 
-import cn.heimdall.core.message.body.MessageBody;
-
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-public class DefaultMessageQueue implements MessageQueue{
+public class DefaultMessageQueue<T> implements MessageQueue<T>{
 
-    private BlockingQueue<MessageBody> m_queue;
+    private BlockingQueue<T> m_queue;
 
     public DefaultMessageQueue(int size) {
-        m_queue = new ArrayBlockingQueue<MessageBody>(size);
+        m_queue = new ArrayBlockingQueue<T>(size);
     }
 
     @Override
-    public boolean offer(MessageBody tree) {
+    public boolean offer(T tree) {
         return m_queue.offer(tree);
     }
 
     @Override
-    public MessageBody peek() {
+    public T peek() {
         return m_queue.peek();
     }
 
     @Override
-    public MessageBody poll() {
+    public T poll() {
         try {
             return m_queue.poll(5, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
