@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 客户端形成的消息树
  */
-public class MessageTreeBody extends MessageBody{
+public class MessageTreeBody extends ClientMessageBody {
 
     private ByteBuf byteBuf;
 

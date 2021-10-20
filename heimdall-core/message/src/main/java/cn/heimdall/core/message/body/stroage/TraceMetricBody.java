@@ -1,5 +1,4 @@
-package cn.heimdall.core.message.body;
+package cn.heimdall.core.message.body.stroage;
 
-public class MonitorReportBody extends MessageBody{
-
+public class TraceMetricBody extends StorageBody {
 }

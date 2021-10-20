@@ -1,7 +1,7 @@
-package cn.heimdall.core.message.compute;
+package cn.heimdall.core.message.task;
 
 import cn.heimdall.core.config.constants.MessageConstants;
-import cn.heimdall.core.message.body.MessageBody;
+import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.body.MessageTreeBody;
 import cn.heimdall.core.message.compute.impl.Compute;
 import org.apache.log4j.LogManager;

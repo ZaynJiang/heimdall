@@ -3,6 +3,7 @@ package cn.heimdall.core.message.trace;
 public class EventLog extends TraceLog{
     private String type;
     private String name;
+    private long eventTime;
     private String content;
     private boolean errorTag;
 
@@ -36,5 +37,13 @@ public class EventLog extends TraceLog{
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public long getEventTime() {
+        return eventTime;
+    }
+
+    public void setEventTime(long eventTime) {
+        this.eventTime = eventTime;
     }
 }

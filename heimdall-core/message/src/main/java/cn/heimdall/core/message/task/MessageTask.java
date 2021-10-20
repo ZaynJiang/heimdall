@@ -1,6 +1,6 @@
-package cn.heimdall.core.message.compute;
+package cn.heimdall.core.message.task;
 
-import cn.heimdall.core.message.body.MessageBody;
+import cn.heimdall.core.message.MessageBody;
 
 public interface MessageTask extends Runnable{
      boolean offerQueue(MessageBody tree);

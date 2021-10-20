@@ -1,6 +1,6 @@
 package cn.heimdall.core.message.compute.impl;
 
-import cn.heimdall.core.message.body.MessageBody;
+import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.body.MessageTreeBody;
 import cn.heimdall.core.config.constants.MessageConstants;
 import cn.heimdall.core.message.metric.DefaultMetricKey;

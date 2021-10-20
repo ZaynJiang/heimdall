@@ -3,7 +3,7 @@ package cn.heimdall.core.message.compute;
 import cn.heimdall.core.message.compute.impl.Compute;
 import cn.heimdall.core.message.compute.impl.EventLogCompute;
 import cn.heimdall.core.message.compute.impl.SpanLogCompute;
-import cn.heimdall.core.message.compute.impl.TraceLogCompute;
+import cn.heimdall.core.message.task.TraceLogDumperTask;
 
 public class ComputeManager {
     private static volatile Compute spanMetricCompute;
@@ -26,7 +26,7 @@ public class ComputeManager {
         if (traceLogCompute == null){
             synchronized (Compute.class){
                 if (traceLogCompute == null){
-                    traceLogCompute = new TraceLogCompute();
+                    traceLogCompute = new TraceLogDumperTask();
                 }
             }
         }

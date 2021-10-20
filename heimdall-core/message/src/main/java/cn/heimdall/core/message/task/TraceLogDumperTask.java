@@ -1,10 +1,14 @@
-package cn.heimdall.core.message.compute;
+package cn.heimdall.core.message.task;
 
 import cn.heimdall.core.config.constants.MessageConstants;
-import cn.heimdall.core.message.body.MessageBody;
+import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.body.MessageTreeBody;
+import cn.heimdall.core.message.trace.EventLog;
+import cn.heimdall.core.message.trace.SpanLog;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+
+import java.util.List;
 
 public class TraceLogDumperTask implements MessageTask {
 
@@ -35,8 +39,11 @@ public class TraceLogDumperTask implements MessageTask {
         for (;;){
             try {
                 if (!messageQueue.isEmpty()) {
-                    //TODO 优化dd
+                    //TODO 这里会远程发送信息。
                     MessageTreeBody tree = (MessageTreeBody) messageQueue.poll();
+                    List<SpanLog> spanLogs = tree.getSpanLogs();
+                    List<EventLog> eventLogs = tree.getEventLogs();
+                    //TODO netty远程调用
                 } else {
                     Thread.sleep(10L);
                 }

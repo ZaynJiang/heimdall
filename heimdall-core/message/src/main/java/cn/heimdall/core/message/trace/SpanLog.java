@@ -5,6 +5,9 @@ import java.util.List;
 public class SpanLog extends TraceLog{
     private String type;
     private String name;
+    private String content;
+    private long startTime;
+    private long endTime;
     private long costInMillis;
     private boolean completed;
     private List<SpanLog> childrenSpanLog;
@@ -65,5 +68,29 @@ public class SpanLog extends TraceLog{
 
     public void setErrorTag(boolean errorTag) {
         this.errorTag = errorTag;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
     }
 }

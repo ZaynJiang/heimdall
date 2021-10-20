@@ -1,4 +1,4 @@
-package cn.heimdall.core.message.body;
+package cn.heimdall.core.message;
 
 public abstract class MessageBody{
 
