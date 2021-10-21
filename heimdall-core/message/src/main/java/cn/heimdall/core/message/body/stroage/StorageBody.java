@@ -10,12 +10,12 @@ public abstract class StorageBody {
     private String computeIp;
 
     /**
-     * 处理的应用名
+     * 应用名
      */
     private String domain;
 
     /**
-     * 处理的ip地址
+     * 应用ip
      */
     private String addressIp;
 
