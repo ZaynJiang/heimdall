@@ -1,32 +1,52 @@
 package cn.heimdall.core.utils.thread;
 
+import cn.heimdall.core.utils.common.CollectionUtil;
+import io.netty.util.concurrent.FastThreadLocalThread;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class NamedThreadFactory implements ThreadFactory {
-
+    private final static Map<String, AtomicInteger> PREFIX_COUNTER = new ConcurrentHashMap<>();
     private final ThreadGroup group;
-    private final AtomicInteger threadNumber = new AtomicInteger(1);
+    private final AtomicInteger counter = new AtomicInteger(0);
+    private final String prefix;
+    private final int totalSize;
+    private final boolean makeDaemons;
 
-    private final String namePrefix;
-    private final boolean daemon;
-
-    public NamedThreadFactory(String namePrefix, boolean daemon) {
-        this.daemon = daemon;
-        SecurityManager s = System.getSecurityManager();
-        group = (s != null) ? s.getThreadGroup() :
-            Thread.currentThread().getThreadGroup();
-        this.namePrefix = namePrefix;
+    public NamedThreadFactory(String prefix, int totalSize, boolean makeDaemons) {
+        int prefixCounter = CollectionUtil.computeIfAbsent(PREFIX_COUNTER, prefix, key -> new AtomicInteger(0))
+                .incrementAndGet();
+        SecurityManager securityManager = System.getSecurityManager();
+        group = (securityManager != null) ? securityManager.getThreadGroup() : Thread.currentThread().getThreadGroup();
+        this.prefix = prefix + "_" + prefixCounter;
+        this.makeDaemons = makeDaemons;
+        this.totalSize = totalSize;
     }
 
-    public NamedThreadFactory(String namePrefix) {
-        this(namePrefix, false);
+    public NamedThreadFactory(String prefix, boolean makeDaemons) {
+        this(prefix, 0, makeDaemons);
+    }
+
+
+    public NamedThreadFactory(String prefix, int totalSize) {
+        this(prefix, totalSize, true);
     }
 
     @Override
     public Thread newThread(Runnable r) {
-        Thread t = new Thread(group, r, namePrefix + "-thread-" + threadNumber.getAndIncrement(), 0);
-        t.setDaemon(daemon);
-        return t;
+        String name = prefix + "_" + counter.incrementAndGet();
+        if (totalSize > 1) {
+            name += "_" + totalSize;
+        }
+        Thread thread = new FastThreadLocalThread(group, r, name);
+
+        thread.setDaemon(makeDaemons);
+        if (thread.getPriority() != Thread.NORM_PRIORITY) {
+            thread.setPriority(Thread.NORM_PRIORITY);
+        }
+        return thread;
     }
 }
