@@ -4,6 +4,8 @@ import cn.heimdall.core.config.NetworkManageConfig;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
 
+import java.net.InetSocketAddress;
+import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -41,4 +43,10 @@ public class ComputeRemotingClient extends AbstractRemotingClient {
         }
         return instance;
     }
+
+    @Override
+    public String loadBalance() {
+        return null;
+    }
+
 }
