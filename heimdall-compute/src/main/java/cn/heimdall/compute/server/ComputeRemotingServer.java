@@ -1,4 +1,4 @@
-package cn.heimdall.compute;
+package cn.heimdall.compute.server;
 
 public class ComputeRemotingServer {
 }

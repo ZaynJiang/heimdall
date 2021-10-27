@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
-public class AbstractClientChannelManager {
+public abstract class AbstractClientChannelManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractClientChannelManager.class);
 
@@ -27,7 +27,8 @@ public class AbstractClientChannelManager {
 
     private Function<String, NettyPoolKey> poolKeyFunction;
 
-    AbstractClientChannelManager(final NettyKeyPoolFactory nettyKeyPoolFactory, final Function<String, NettyPoolKey> poolKeyFunction,
+
+    public AbstractClientChannelManager(final NettyKeyPoolFactory nettyKeyPoolFactory, final Function<String, NettyPoolKey> poolKeyFunction,
                               final NetworkConfig clientConfig) {
         nettyClientKeyPool = new GenericKeyedObjectPool<>(nettyKeyPoolFactory);
         nettyClientKeyPool.setConfig(getNettyPoolConfig(clientConfig));

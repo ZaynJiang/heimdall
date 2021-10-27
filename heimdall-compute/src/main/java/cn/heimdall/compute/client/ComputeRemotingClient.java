@@ -1,11 +1,12 @@
-package cn.heimdall.compute;
+package cn.heimdall.compute.client;
 
+import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.NetworkManageConfig;
+import cn.heimdall.core.network.remote.AbstractClientChannelManager;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
+import io.netty.util.concurrent.EventExecutorGroup;
 
-import java.net.InetSocketAddress;
-import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -14,9 +15,9 @@ public class ComputeRemotingClient extends AbstractRemotingClient {
 
     private static volatile ComputeRemotingClient instance;
 
-    public ComputeRemotingClient(ThreadPoolExecutor executor) {
+    public ComputeRemotingClient(NetworkConfig networkConfig, AbstractClientChannelManager clientChannelManager, ThreadPoolExecutor executor) {
         //TODO
-        super();
+        super(networkConfig, clientChannelManager, null, executor);
     }
 
     @Override
@@ -32,12 +33,13 @@ public class ComputeRemotingClient extends AbstractRemotingClient {
         if (instance == null) {
             synchronized (ComputeRemotingClient.class) {
                 if (instance == null) {
+                    NetworkManageConfig networkManageConfig = new NetworkManageConfig();
                     final ThreadPoolExecutor messageExecutor = new ThreadPoolExecutor(
                             NetworkManageConfig.MANAGE_WORK_THREAD_SIZE, NetworkManageConfig.MANAGE_WORK_THREAD_SIZE,
                             KEEP_ALIVE_TIME, TimeUnit.SECONDS, new LinkedBlockingQueue<>(MAX_QUEUE_SIZE),
                             new NamedThreadFactory("manage:", true),
                             new ThreadPoolExecutor.CallerRunsPolicy());
-                    instance = new ComputeRemotingClient(messageExecutor);
+                    instance = new ComputeRemotingClient(networkManageConfig, messageExecutor);
                 }
             }
         }

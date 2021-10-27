@@ -8,6 +8,19 @@ public class MessageHeader {
     private int version = 1;
     private short typeCode;
 
+    public MessageHeader(){
+
+    }
+
+    public MessageHeader(int version, MessageType messageType){
+        this.version = version;
+        this.typeCode = messageType.getTypeCode();
+    }
+
+    public MessageHeader(MessageType messageType){
+        this.typeCode = messageType.getTypeCode();
+    }
+
     public int getVersion() {
         return version;
     }

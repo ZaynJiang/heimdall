@@ -5,6 +5,10 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class NetworkConfig {
 
+    public static int getRpcRequestTimeout() {
+        return 30 * 1000;
+    }
+
     public int getClientSelectorThreadSize() {
         //TODO 从配置文件获取
         return 1;
