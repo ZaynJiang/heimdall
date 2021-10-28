@@ -13,11 +13,11 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-public class StorageRemotingClient extends AbstractRemotingClient {
+public class RemotingStorageClient extends AbstractRemotingClient {
 
-    private static volatile StorageRemotingClient instance;
+    private static volatile RemotingStorageClient instance;
 
-    public StorageRemotingClient(NetworkConfig networkConfig, AbstractClientChannelManager clientChannelManager, ThreadPoolExecutor executor) {
+    public RemotingStorageClient(NetworkConfig networkConfig, AbstractClientChannelManager clientChannelManager, ThreadPoolExecutor executor) {
         //TODO
         super(networkConfig, clientChannelManager, null, executor);
     }
@@ -31,9 +31,9 @@ public class StorageRemotingClient extends AbstractRemotingClient {
     private static final long KEEP_ALIVE_TIME = Integer.MAX_VALUE;
     private static final int MAX_QUEUE_SIZE = 20000;
 
-    public static StorageRemotingClient getInstance() {
+    public static RemotingStorageClient getInstance() {
         if (instance == null) {
-            synchronized (StorageRemotingClient.class) {
+            synchronized (RemotingStorageClient.class) {
                 if (instance == null) {
                     NetworkManageConfig networkManageConfig = new NetworkManageConfig();
                     final ThreadPoolExecutor messageExecutor = new ThreadPoolExecutor(
@@ -41,7 +41,7 @@ public class StorageRemotingClient extends AbstractRemotingClient {
                             KEEP_ALIVE_TIME, TimeUnit.SECONDS, new LinkedBlockingQueue<>(MAX_QUEUE_SIZE),
                             new NamedThreadFactory("manage:", true),
                             new ThreadPoolExecutor.CallerRunsPolicy());
-                    instance = new StorageRemotingClient(networkManageConfig, messageExecutor);
+                    instance = new RemotingStorageClient(networkManageConfig, null, messageExecutor);
                 }
             }
         }
@@ -55,7 +55,7 @@ public class StorageRemotingClient extends AbstractRemotingClient {
 
     @Override
     protected Function<String, ClientPoolKey> getPoolKeyFunction() {
-        return addressIp -> new ClientPoolKey(ClientRole.STORAGE, addressIp);
+        return addressIp -> new ClientPoolKey(ClientRole.STORAGE, addressIp,null);
     }
 
 }

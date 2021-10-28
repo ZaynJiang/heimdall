@@ -1,23 +1,27 @@
 package cn.heimdall.core.network.remote;
 
-public class NettyPoolKey {
+import cn.heimdall.core.config.constants.ClientRole;
+import cn.heimdall.core.message.Message;
 
-    private NettyRole nettyRole;
+public class ClientPoolKey {
+
+    private ClientRole clientRole;
     private String address;
+    private Message message;
 
-    public NettyPoolKey(NettyRole nettyRole, String address) {
-        this.nettyRole = nettyRole;
+    public ClientPoolKey(ClientRole clientRole, String address, Message message) {
+        this.clientRole = clientRole;
         this.address = address;
+        this.message = message;
+    }
+
+    public ClientRole getNettyRole() {
+        return clientRole;
     }
 
 
-    public NettyRole getNettyRole() {
-        return nettyRole;
-    }
-
-
-    public NettyPoolKey setNettyRole(NettyRole nettyRole) {
-        this.nettyRole = nettyRole;
+    public ClientPoolKey setNettyRole(ClientRole clientRole) {
+        this.clientRole = clientRole;
         return this;
     }
 
@@ -27,17 +31,24 @@ public class NettyPoolKey {
     }
 
 
-    public NettyPoolKey setAddress(String address) {
+    public ClientPoolKey setAddress(String address) {
         this.address = address;
         return this;
     }
 
+    public Message getMessage() {
+        return message;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
+    }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("transactionRole:");
-        sb.append(nettyRole.name());
+        sb.append(clientRole.getValue());
         sb.append(",");
         sb.append("address:");
         sb.append(address);
@@ -47,21 +58,4 @@ public class NettyPoolKey {
         return sb.toString();
     }
 
-    public enum ClientRole {
-        COMPUTE(1),
-        STORAGE(2),
-        GUARDER(3),
-        APP(4);
-        private int value;
-
-        ClientRole(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-
-    }
 }

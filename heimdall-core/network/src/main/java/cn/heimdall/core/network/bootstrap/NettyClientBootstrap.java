@@ -3,9 +3,11 @@ package cn.heimdall.core.network.bootstrap;
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.network.codec.FrameDecoder;
 import cn.heimdall.core.network.codec.FrameEncoder;
+import cn.heimdall.core.utils.exception.NetworkException;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -22,6 +24,8 @@ import io.netty.util.internal.PlatformDependent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.InetSocketAddress;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class NettyClientBootstrap implements RemotingBootstrap {
@@ -117,5 +121,23 @@ public class NettyClientBootstrap implements RemotingBootstrap {
 
     private String getThreadPrefix(String threadPrefix) {
         return threadPrefix + THREAD_PREFIX_SPLIT_CHAR;
+    }
+
+    public Channel getNewChannel(InetSocketAddress address) {
+        Channel channel;
+        ChannelFuture f = this.bootstrap.connect(address);
+        try {
+            f.await(this.networkConfig.getConnectTimeoutMillis(), TimeUnit.MILLISECONDS);
+            if (f.isCancelled()) {
+                throw new NetworkException(f.cause(), "connect cancelled, can not connect to services-server.");
+            } else if (!f.isSuccess()) {
+                throw new NetworkException(f.cause(), "connect failed, can not connect to services-server.");
+            } else {
+                channel = f.channel();
+            }
+        } catch (Exception e) {
+            throw new NetworkException(e, "can not connect to services-server.");
+        }
+        return channel;
     }
 }

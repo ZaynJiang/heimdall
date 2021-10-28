@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
+import java.util.function.Function;
 
 public abstract class AbstractRemotingClient extends AbstractRemoting implements RemotingClient {
 
@@ -61,5 +62,7 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
         return null;
     }
 
+    //获取一个获取PoolKey的函数
+    protected abstract Function<String, ClientPoolKey> getPoolKeyFunction();
 
 }

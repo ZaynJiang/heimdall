@@ -19,16 +19,16 @@ public abstract class AbstractClientChannelManager {
 
     private final ConcurrentMap<String, Object> channelLocks = new ConcurrentHashMap<>();
 
-    private final ConcurrentMap<String, NettyPoolKey> poolKeyMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, ClientPoolKey> poolKeyMap = new ConcurrentHashMap<>();
 
     private final ConcurrentMap<String, Channel> channels = new ConcurrentHashMap<>();
 
-    private final GenericKeyedObjectPool<NettyPoolKey, Channel> nettyClientKeyPool;
+    private final GenericKeyedObjectPool<ClientPoolKey, Channel> nettyClientKeyPool;
 
-    private Function<String, NettyPoolKey> poolKeyFunction;
+    private Function<String, ClientPoolKey> poolKeyFunction;
 
 
-    public AbstractClientChannelManager(final NettyKeyPoolFactory nettyKeyPoolFactory, final Function<String, NettyPoolKey> poolKeyFunction,
+    public AbstractClientChannelManager(final NettyKeyPoolFactory nettyKeyPoolFactory, final Function<String, ClientPoolKey> poolKeyFunction,
                               final NetworkConfig clientConfig) {
         nettyClientKeyPool = new GenericKeyedObjectPool<>(nettyKeyPoolFactory);
         nettyClientKeyPool.setConfig(getNettyPoolConfig(clientConfig));
