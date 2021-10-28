@@ -2,20 +2,22 @@ package cn.heimdall.compute.client;
 
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.NetworkManageConfig;
+import cn.heimdall.core.config.constants.ClientRole;
 import cn.heimdall.core.network.remote.AbstractClientChannelManager;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
+import cn.heimdall.core.network.remote.ClientPoolKey;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
-import io.netty.util.concurrent.EventExecutorGroup;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
-public class ComputeRemotingClient extends AbstractRemotingClient {
+public class StorageRemotingClient extends AbstractRemotingClient {
 
-    private static volatile ComputeRemotingClient instance;
+    private static volatile StorageRemotingClient instance;
 
-    public ComputeRemotingClient(NetworkConfig networkConfig, AbstractClientChannelManager clientChannelManager, ThreadPoolExecutor executor) {
+    public StorageRemotingClient(NetworkConfig networkConfig, AbstractClientChannelManager clientChannelManager, ThreadPoolExecutor executor) {
         //TODO
         super(networkConfig, clientChannelManager, null, executor);
     }
@@ -29,9 +31,9 @@ public class ComputeRemotingClient extends AbstractRemotingClient {
     private static final long KEEP_ALIVE_TIME = Integer.MAX_VALUE;
     private static final int MAX_QUEUE_SIZE = 20000;
 
-    public static ComputeRemotingClient getInstance() {
+    public static StorageRemotingClient getInstance() {
         if (instance == null) {
-            synchronized (ComputeRemotingClient.class) {
+            synchronized (StorageRemotingClient.class) {
                 if (instance == null) {
                     NetworkManageConfig networkManageConfig = new NetworkManageConfig();
                     final ThreadPoolExecutor messageExecutor = new ThreadPoolExecutor(
@@ -39,7 +41,7 @@ public class ComputeRemotingClient extends AbstractRemotingClient {
                             KEEP_ALIVE_TIME, TimeUnit.SECONDS, new LinkedBlockingQueue<>(MAX_QUEUE_SIZE),
                             new NamedThreadFactory("manage:", true),
                             new ThreadPoolExecutor.CallerRunsPolicy());
-                    instance = new ComputeRemotingClient(networkManageConfig, messageExecutor);
+                    instance = new StorageRemotingClient(networkManageConfig, messageExecutor);
                 }
             }
         }
@@ -49,6 +51,11 @@ public class ComputeRemotingClient extends AbstractRemotingClient {
     @Override
     public String loadBalance() {
         return null;
+    }
+
+    @Override
+    protected Function<String, ClientPoolKey> getPoolKeyFunction() {
+        return addressIp -> new ClientPoolKey(ClientRole.STORAGE, addressIp);
     }
 
 }
