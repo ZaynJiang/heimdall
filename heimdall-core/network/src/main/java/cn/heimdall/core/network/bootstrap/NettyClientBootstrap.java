@@ -123,6 +123,11 @@ public class NettyClientBootstrap implements RemotingBootstrap {
         return threadPrefix + THREAD_PREFIX_SPLIT_CHAR;
     }
 
+    /**
+     * 获取netty中channel
+     * @param address
+     * @return
+     */
     public Channel getNewChannel(InetSocketAddress address) {
         Channel channel;
         ChannelFuture f = this.bootstrap.connect(address);

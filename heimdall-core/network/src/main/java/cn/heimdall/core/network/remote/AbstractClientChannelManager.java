@@ -28,8 +28,9 @@ public abstract class AbstractClientChannelManager {
     private Function<String, ClientPoolKey> poolKeyFunction;
 
 
-    public AbstractClientChannelManager(final NettyKeyPoolFactory nettyKeyPoolFactory, final Function<String, ClientPoolKey> poolKeyFunction,
-                              final NetworkConfig clientConfig) {
+    public AbstractClientChannelManager(final NettyKeyPoolFactory nettyKeyPoolFactory,
+                                        final Function<String, ClientPoolKey> poolKeyFunction,
+                                        final NetworkConfig clientConfig) {
         nettyClientKeyPool = new GenericKeyedObjectPool<>(nettyKeyPoolFactory);
         nettyClientKeyPool.setConfig(getNettyPoolConfig(clientConfig));
         this.poolKeyFunction = poolKeyFunction;
@@ -123,7 +124,7 @@ public abstract class AbstractClientChannelManager {
         nettyClientKeyPool.invalidateObject(poolKeyMap.get(serverAddress), channel);
     }
 
-    void registerChannel(final String serverAddress, final Channel channel) {
+    public void registerChannel(final String serverAddress, final Channel channel) {
         Channel channelToServer = channels.get(serverAddress);
         if (channelToServer != null && channelToServer.isActive()) {
             return;

@@ -57,9 +57,12 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
         return rpcMessage;
     }
 
-    @Override
     public Object sendSyncRequest(Channel channel, Object msg) throws TimeoutException {
         return null;
+    }
+
+    public AbstractClientChannelManager getClientChannelManager() {
+        return clientChannelManager;
     }
 
     //获取一个获取PoolKey的函数

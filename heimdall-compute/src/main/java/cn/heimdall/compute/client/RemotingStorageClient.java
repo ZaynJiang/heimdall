@@ -7,6 +7,7 @@ import cn.heimdall.core.network.remote.AbstractClientChannelManager;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
 import cn.heimdall.core.network.remote.ClientPoolKey;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
+import io.netty.channel.Channel;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -58,4 +59,13 @@ public class RemotingStorageClient extends AbstractRemotingClient {
         return addressIp -> new ClientPoolKey(ClientRole.STORAGE, addressIp,null);
     }
 
+    @Override
+    public void onRegisterMsgSuccess(String serverAddress, Channel channel) {
+
+    }
+
+    @Override
+    public void onRegisterMsgFail(String serverAddress, Channel channel) {
+
+    }
 }

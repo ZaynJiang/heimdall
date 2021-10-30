@@ -29,7 +29,6 @@ public class NettyKeyPoolFactory implements KeyedPooledObjectFactory<ClientPoolK
         this.clientBootstrap = clientBootstrap;
     }
 
-    @Override
     public PooledObject<Channel> makeObject(ClientPoolKey key) throws Exception {
         InetSocketAddress address = NetUtil.toInetSocketAddress(key.getAddress());
         if (LOGGER.isInfoEnabled()) {
@@ -43,12 +42,13 @@ public class NettyKeyPoolFactory implements KeyedPooledObjectFactory<ClientPoolK
             throw new NetworkException("register msg is null, role:" + key.getNettyRole());
         }
         try {
+            //发去注册信息
             response = remotingClient.sendSyncRequest(tmpChannel, key.getMessage());
             if (!isRegisterSuccess(response)) {
-                //TODO
+                remotingClient.onRegisterMsgFail(key.getAddress(), tmpChannel);
             } else {
                 channelToServer = tmpChannel;
-                //TODO
+                remotingClient.onRegisterMsgSuccess(key.getAddress(), tmpChannel);
             }
         } catch (Exception exx) {
             if (tmpChannel != null) {
@@ -58,8 +58,7 @@ public class NettyKeyPoolFactory implements KeyedPooledObjectFactory<ClientPoolK
                     "register " +key + " error, errMsg:" + exx.getMessage());
         }
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("register success, cost " + (System.currentTimeMillis() - start), key + ",role:" + ",channel:"
-                    + channelToServer);
+            LOGGER.info("register success, cost " + (System.currentTimeMillis() - start), key + " ,role:" + " ,channel:"  + channelToServer);
         }
         return new DefaultPooledObject(tmpChannel);
     }
@@ -68,22 +67,18 @@ public class NettyKeyPoolFactory implements KeyedPooledObjectFactory<ClientPoolK
         return false;
     }
 
-    @Override
     public void destroyObject(ClientPoolKey clientPoolKey, PooledObject<Channel> pooledObject) throws Exception {
 
     }
 
-    @Override
     public boolean validateObject(ClientPoolKey clientPoolKey, PooledObject<Channel> pooledObject) {
         return false;
     }
 
-    @Override
     public void activateObject(ClientPoolKey clientPoolKey, PooledObject<Channel> pooledObject) throws Exception {
 
     }
 
-    @Override
     public void passivateObject(ClientPoolKey clientPoolKey, PooledObject<Channel> pooledObject) throws Exception {
 
     }
