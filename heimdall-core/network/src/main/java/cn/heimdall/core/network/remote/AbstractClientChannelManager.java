@@ -13,6 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
+/**
+ * netty channel的管理
+ */
 public abstract class AbstractClientChannelManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractClientChannelManager.class);

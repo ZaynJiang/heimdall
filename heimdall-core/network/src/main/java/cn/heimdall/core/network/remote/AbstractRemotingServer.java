@@ -28,6 +28,11 @@ public class AbstractRemotingServer extends AbstractRemoting implements Remoting
     }
 
     @Override
+    public void destroyChannel(Channel channel) {
+
+    }
+
+    @Override
     public Object sendSyncRequest(Channel channel, Object msg) throws TimeoutException {
         return null;
     }

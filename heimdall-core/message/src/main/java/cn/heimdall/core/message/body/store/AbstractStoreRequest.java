@@ -1,9 +1,9 @@
-package cn.heimdall.core.message.body.stroage;
+package cn.heimdall.core.message.body.store;
 
 /**
  *  发送给存储器的消息
  */
-public abstract class StorageBody {
+public abstract class AbstractStoreRequest {
     /**
      *  计算处理器ip
      */

@@ -18,8 +18,8 @@ public class ServiceLoaderUtil {
     }
 
     public static boolean shouldUseContextClassloader() {
-        String classloaderConf = SentinelConfig.getConfig(SentinelConfig.SPI_CLASSLOADER);
-        return CLASSLOADER_CONTEXT.equalsIgnoreCase(classloaderConf);
+        //TODO
+        return false;
     }
 
 

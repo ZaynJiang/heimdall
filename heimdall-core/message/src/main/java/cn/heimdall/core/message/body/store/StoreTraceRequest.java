@@ -1,10 +1,13 @@
-package cn.heimdall.core.message.body.stroage;
+package cn.heimdall.core.message.body.store;
 
 import cn.heimdall.core.message.trace.TraceLog;
 
 import java.util.List;
 
-public class TraceLogBody extends StorageBody{
+/**
+ * 存储tracelog请求body
+ */
+public class StoreTraceRequest extends AbstractStoreRequest {
 
     private List<TraceLog> eventLogs;
 

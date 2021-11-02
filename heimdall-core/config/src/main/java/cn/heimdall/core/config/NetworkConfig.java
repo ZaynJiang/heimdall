@@ -9,6 +9,20 @@ public class NetworkConfig {
         return 30 * 1000;
     }
 
+    public static int getMaxNotWriteableRetry() {
+        return 2000;
+    }
+
+    public static String getSocketAddressStartChar() {
+
+        return "/";
+    }
+
+    public static long getNotWriteableCheckMills() {
+        return 10L;
+    }
+
+
     public int getClientSelectorThreadSize() {
         //TODO 从配置文件获取
         return 1;

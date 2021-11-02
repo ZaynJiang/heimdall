@@ -2,7 +2,6 @@ package cn.heimdall.compute.client;
 
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.constants.ClientRole;
-import cn.heimdall.core.message.body.guarder.RegisterComputeBody;
 import cn.heimdall.core.network.remote.AbstractClientChannelManager;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
 import cn.heimdall.core.network.remote.ClientPoolKey;
@@ -24,7 +23,8 @@ public class RemotingGuarderClient extends AbstractRemotingClient {
 
     @Override
     protected Function<String, ClientPoolKey> getPoolKeyFunction() {
-        return addressIp -> new ClientPoolKey(ClientRole.STORAGE, addressIp,new RegisterComputeBody());
+        //TODO 需要传入一个message
+        return addressIp -> new ClientPoolKey(ClientRole.STORAGE, addressIp, null);
     }
 
     @Override
@@ -36,4 +36,5 @@ public class RemotingGuarderClient extends AbstractRemotingClient {
     public void onRegisterMsgFail(String serverAddress, Channel channel) {
         //TODO do nothing
     }
+
 }

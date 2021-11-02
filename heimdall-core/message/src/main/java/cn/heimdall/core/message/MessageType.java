@@ -58,10 +58,10 @@ public enum MessageType {
     }
 
     public Class getRequestBody() {
-        return getRequestBody();
+        return this.requestBody;
     }
 
     public Class getResponseBody() {
-        return getResponseBody();
+        return this.responseBody;
     }
 }

@@ -29,6 +29,7 @@ public class NettyKeyPoolFactory implements KeyedPooledObjectFactory<ClientPoolK
         this.clientBootstrap = clientBootstrap;
     }
 
+    @Override
     public PooledObject<Channel> makeObject(ClientPoolKey key) throws Exception {
         InetSocketAddress address = NetUtil.toInetSocketAddress(key.getAddress());
         if (LOGGER.isInfoEnabled()) {
@@ -67,18 +68,22 @@ public class NettyKeyPoolFactory implements KeyedPooledObjectFactory<ClientPoolK
         return false;
     }
 
+    @Override
     public void destroyObject(ClientPoolKey clientPoolKey, PooledObject<Channel> pooledObject) throws Exception {
 
     }
 
+    @Override
     public boolean validateObject(ClientPoolKey clientPoolKey, PooledObject<Channel> pooledObject) {
         return false;
     }
 
+    @Override
     public void activateObject(ClientPoolKey clientPoolKey, PooledObject<Channel> pooledObject) throws Exception {
 
     }
 
+    @Override
     public void passivateObject(ClientPoolKey clientPoolKey, PooledObject<Channel> pooledObject) throws Exception {
 
     }

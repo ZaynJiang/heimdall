@@ -9,6 +9,8 @@ public abstract class Message<T extends MessageBody>  {
 
     private MessageHeader messageHeader;
 
+    private int messageId;
+
     private T messageBody;
 
     public T getMessageBody(){
@@ -51,5 +53,13 @@ public abstract class Message<T extends MessageBody>  {
 
     public void setMessageHeader(MessageHeader messageHeader) {
         this.messageHeader = messageHeader;
+    }
+
+    public int getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(int messageId) {
+        this.messageId = messageId;
     }
 }
