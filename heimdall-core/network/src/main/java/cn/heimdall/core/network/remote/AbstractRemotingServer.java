@@ -1,19 +1,27 @@
 package cn.heimdall.core.network.remote;
 
+import cn.heimdall.core.config.NetworkConfig;
+import cn.heimdall.core.message.Message;
 import cn.heimdall.core.network.bootstrap.NettyServerBootstrap;
-import cn.heimdall.core.network.bootstrap.RemotingBootstrap;
 import io.netty.channel.Channel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 public class AbstractRemotingServer extends AbstractRemoting implements RemotingServer{
 
-    private RemotingBootstrap serverBootstrap;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRemotingServer.class);
+
+    private NettyServerBootstrap serverBootstrap;
 
 
-    public AbstractRemotingServer(ThreadPoolExecutor executor) {
-        this.serverBootstrap = new NettyServerBootstrap();
+    public AbstractRemotingServer(ThreadPoolExecutor executor, NetworkConfig networkConfig) {
+        super(executor);
+        serverBootstrap = new NettyServerBootstrap(networkConfig);
+        //注入一个handle
+        serverBootstrap.setChannelHandlers(null);
     }
 
     @Override
@@ -24,21 +32,29 @@ public class AbstractRemotingServer extends AbstractRemoting implements Remoting
 
     @Override
     public void destroy() {
-       //TODO shutdown
+        serverBootstrap.shutdown();
+        super.destroy();
     }
 
     @Override
     public void destroyChannel(Channel channel) {
-
+        channel.disconnect();
+        channel.close();
     }
 
     @Override
     public Object sendSyncRequest(Channel channel, Object msg) throws TimeoutException {
-        return null;
+        if (channel == null) {
+            throw new RuntimeException("client is not connected");
+        }
+        return super.sendSync(channel, (Message)msg, NetworkConfig.getRpcRequestTimeout());
     }
 
     @Override
     public void sendAsyncRequest(Channel channel, Object msg) {
-
+        if (channel == null) {
+            throw new RuntimeException("client is not connected");
+        }
+        super.sendAsync(channel, (Message)msg);
     }
 }

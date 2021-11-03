@@ -102,10 +102,10 @@ public abstract class AbstractClientChannelManager {
         }
     }
 
-    void reconnect(String transactionServiceGroup) {
+    void reconnect(String key) {
         List<String> availList = null;
         try {
-            availList = getAvailServerList(transactionServiceGroup);
+            availList = getAvailServerList(key);
         } catch (Exception e) {
             LOGGER.error("Failed to get available servers: {}", e.getMessage(), e);
             return;
@@ -139,7 +139,7 @@ public abstract class AbstractClientChannelManager {
         return null;
     }
 
-    private List<String> getAvailServerList(String transactionServiceGroup) throws Exception {
+    private List<String> getAvailServerList(String key) throws Exception {
         return null;
     }
 

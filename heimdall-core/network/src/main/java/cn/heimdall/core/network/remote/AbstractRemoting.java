@@ -5,13 +5,19 @@ import cn.heimdall.core.message.Message;
 import cn.heimdall.core.network.remote.hook.RemoteHook;
 import cn.heimdall.core.utils.exception.NetworkException;
 import cn.heimdall.core.utils.spi.ServiceLoaderUtil;
+import cn.heimdall.core.utils.thread.NamedThreadFactory;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.SocketAddress;
+import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -23,15 +29,37 @@ public abstract class AbstractRemoting {
 
     protected final ConcurrentHashMap<Integer, MessageFuture> futures = new ConcurrentHashMap<>();
 
+    protected final ScheduledExecutorService timerExecutor = new ScheduledThreadPoolExecutor(1,
+            new NamedThreadFactory("timeoutChecker", 1, true));
+
+    protected final ThreadPoolExecutor messageExecutor;
+
     protected final Object lock = new Object();
 
+    protected volatile long nowMills = 0;
+
+    public AbstractRemoting(ThreadPoolExecutor messageExecutor) {
+        this.messageExecutor = messageExecutor;
+    }
 
     public void init() {
-
+        timerExecutor.scheduleAtFixedRate(() -> {
+                for (Map.Entry<Integer, MessageFuture> entry : futures.entrySet()) {
+                    if (entry.getValue().isTimeout()) {
+                        futures.remove(entry.getKey());
+                        entry.getValue().setResultMessage(null);
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug("timeout clear future: {}", entry.getValue().getRequestMessage().getMessageBody());
+                        }
+                    }
+                }
+                nowMills = System.currentTimeMillis();
+            }, 3000, 3000, TimeUnit.MILLISECONDS);
     }
 
     public void destroy() {
-
+        timerExecutor.shutdown();
+        messageExecutor.shutdown();
     }
 
     protected Object sendSync(Channel channel, Message message, long timeoutMillis) throws TimeoutException {
@@ -42,7 +70,6 @@ public abstract class AbstractRemoting {
             LOGGER.warn("sendSync nothing, caused by null channel.");
             return null;
         }
-
         MessageFuture messageFuture = new MessageFuture();
         messageFuture.setRequestMessage(message);
         messageFuture.setTimeout(timeoutMillis);
@@ -106,7 +133,8 @@ public abstract class AbstractRemoting {
 
     public abstract void destroyChannel(Channel channel);
 
-    protected void sendAsync(Channel channel, Message rpcMessage) {
+    protected void sendAsync(Channel channel, Message message) {
+        //TODO 待实现
         return;
     }
 }

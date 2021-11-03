@@ -5,7 +5,7 @@ import io.netty.channel.Channel;
 import java.util.concurrent.TimeoutException;
 
 /**
- * 服务侧
+ * 服务侧发送消息
  */
 public interface RemotingServer {
 

@@ -43,10 +43,18 @@ public class NettyKeyPoolFactory implements KeyedPooledObjectFactory<ClientPoolK
             throw new NetworkException("register msg is null, role:" + key.getNettyRole());
         }
         try {
+<<<<<<< Updated upstream
             //发去注册信息
             response = remotingClient.sendSyncRequest(tmpChannel, key.getMessage());
             if (!isRegisterSuccess(response)) {
                 remotingClient.onRegisterMsgFail(key.getAddress(), tmpChannel);
+=======
+            //客户端启动发送注册信息
+            response = remotingClient.sendSyncRequest(tmpChannel, key.getMessage());
+            if (!isRegisterSuccess(response)) {
+                //TODO
+                remotingClient.r
+>>>>>>> Stashed changes
             } else {
                 channelToServer = tmpChannel;
                 remotingClient.onRegisterMsgSuccess(key.getAddress(), tmpChannel);

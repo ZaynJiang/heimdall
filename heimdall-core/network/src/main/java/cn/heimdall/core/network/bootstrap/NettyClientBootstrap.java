@@ -48,7 +48,7 @@ public class NettyClientBootstrap implements RemotingBootstrap {
         this.defaultEventExecutorGroup = eventExecutorGroup;
     }
 
-    protected void setChannelHandlers(final ChannelHandler... handlers) {
+    public void setChannelHandlers(final ChannelHandler... handlers) {
         if (handlers != null) {
             channelHandlers = handlers;
         }
@@ -85,8 +85,7 @@ public class NettyClientBootstrap implements RemotingBootstrap {
             }
         }
 
-        bootstrap.handler(
-                new ChannelInitializer<SocketChannel>() {
+        bootstrap.handler( new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) {
                         ChannelPipeline pipeline = ch.pipeline();
@@ -96,9 +95,7 @@ public class NettyClientBootstrap implements RemotingBootstrap {
                                         networkConfig.getChannelMaxAllIdleSeconds()))
                                 .addLast(new FrameDecoder())
                                 .addLast(new FrameEncoder());
-                        if (channelHandlers != null) {
-                            addChannelPipelineLast(ch, channelHandlers);
-                        }
+                        addChannelPipelineLast(ch, channelHandlers);
                     }
                 });
 
@@ -123,10 +120,9 @@ public class NettyClientBootstrap implements RemotingBootstrap {
         return threadPrefix + THREAD_PREFIX_SPLIT_CHAR;
     }
 
+
     /**
      * 获取netty中channel
-     * @param address
-     * @return
      */
     public Channel getNewChannel(InetSocketAddress address) {
         Channel channel;
