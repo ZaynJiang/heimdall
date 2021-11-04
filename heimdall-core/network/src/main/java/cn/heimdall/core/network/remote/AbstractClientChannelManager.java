@@ -143,6 +143,10 @@ public abstract class AbstractClientChannelManager {
         return null;
     }
 
+    private void setAvailServerList(String addressIp) throws Exception {
+        //TODO 注册地址信息
+    }
+
     private Channel getExistAliveChannel(Channel rmChannel, String serverAddress) {
         return null;
     }

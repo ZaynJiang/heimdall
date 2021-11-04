@@ -11,20 +11,26 @@ import cn.heimdall.core.message.response.ResponseMessageTree;
 import java.util.function.Predicate;
 
 public enum MessageType {
+    //客户端发送应用状态信息
+    TYPE_CLIENT_APP_STATE(1, HeartbeatBody.class, ResponseHeartbeat.class,  HeartbeatProcessor.class),
+    //客户端发送客户端消息数
+    TYPE_CLIENT_MESSAGE_TREE(2, MessageTreeBody.class, ResponseMessageTree.class, MessageTreeProcessor.class),
+    //客户端注册消息
+    TYPE_CLIENT_REGISTER(3, null, null, null),
     //客户端心跳
-    TYPE_CLIENT_HEART_BEAT(1, HeartbeatBody.class, ResponseHeartbeat.class,  HeartbeatProcessor.class),
-    //客户端消息树
-    TYPE_CLIENT_MONITOR_MESSAGE(2, MessageTreeBody.class, ResponseMessageTree.class, MessageTreeProcessor.class),
-    //客戶端直接形成的报表消息
-    TYPE_CLIENT_MONITOR_REPORT(3, null, null, null),
-    //节点发送的监控数据持久化消息
-    TYPE_NODE_MONITOR_STORAGE(4,null, null, null),
-    //计算节点发送心跳的消息
-    TYPE_NODE_COMPUTE_HEARTBEAT(5, null, null, null),
+    TYPE_CLIENT_HEARTBEAT(4, null, null, null),
+    //计算节点注册
+    TYPE_COMPUTE_REGISTER(7,null, null, null),
+    //计算节点心跳
+    TYPE_COMPUTE_HEARTBEAT(8,null, null, null),
+    //计算节点发送存储traceLog
+    TYPE_COMPUTE_STORE_TRANCE_LOG(9,null, null, null),
+    //计算节点发送存储metricLog
+    TYPE_COMPUTE_STORE_METRIC(10,null, null, null),
+    //计算节点发送存储应用状态信息
+    TYPE_COMPUTE_STORE_APP_STATE(11,null, null, null),
     //存储节点发送心跳的消息
-    TYPE_NODE_STORAGE_HEARTBEAT(6,null, null, null),
-    //查询节点发送心跳的消息
-    TYPE_NODE_QUERY_HEARTBEAT(7,null, null, null);
+    TYPE_STORAGE_HEARTBEAT(6,null, null, null);
 
     private short typeCode;
     private Class requestBody;

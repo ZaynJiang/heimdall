@@ -4,7 +4,6 @@ import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.message.Message;
 import cn.heimdall.core.network.bootstrap.NettyClientBootstrap;
 import cn.heimdall.core.utils.common.NetUtil;
-import cn.heimdall.core.utils.exception.NetworkException;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler;
@@ -87,6 +86,9 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
     protected abstract Function<String, ClientPoolKey> getPoolKeyFunction();
 
 
+    /**
+     *  客户端的handler
+     */
     @ChannelHandler.Sharable
     class ClientHandler extends ChannelDuplexHandler {
 
