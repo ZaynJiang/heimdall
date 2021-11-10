@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 public class ConfigurationFactory {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationFactory.class);
-
-    private static final String SERVER_CONF_DEFAULT = "heimdall.conf";
+    // 服务端默认从heimdall.yml中读取
+    private static final String SERVER_CONF_DEFAULT = "heimdall.yml";
 
     private static volatile Configuration instance = null;
 

@@ -297,7 +297,7 @@ public class FileConfiguration extends AbstractConfiguration {
                     if (allowDynamicRefresh) {
                         long tempLastModified = new File(targetFilePath).lastModified();
                         if (tempLastModified > targetFileLastModified) {
-                            SimpleFileConfig tempConfig = FileConfigFactory.load(new File(targetFilePath), name);
+                            FileConfig tempConfig = FileConfigFactory.load(new File(targetFilePath), name);
                             if (tempConfig != null) {
                                 fileConfig = tempConfig;
                                 targetFileLastModified = tempLastModified;
