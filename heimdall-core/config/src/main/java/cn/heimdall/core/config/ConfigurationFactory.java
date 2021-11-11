@@ -1,6 +1,6 @@
 package cn.heimdall.core.config;
 
-import cn.heimdall.core.config.constants.ConfigConstants;
+import cn.heimdall.core.config.constants.ConfigurationKeys;
 import cn.heimdall.core.config.file.FileConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +17,8 @@ public class ConfigurationFactory {
     public static Configuration CURRENT_FILE_INSTANCE;
 
     static {
-        String heimdallConfigName = System.getProperty(ConfigConstants.SYSTEM_PROPERTY_HEIMDALL_CONFIG_NAME,
-                ConfigConstants.SERVER_CONF_DEFAULT);
+        String heimdallConfigName = System.getProperty(ConfigurationKeys.SYSTEM_PROPERTY_HEIMDALL_CONFIG_NAME,
+                ConfigurationKeys.SERVER_CONF_DEFAULT);
         //TODO,可以设置不同环境的文件读取
         Configuration configuration =  new FileConfiguration(heimdallConfigName, false);
         //TODO, 这里执行获取代理对象，如客户端可以获取spring的配置放进去

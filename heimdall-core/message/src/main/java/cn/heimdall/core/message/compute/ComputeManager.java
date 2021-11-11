@@ -26,7 +26,7 @@ public class ComputeManager {
         if (traceLogCompute == null){
             synchronized (Compute.class){
                 if (traceLogCompute == null){
-                    traceLogCompute = new TraceLogDumperTask();
+                    //TODO
                 }
             }
         }

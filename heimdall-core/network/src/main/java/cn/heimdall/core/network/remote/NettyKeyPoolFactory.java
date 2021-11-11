@@ -43,33 +43,33 @@ public class NettyKeyPoolFactory implements KeyedPooledObjectFactory<ClientPoolK
             throw new NetworkException("register msg is null, role:" + key.getNettyRole());
         }
         try {
-<<<<<<< Updated upstream
             //发去注册信息
             response = remotingClient.sendSyncRequest(tmpChannel, key.getMessage());
             if (!isRegisterSuccess(response)) {
                 remotingClient.onRegisterMsgFail(key.getAddress(), tmpChannel);
-=======
-            //客户端启动发送注册信息
-            response = remotingClient.sendSyncRequest(tmpChannel, key.getMessage());
-            if (!isRegisterSuccess(response)) {
-                //TODO
-                remotingClient.r
->>>>>>> Stashed changes
-            } else {
-                channelToServer = tmpChannel;
-                remotingClient.onRegisterMsgSuccess(key.getAddress(), tmpChannel);
+                //客户端启动发送注册信息
+                response = remotingClient.sendSyncRequest(tmpChannel, key.getMessage());
+                if (!isRegisterSuccess(response)) {
+                    //TODO
+                    remotingClient.onRegisterMsgFail(key.getAddress(), tmpChannel);
+                } else {
+                    channelToServer = tmpChannel;
+                    remotingClient.onRegisterMsgSuccess(key.getAddress(), tmpChannel);
+                }
             }
-        } catch (Exception exx) {
+        } catch (Exception e) {
             if (tmpChannel != null) {
                 tmpChannel.close();
             }
             throw new NetworkException(
-                    "register " +key + " error, errMsg:" + exx.getMessage());
+                    "register " + key + " error, errMsg:" + e.getMessage());
         }
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("register success, cost " + (System.currentTimeMillis() - start), key + " ,role:" + " ,channel:"  + channelToServer);
+            LOGGER.info("register success, cost " + (System.currentTimeMillis() - start), key + " ,role:" + " ,channel:" + channelToServer);
         }
+
         return new DefaultPooledObject(tmpChannel);
+
     }
 
     private boolean isRegisterSuccess(Object response) {

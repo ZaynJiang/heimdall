@@ -22,8 +22,6 @@ public class ConfigurationCache extends ConfigurationChangeListener{
 
     private static final ConcurrentHashMap<String, ObjectWrapper> CONFIG_CACHE = new ConcurrentHashMap<>();
 
-    private Map<String, HashSet<ConfigurationChangeListener>> configListenersMap = new HashMap<>();
-
     //获取配置对象的cache代理对象
     public Configuration getProxyConfiguration(Configuration originalConfiguration) {
         return (Configuration) Enhancer.create(Configuration.class,
@@ -51,24 +49,19 @@ public class ConfigurationCache extends ConfigurationChangeListener{
     }
 
 
-    public static void addConfigListener(String dataId, ConfigurationChangeListener... listeners) {
-        if (StringUtil.isBlank(dataId)) {
-            LOGGER.warn("addConfigListener, dataId is null");
+    //添加配置变化监听器
+    public static void addConfigListener(String configId, ConfigurationChangeListener... listeners) {
+        if (StringUtil.isBlank(configId)) {
+            LOGGER.warn("addConfigListener, configId is null");
             return;
         }
         synchronized (ConfigurationCache.class) {
-            HashSet<ConfigurationChangeListener> listenerHashSet =
-                    getInstance().configListenersMap.computeIfAbsent(dataId, key -> new HashSet<>());
-            if (!listenerHashSet.contains(getInstance())) {
-                ConfigurationFactory.getInstance().addConfigListener(dataId, getInstance());
-                listenerHashSet.add(getInstance());
-            }
+            //配置对象绑定configId->缓存监听器
+            ConfigurationFactory.getInstance().addConfigListener(configId, getInstance());
+            //绑定configId->传入参数监听器
             if (null != listeners && listeners.length > 0) {
                 for (ConfigurationChangeListener listener : listeners) {
-                    if (!listenerHashSet.contains(listener)) {
-                        listenerHashSet.add(listener);
-                        ConfigurationFactory.getInstance().addConfigListener(dataId, listener);
-                    }
+                     ConfigurationFactory.getInstance().addConfigListener(configId, listener);
                 }
             }
         }

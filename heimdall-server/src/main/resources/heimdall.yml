@@ -1,0 +1,18 @@
+cluster:
+  name: my-heimdall
+node:
+  name: heimdall-node1
+  guarder: true
+  compute: true
+  storage: true
+path:
+  data: /heimdall/data/
+  log: /heimdall/log/
+network:
+  host:
+http:
+  port: 7300
+transport:
+  port: 7400
+admin:
+  port: 7500

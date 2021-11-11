@@ -30,7 +30,7 @@ public abstract class AbstractConfiguration implements Configuration {
 
     @Override
     public String getConfig(String dataId, String defaultValue) {
-        return getConfig(dataId, String.valueOf(defaultValue));
+        return getLatestConfig(dataId, String.valueOf(defaultValue), DEFAULT_CONFIG_TIMEOUT);
     }
 
     @Override

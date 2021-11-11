@@ -17,15 +17,11 @@ package cn.heimdall.core.config.file;
 
 import cn.heimdall.core.config.AbstractConfiguration;
 import cn.heimdall.core.config.ConfigFuture;
-import cn.heimdall.core.config.ConfigurationChangeEvent;
 import cn.heimdall.core.config.ConfigurationChangeListener;
-import cn.heimdall.core.config.ConfigurationFactory;
 import cn.heimdall.core.config.constants.ConfigurationKeys;
 import cn.heimdall.core.utils.common.CollectionUtil;
-import cn.heimdall.core.utils.common.ObjectUtils;
 import cn.heimdall.core.utils.common.StringUtil;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
-import io.netty.util.internal.ConcurrentSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,9 +30,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -66,15 +60,11 @@ public class FileConfiguration extends AbstractConfiguration {
     private final ConcurrentMap<String, Set<ConfigurationChangeListener>> configListenersMap = new ConcurrentHashMap<>(
             8);
 
-    private final Map<String, String> listenedConfigMap = new HashMap<>(8);
-
     private final String targetFilePath;
 
     private volatile long targetFileLastModified;
 
     private final String name;
-
-    private final FileListener fileListener = new FileListener();
 
     private final boolean allowDynamicRefresh;
 
@@ -160,7 +150,6 @@ public class FileConfiguration extends AbstractConfiguration {
             };
         }
 
-
         for (String tryPath : tryPaths) {
             File targetFile = new File(tryPath);
             if (targetFile.exists()) {
@@ -205,71 +194,69 @@ public class FileConfiguration extends AbstractConfiguration {
     }
 
     @Override
-    public String getLatestConfig(String dataId, String defaultValue, long timeoutMills) {
+    public String getLatestConfig(String configId, String defaultValue, long timeoutMills) {
         //优先取系统中的变量
-        String value = getConfigFromSys(dataId);
+        String value = getConfigFromSys(configId);
         if (value != null) {
             return value;
         }
-        ConfigFuture configFuture = new ConfigFuture(dataId, defaultValue, ConfigFuture.ConfigOperation.GET, timeoutMills);
+        ConfigFuture configFuture = new ConfigFuture(configId, defaultValue, ConfigFuture.ConfigOperation.GET, timeoutMills);
         configOperateExecutor.submit(new ConfigOperateRunnable(configFuture));
         Object getValue = configFuture.get();
         return getValue == null ? null : String.valueOf(getValue);
     }
 
     @Override
-    public boolean putConfig(String dataId, String content, long timeoutMills) {
-        ConfigFuture configFuture = new ConfigFuture(dataId, content, ConfigFuture.ConfigOperation.PUT, timeoutMills);
+    public boolean putConfig(String configId, String content, long timeoutMills) {
+        ConfigFuture configFuture = new ConfigFuture(configId, content, ConfigFuture.ConfigOperation.PUT, timeoutMills);
         configOperateExecutor.submit(new ConfigOperateRunnable(configFuture));
         return (Boolean) configFuture.get();
     }
 
     @Override
-    public boolean putConfigIfAbsent(String dataId, String content, long timeoutMills) {
-        ConfigFuture configFuture = new ConfigFuture(dataId, content, ConfigFuture.ConfigOperation.PUTIFABSENT, timeoutMills);
+    public boolean putConfigIfAbsent(String configId, String content, long timeoutMills) {
+        ConfigFuture configFuture = new ConfigFuture(configId, content, ConfigFuture.ConfigOperation.PUTIFABSENT, timeoutMills);
         configOperateExecutor.submit(new ConfigOperateRunnable(configFuture));
         return (Boolean) configFuture.get();
     }
 
     @Override
-    public boolean removeConfig(String dataId, long timeoutMills) {
-        ConfigFuture configFuture = new ConfigFuture(dataId, null, ConfigFuture.ConfigOperation.REMOVE, timeoutMills);
+    public boolean removeConfig(String configId, long timeoutMills) {
+        ConfigFuture configFuture = new ConfigFuture(configId, null, ConfigFuture.ConfigOperation.REMOVE, timeoutMills);
         configOperateExecutor.submit(new ConfigOperateRunnable(configFuture));
         return (Boolean) configFuture.get();
     }
 
     @Override
-    public void addConfigListener(String dataId, ConfigurationChangeListener listener) {
-        if (StringUtil.isBlank(dataId) || listener == null) {
+    public void addConfigListener(String configId, ConfigurationChangeListener listener) {
+        if (StringUtil.isBlank(configId) || listener == null) {
             return;
         }
-        configListenersMap.computeIfAbsent(dataId, key -> new ConcurrentSet<>()).add(listener);
-
-        listenedConfigMap.put(dataId, ConfigurationFactory.getInstance().getConfig(dataId, String.valueOf(DEFAULT_CONFIG_TIMEOUT)));
-
-        // Start config change listener for the dataId.
-        fileListener.addListener(dataId, listener);
+        Set<ConfigurationChangeListener> listeners = configListenersMap.computeIfAbsent(configId, key -> new HashSet<>());
+        if (listeners.contains(listener)) {
+            return;
+        }
+        listeners.add(listener);
     }
 
     @Override
-    public void removeConfigListener(String dataId, ConfigurationChangeListener listener) {
-        if (StringUtil.isBlank(dataId) || listener == null) {
+    public void removeConfigListener(String configId, ConfigurationChangeListener listener) {
+        if (StringUtil.isBlank(configId) || listener == null) {
             return;
         }
-        Set<ConfigurationChangeListener> configListeners = getConfigListeners(dataId);
+        Set<ConfigurationChangeListener> configListeners = getConfigListeners(configId);
         if (!CollectionUtil.isEmpty(configListeners)) {
             configListeners.remove(listener);
             if (configListeners.isEmpty()) {
-                configListenersMap.remove(dataId);
-                listenedConfigMap.remove(dataId);
+                configListenersMap.remove(configId);
             }
         }
         listener.onShutDown();
     }
 
     @Override
-    public Set<ConfigurationChangeListener> getConfigListeners(String dataId) {
-        return configListenersMap.get(dataId);
+    public Set<ConfigurationChangeListener> getConfigListeners(String configId) {
+        return configListenersMap.get(configId);
     }
 
     @Override
@@ -333,53 +320,6 @@ public class FileConfiguration extends AbstractConfiguration {
                 configFuture.setResult(result);
             } else {
                 configFuture.setResult(Boolean.FALSE);
-            }
-        }
-
-    }
-
-    class FileListener extends ConfigurationChangeListener {
-
-        private final Map<String, Set<ConfigurationChangeListener>> dataIdMap = new HashMap<>();
-
-
-        FileListener() {}
-
-        public synchronized void addListener(String dataId, ConfigurationChangeListener listener) {
-            // only the first time add listener will trigger on process event
-            if (dataIdMap.isEmpty()) {
-                fileListener.onProcessEvent(new ConfigurationChangeEvent());
-            }
-            dataIdMap.computeIfAbsent(dataId, value -> new HashSet<>()).add(listener);
-        }
-
-        @Override
-        public void onChangeEvent(ConfigurationChangeEvent event) {
-            while (true) {
-                for (String configId : dataIdMap.keySet()) {
-                    try {
-                        String currentConfig =
-                                ConfigurationFactory.getInstance().getLatestConfig(configId, null, DEFAULT_CONFIG_TIMEOUT);
-                        if (StringUtil.isNotBlank(currentConfig)) {
-                            String oldConfig = listenedConfigMap.get(configId);
-                            if (ObjectUtils.notEqual(currentConfig, oldConfig)) {
-                                listenedConfigMap.put(configId, currentConfig);
-                                event.setConfigId(configId).setNewValue(currentConfig).setOldValue(oldConfig);
-
-                                for (ConfigurationChangeListener listener : dataIdMap.get(configId)) {
-                                    listener.onChangeEvent(event);
-                                }
-                            }
-                        }
-                    } catch (Exception exx) {
-                        LOGGER.error("fileListener execute error, dataId :{}", configId, exx);
-                    }
-                }
-                try {
-                    Thread.sleep(LISTENER_CONFIG_INTERVAL);
-                } catch (InterruptedException e) {
-                    LOGGER.error("fileListener thread sleep error:{}", e.getMessage());
-                }
             }
         }
 
