@@ -1,9 +1,12 @@
-package cn.heimdall.core.message.task;
+package cn.heimdall.compute.analyzer;
 
 import cn.heimdall.core.config.constants.MessageConstants;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.body.MessageTreeBody;
-import cn.heimdall.core.message.compute.impl.Compute;
+import cn.heimdall.compute.analyzer.impl.Compute;
+import cn.heimdall.core.message.task.DefaultMessageQueue;
+import cn.heimdall.core.message.task.MessageQueue;
+import cn.heimdall.core.message.task.MessageTask;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

@@ -1,4 +1,4 @@
-package cn.heimdall.core.message.task;
+package cn.heimdall.core.utils.task;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;

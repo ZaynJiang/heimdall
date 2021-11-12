@@ -1,4 +1,4 @@
-package cn.heimdall.core.message.compute.impl;
+package cn.heimdall.compute.analyzer.impl;
 
 import cn.heimdall.core.message.metric.Metric;
 import cn.heimdall.core.message.metric.MetricKey;

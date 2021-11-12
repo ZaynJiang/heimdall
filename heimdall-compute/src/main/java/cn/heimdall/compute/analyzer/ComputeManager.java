@@ -1,9 +1,8 @@
-package cn.heimdall.core.message.compute;
+package cn.heimdall.compute.analyzer;
 
-import cn.heimdall.core.message.compute.impl.Compute;
-import cn.heimdall.core.message.compute.impl.EventLogCompute;
-import cn.heimdall.core.message.compute.impl.SpanLogCompute;
-import cn.heimdall.core.message.task.TraceLogDumperTask;
+import cn.heimdall.compute.analyzer.impl.Compute;
+import cn.heimdall.compute.analyzer.impl.EventLogCompute;
+import cn.heimdall.compute.analyzer.impl.SpanLogCompute;
 
 public class ComputeManager {
     private static volatile Compute spanMetricCompute;

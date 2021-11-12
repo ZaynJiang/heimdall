@@ -1,8 +1,8 @@
-package cn.heimdall.core.message.window;
+package cn.heimdall.compute.window;
 
 
 import cn.heimdall.core.config.constants.MessageConstants;
-import cn.heimdall.core.message.metric.MetricConstant;
+import cn.heimdall.compute.metric.MetricConstant;
 
 import java.util.concurrent.atomic.LongAdder;
 

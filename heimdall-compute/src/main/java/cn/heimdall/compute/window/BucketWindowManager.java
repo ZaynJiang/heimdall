@@ -1,4 +1,4 @@
-package cn.heimdall.core.message.window;
+package cn.heimdall.compute.window;
 
 public class BucketWindowManager extends AbstractWindowManager<WindowBucket> {
     public BucketWindowManager(int sampleCount, int intervalInMs) {

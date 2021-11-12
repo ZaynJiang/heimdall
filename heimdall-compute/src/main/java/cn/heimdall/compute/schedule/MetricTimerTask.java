@@ -1,9 +1,9 @@
 package cn.heimdall.core.message.schedule;
 
 import cn.heimdall.core.message.compute.ComputeManager;
-import cn.heimdall.core.message.compute.impl.SpanLogCompute;
-import cn.heimdall.core.message.metric.Metric;
-import cn.heimdall.core.message.metric.MetricKey;
+import cn.heimdall.compute.analyzer.impl.SpanLogCompute;
+import cn.heimdall.compute.metric.Metric;
+import cn.heimdall.compute.metric.MetricKey;
 
 import java.util.Map;
 

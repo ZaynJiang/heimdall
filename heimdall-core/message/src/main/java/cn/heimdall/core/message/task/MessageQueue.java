@@ -1,4 +1,4 @@
-package cn.heimdall.core.message.task;
+package cn.heimdall.core.utils.task;
 
 public interface MessageQueue<T> {
     boolean offer(T element);

@@ -1,7 +1,7 @@
 package cn.heimdall.core.network.processor;
 
 import cn.heimdall.core.message.MessageHeader;
-import cn.heimdall.core.message.processor.MessageProcessor;
+import cn.heimdall.compute.processor.MessageProcessor;
 import cn.heimdall.core.message.request.RequestMessage;
 import cn.heimdall.core.message.response.ProcessResult;
 import org.slf4j.Logger;

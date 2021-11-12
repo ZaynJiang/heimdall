@@ -1,4 +1,4 @@
-package cn.heimdall.core.message.compute.impl;
+package cn.heimdall.compute.analyzer.impl;
 
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.body.MessageTreeBody;

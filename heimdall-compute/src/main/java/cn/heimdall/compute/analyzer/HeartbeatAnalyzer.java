@@ -1,4 +1,4 @@
-package cn.heimdall.core.message.compute;
+package cn.heimdall.compute.analyzer;
 
 import cn.heimdall.core.config.constants.MessageConstants;
 import cn.heimdall.core.message.task.MessageTask;
