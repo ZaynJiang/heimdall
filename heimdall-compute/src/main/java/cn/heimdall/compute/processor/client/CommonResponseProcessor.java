@@ -1,7 +1,7 @@
-package cn.heimdall.core.network.processor.client;
+package cn.heimdall.compute.processor.client;
 
 import cn.heimdall.core.message.Message;
-import cn.heimdall.core.network.processor.ClientProcessor;
+import cn.heimdall.compute.processor.ClientProcessor;
 import cn.heimdall.core.network.remote.MessageFuture;
 import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;

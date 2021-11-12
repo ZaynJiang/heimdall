@@ -1,4 +1,6 @@
-package cn.heimdall.core.network.processor;
+package cn.heimdall.compute.processor;
 
-public interface ClientProcessor extends RemoteProcessor{
+import cn.heimdall.core.network.processor.RemoteProcessor;
+
+public interface ClientProcessor extends RemoteProcessor {
 }

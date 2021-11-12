@@ -2,7 +2,6 @@ package cn.heimdall.compute.analyzer;
 
 import cn.heimdall.core.config.constants.MessageConstants;
 import cn.heimdall.core.message.task.MessageTask;
-import cn.heimdall.core.message.task.MetricComputeTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;

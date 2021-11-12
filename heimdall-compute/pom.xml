@@ -22,5 +22,20 @@
             <artifactId>network</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.heimdall</groupId>
+            <artifactId>config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.heimdall</groupId>
+            <artifactId>utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.heimdall</groupId>
+            <artifactId>message</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

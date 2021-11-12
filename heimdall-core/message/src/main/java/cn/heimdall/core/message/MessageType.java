@@ -1,20 +1,13 @@
 package cn.heimdall.core.message;
 
 
-import cn.heimdall.core.message.body.HeartbeatBody;
-import cn.heimdall.core.message.body.MessageTreeBody;
-import cn.heimdall.core.message.processor.HeartbeatProcessor;
-import cn.heimdall.core.message.processor.MessageTreeProcessor;
-import cn.heimdall.core.message.response.ResponseHeartbeat;
-import cn.heimdall.core.message.response.ResponseMessageTree;
-
 import java.util.function.Predicate;
 
 public enum MessageType {
     //客户端发送应用状态信息
-    TYPE_CLIENT_APP_STATE(1, HeartbeatBody.class, ResponseHeartbeat.class,  HeartbeatProcessor.class),
+    TYPE_CLIENT_APP_STATE(1, null, null, null),
     //客户端发送客户端消息数
-    TYPE_CLIENT_MESSAGE_TREE(2, MessageTreeBody.class, ResponseMessageTree.class, MessageTreeProcessor.class),
+    TYPE_CLIENT_MESSAGE_TREE(2, null, null, null),
     //客户端注册消息
     TYPE_CLIENT_REGISTER(3, null, null, null),
     //客户端心跳
@@ -28,9 +21,7 @@ public enum MessageType {
     //计算节点发送存储metricLog
     TYPE_COMPUTE_STORE_METRIC(10,null, null, null),
     //计算节点发送存储应用状态信息
-    TYPE_COMPUTE_STORE_APP_STATE(11,null, null, null),
-    //存储节点发送心跳的消息
-    TYPE_STORAGE_HEARTBEAT(6,null, null, null);
+    TYPE_COMPUTE_STORE_APP_STATE(11,null, null, null);
 
     private short typeCode;
     private Class requestBody;

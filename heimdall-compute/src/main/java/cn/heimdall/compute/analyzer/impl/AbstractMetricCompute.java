@@ -1,7 +1,7 @@
 package cn.heimdall.compute.analyzer.impl;
 
-import cn.heimdall.core.message.metric.Metric;
-import cn.heimdall.core.message.metric.MetricKey;
+import cn.heimdall.compute.metric.Metric;
+import cn.heimdall.compute.metric.MetricKey;
 import cn.heimdall.core.message.trace.TraceLog;
 
 import java.util.Map;

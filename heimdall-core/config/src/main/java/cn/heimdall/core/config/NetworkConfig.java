@@ -14,7 +14,6 @@ public class NetworkConfig {
     }
 
     public static String getSocketAddressStartChar() {
-
         return "/";
     }
 
@@ -74,4 +73,27 @@ public class NetworkConfig {
         return 0;
     }
 
+    public int getMaxPoolActive() {
+        return 1;
+    }
+
+    public int getMinPoolIdle() {
+        return 0;
+    }
+
+    public long getMaxAcquireConnMills() {
+        return 60 * 1000L;
+    }
+
+    public boolean isPoolTestBorrow() {
+        return true;
+    }
+
+    public boolean isPoolTestReturn() {
+        return true;
+    }
+
+    public boolean isPoolLifo() {
+        return true;
+    }
 }

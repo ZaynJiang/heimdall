@@ -6,7 +6,6 @@ import cn.heimdall.core.network.bootstrap.NettyServerBootstrap;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
@@ -15,7 +14,6 @@ public class AbstractRemotingServer extends AbstractRemoting implements Remoting
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRemotingServer.class);
 
     private NettyServerBootstrap serverBootstrap;
-
 
     public AbstractRemotingServer(ThreadPoolExecutor executor, NetworkConfig networkConfig) {
         super(executor);

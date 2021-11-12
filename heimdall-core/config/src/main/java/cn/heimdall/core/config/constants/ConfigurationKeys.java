@@ -1,7 +1,7 @@
 package cn.heimdall.core.config.constants;
 
 /**
- *   node.compute.enable
+ *
  */
 public interface ConfigurationKeys {
 
@@ -13,6 +13,11 @@ public interface ConfigurationKeys {
     //集群
     String CLUSTER_PREFIX = "cluster.";
     String CLUSTER_NAME = CLUSTER_PREFIX + "name";
+
+    //网络端口
+    String HTTP_PORT = "http.port";
+    String TRANSPORT_PORT = "transport.port";
+    String MANAGE_PORT = "manage.port";
 
     //节点
     String NODE_PREFIX = "node.";
@@ -27,7 +32,6 @@ public interface ConfigurationKeys {
     //seek hosts
     String GUARDER_SEED_HOSTS = "guarder.seek.hosts";
     String GUARDER_REAL_HOSTS = GUARDER_PREFIX + "real.hosts";
-
 
     // compute
     String COMPUTE_PREFIX = "compute.";

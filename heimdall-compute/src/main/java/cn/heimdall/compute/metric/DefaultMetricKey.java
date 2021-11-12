@@ -1,4 +1,4 @@
-package cn.heimdall.core.message.metric;
+package cn.heimdall.compute.metric;
 
 import java.util.Objects;
 

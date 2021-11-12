@@ -1,9 +1,9 @@
-package cn.heimdall.core.message.metric;
+package cn.heimdall.compute.metric;
 
-import cn.heimdall.core.message.window.AbstractWindowManager;
-import cn.heimdall.core.message.window.BucketWindowManager;
-import cn.heimdall.core.message.window.TimeWindow;
-import cn.heimdall.core.message.window.WindowBucket;
+import cn.heimdall.compute.window.AbstractWindowManager;
+import cn.heimdall.compute.window.BucketWindowManager;
+import cn.heimdall.compute.window.TimeWindow;
+import cn.heimdall.compute.window.WindowBucket;
 
 import java.util.List;
 

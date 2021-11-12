@@ -35,7 +35,6 @@ public abstract class AbstractRemoting {
     protected final ScheduledExecutorService timerExecutor = new ScheduledThreadPoolExecutor(1,
             new NamedThreadFactory("timeoutChecker", 1, true));
 
-
     /**
      * processor type {@link cn.heimdall.core.message.MessageType}
      */

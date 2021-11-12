@@ -1,10 +1,11 @@
-package cn.heimdall.compute.processor.client;
+package cn.heimdall.storage.processor.server;
 
 import cn.heimdall.core.message.Message;
-import cn.heimdall.compute.processor.ClientProcessor;
+import cn.heimdall.core.network.processor.ServerProcessor;
 import io.netty.channel.ChannelHandlerContext;
 
-public class RegisterResponseProcessor implements ClientProcessor {
+public class StoreAppStateProcessor implements ServerProcessor {
+
     @Override
     public void process(ChannelHandlerContext ctx, Message message) throws Exception {
 

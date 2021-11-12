@@ -1,4 +1,4 @@
-package cn.heimdall.core.utils.task;
+package cn.heimdall.core.message.task;
 
 import cn.heimdall.core.message.MessageBody;
 

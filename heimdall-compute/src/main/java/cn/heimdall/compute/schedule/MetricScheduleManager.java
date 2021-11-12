@@ -1,4 +1,4 @@
-package cn.heimdall.core.message.schedule;
+package cn.heimdall.compute.schedule;
 
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
 

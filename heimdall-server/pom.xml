@@ -13,10 +13,24 @@
     <dependencies>
         <dependency>
             <groupId>cn.heimdall</groupId>
-            <artifactId>network</artifactId>
+            <artifactId>heimdall-compute</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>cn.heimdall</groupId>
+            <artifactId>heimdall-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.heimdall</groupId>
+            <artifactId>heimdall-guarder</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.heimdall</groupId>
+            <artifactId>heimdall-storage</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <properties>

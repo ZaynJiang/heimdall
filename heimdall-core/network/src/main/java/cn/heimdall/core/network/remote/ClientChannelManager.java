@@ -14,11 +14,11 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
 /**
- * netty channel的管理
+ * netty client channel的管理
  */
-public abstract class AbstractClientChannelManager {
+public abstract class ClientChannelManager {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractClientChannelManager.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientChannelManager.class);
 
     private final ConcurrentMap<String, Object> channelLocks = new ConcurrentHashMap<>();
 
@@ -30,18 +30,29 @@ public abstract class AbstractClientChannelManager {
 
     private Function<String, ClientPoolKey> poolKeyFunction;
 
-
-    public AbstractClientChannelManager(final NettyKeyPoolFactory nettyKeyPoolFactory,
-                                        final Function<String, ClientPoolKey> poolKeyFunction,
-                                        final NetworkConfig clientConfig) {
+    public ClientChannelManager(final NettyKeyPoolFactory nettyKeyPoolFactory,
+                                final Function<String, ClientPoolKey> poolKeyFunction,
+                                final NetworkConfig clientConfig) {
         nettyClientKeyPool = new GenericKeyedObjectPool<>(nettyKeyPoolFactory);
-        nettyClientKeyPool.setConfig(getNettyPoolConfig(clientConfig));
+        nettyClientKeyPool.setConfig(wrapNettyPoolConfig(clientConfig));
         this.poolKeyFunction = poolKeyFunction;
     }
 
-    private GenericKeyedObjectPoolConfig getNettyPoolConfig(final NetworkConfig clientConfig) {
-        //TODO 对象池的配置化
-        return null;
+    /**
+     * 封装对象池配置
+     * @param clientConfig
+     * @return
+     */
+    private GenericKeyedObjectPoolConfig wrapNettyPoolConfig(final NetworkConfig clientConfig) {
+        //TODO 对象池配置
+        GenericKeyedObjectPoolConfig objectPoolConfig = new GenericKeyedObjectPoolConfig();
+        //objectPoolConfig.setMaxTotal(clientConfig.getMaxPoolActive());
+       // objectPoolConfig.setMinIdlePerKey(clientConfig.getMinPoolIdle());
+        objectPoolConfig.setMaxWaitMillis(clientConfig.getMaxAcquireConnMills());
+        objectPoolConfig.setTestOnBorrow(clientConfig.isPoolTestBorrow());
+        objectPoolConfig.setTestOnReturn(clientConfig.isPoolTestReturn());
+        objectPoolConfig.setLifo(clientConfig.isPoolLifo());
+        return objectPoolConfig;
     }
 
 
@@ -59,7 +70,7 @@ public abstract class AbstractClientChannelManager {
             }
         }
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("will connect to " + serverAddress);
+            LOGGER.info("will connect to {}", serverAddress);
         }
         Object lockObj = CollectionUtil.computeIfAbsent(channelLocks, serverAddress, key -> new Object());
         synchronized (lockObj) {

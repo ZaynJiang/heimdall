@@ -3,7 +3,7 @@ package cn.heimdall.compute.client;
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.NetworkManageConfig;
 import cn.heimdall.core.config.constants.ClientRole;
-import cn.heimdall.core.network.remote.AbstractClientChannelManager;
+import cn.heimdall.core.network.remote.ClientChannelManager;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
 import cn.heimdall.core.network.remote.ClientPoolKey;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
@@ -18,7 +18,7 @@ public class RemotingStorageClient extends AbstractRemotingClient {
 
     private static volatile RemotingStorageClient instance;
 
-    public RemotingStorageClient(NetworkConfig networkConfig, AbstractClientChannelManager clientChannelManager, ThreadPoolExecutor executor) {
+    public RemotingStorageClient(NetworkConfig networkConfig, ClientChannelManager clientChannelManager, ThreadPoolExecutor executor) {
         //TODO
         super(networkConfig, clientChannelManager, null, executor);
     }

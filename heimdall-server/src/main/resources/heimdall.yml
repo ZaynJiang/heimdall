@@ -10,9 +10,9 @@ path:
   log: /heimdall/log/
 network:
   host:
-http:
-  port: 7300
-transport:
-  port: 7400
-admin:
-  port: 7500
+  transport:
+    port: 7400
+  manage:
+    port: 7500
+  http:
+    port: 7300

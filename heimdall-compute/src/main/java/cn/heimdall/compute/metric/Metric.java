@@ -1,6 +1,6 @@
-package cn.heimdall.core.message.metric;
+package cn.heimdall.compute.metric;
 
-import cn.heimdall.core.message.window.WindowBucket;
+import cn.heimdall.compute.window.WindowBucket;
 
 public interface Metric {
     //获取成功数量

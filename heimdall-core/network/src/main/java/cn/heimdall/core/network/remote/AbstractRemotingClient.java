@@ -28,10 +28,10 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
 
     private ThreadPoolExecutor executor;
 
-    private AbstractClientChannelManager clientChannelManager;
+    private ClientChannelManager clientChannelManager;
 
     public AbstractRemotingClient(NetworkConfig networkConfig,
-                                  AbstractClientChannelManager clientChannelManager,
+                                  ClientChannelManager clientChannelManager,
                                   EventExecutorGroup eventExecutorGroup,
                                   ThreadPoolExecutor executor) {
         super(executor);
@@ -67,7 +67,7 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
         return null;
     }
 
-    public AbstractClientChannelManager getClientChannelManager() {
+    public ClientChannelManager getClientChannelManager() {
         return clientChannelManager;
     }
 
