@@ -14,9 +14,14 @@ public interface ConfigurationKeys {
     String CLUSTER_PREFIX = "cluster.";
     String CLUSTER_NAME = CLUSTER_PREFIX + "name";
 
-    //网络端口
+    String TRANSPORT_PREFIX = "transport.";
+
+
+    //查询类端口
     String HTTP_PORT = "http.port";
-    String TRANSPORT_PORT = "transport.port";
+    //监控数据传输端口
+    String TRANSPORT_PORT = TRANSPORT_PREFIX + "port";
+    //管理类端口
     String MANAGE_PORT = "manage.port";
 
     //节点
@@ -40,4 +45,8 @@ public interface ConfigurationKeys {
     // storage
     String STORAGE_PREFIX = "storage.";
     String STORAGE_HOSTS = STORAGE_PREFIX + "hosts";
+
+
+    //停止等待
+    String SHUTDOWN_WAIT = TRANSPORT_PREFIX + "shutdown.wait";
 }

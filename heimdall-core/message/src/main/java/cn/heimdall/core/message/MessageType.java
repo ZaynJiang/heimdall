@@ -8,14 +8,16 @@ public enum MessageType {
     TYPE_CLIENT_APP_STATE(1, null, null, null),
     //客户端发送客户端消息数
     TYPE_CLIENT_MESSAGE_TREE(2, null, null, null),
-    //客户端注册消息
-    TYPE_CLIENT_REGISTER(3, null, null, null),
-    //客户端心跳
-    TYPE_CLIENT_HEARTBEAT(4, null, null, null),
-    //计算节点注册
+    //客户端心跳数据
+    TYPE_CLIENT_HEARTBEAT(3, null, null, null),
+    //节点注册消息
+    TYPE_NODE_REGISTER(4, null, null, null),
+    //节点心跳消息
+    TYPE_NODE_HEARTBEAT(5, null, null, null),
+/*    //计算节点注册
     TYPE_COMPUTE_REGISTER(7,null, null, null),
     //计算节点心跳
-    TYPE_COMPUTE_HEARTBEAT(8,null, null, null),
+    TYPE_COMPUTE_HEARTBEAT(8,null, null, null),*/
     //计算节点发送存储traceLog
     TYPE_COMPUTE_STORE_TRANCE_LOG(9,null, null, null),
     //计算节点发送存储metricLog

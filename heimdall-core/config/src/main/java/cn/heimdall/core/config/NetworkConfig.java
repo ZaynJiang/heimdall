@@ -3,7 +3,7 @@ package cn.heimdall.core.config;
 import io.netty.channel.Channel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-public class NetworkConfig {
+public class NetworkConfig extends HeimdallConfig{
 
     public static int getRpcRequestTimeout() {
         return 30 * 1000;

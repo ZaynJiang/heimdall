@@ -1,13 +1,12 @@
-package cn.heimdall.core.config.constants;
+package cn.heimdall.core.message;
 
-public enum ClientRole {
+public enum NodeRole {
     COMPUTE(1),
     STORAGE(2),
-    GUARDER(3),
-    APP(4);
+    GUARDER(3);
     private int value;
 
-    ClientRole(int value) {
+    NodeRole(int value) {
         this.value = value;
     }
 

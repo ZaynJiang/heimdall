@@ -17,6 +17,7 @@
         <module>network</module>
         <module>message</module>
         <module>utils</module>
+        <module>cluster</module>
     </modules>
 
 

@@ -1,27 +1,27 @@
 package cn.heimdall.core.network.remote;
 
-import cn.heimdall.core.config.constants.ClientRole;
+import cn.heimdall.core.message.NodeRole;
 import cn.heimdall.core.message.Message;
 
 public class ClientPoolKey {
 
-    private ClientRole clientRole;
+    private NodeRole nodeRole;
     private String address;
     private Message message;
 
-    public ClientPoolKey(ClientRole clientRole, String address, Message message) {
-        this.clientRole = clientRole;
+    public ClientPoolKey(NodeRole nodeRole, String address, Message message) {
+        this.nodeRole = nodeRole;
         this.address = address;
         this.message = message;
     }
 
-    public ClientRole getNettyRole() {
-        return clientRole;
+    public NodeRole getNettyRole() {
+        return nodeRole;
     }
 
 
-    public ClientPoolKey setNettyRole(ClientRole clientRole) {
-        this.clientRole = clientRole;
+    public ClientPoolKey setNettyRole(NodeRole nodeRole) {
+        this.nodeRole = nodeRole;
         return this;
     }
 
@@ -48,7 +48,7 @@ public class ClientPoolKey {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("transactionRole:");
-        sb.append(clientRole.getValue());
+        sb.append(nodeRole.getValue());
         sb.append(",");
         sb.append("address:");
         sb.append(address);

@@ -2,7 +2,7 @@ package cn.heimdall.compute.client;
 
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.NetworkManageConfig;
-import cn.heimdall.core.config.constants.ClientRole;
+import cn.heimdall.core.message.NodeRole;
 import cn.heimdall.core.network.remote.ClientChannelManager;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
 import cn.heimdall.core.network.remote.ClientPoolKey;
@@ -56,7 +56,7 @@ public class RemotingStorageClient extends AbstractRemotingClient {
 
     @Override
     protected Function<String, ClientPoolKey> getPoolKeyFunction() {
-        return addressIp -> new ClientPoolKey(ClientRole.STORAGE, addressIp,null);
+        return addressIp -> new ClientPoolKey(NodeRole.STORAGE, addressIp,null);
     }
 
     @Override

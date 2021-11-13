@@ -1,19 +1,19 @@
 package cn.heimdall.server.network;
 
-import cn.heimdall.compute.processor.server.AppStateProcessor;
-import cn.heimdall.compute.processor.server.MessageTreeProcessor;
 import cn.heimdall.core.config.ConfigurationFactory;
 import cn.heimdall.core.config.NetworkManageConfig;
 import cn.heimdall.core.config.constants.ConfigurationKeys;
 import cn.heimdall.core.message.MessageType;
-
 import cn.heimdall.core.network.remote.AbstractRemotingServer;
+import cn.heimdall.core.utils.thread.NamedThreadFactory;
 import cn.heimdall.guarder.processor.server.HeartbeatRequestProcessor;
 import cn.heimdall.guarder.processor.server.RegisterRequestProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -46,17 +46,8 @@ public class ManageRemotingServer extends AbstractRemotingServer {
         boolean storageRole = ConfigurationFactory.getInstance().getBoolean(ConfigurationKeys.NODE_STORAGE, true);
         //如果是guarder
         if (guarderRole) {
-            super.registerProcessor(MessageType.TYPE_COMPUTE_REGISTER.getTypeCode(), new RegisterRequestProcessor(), messageExecutor);
-            super.registerProcessor(MessageType.TYPE_COMPUTE_HEARTBEAT.getTypeCode(), new HeartbeatRequestProcessor(), messageExecutor);
-        }
-        //如果是compute
-        if (computeRole) {
-            super.registerProcessor(MessageType.TYPE_CLIENT_APP_STATE.getTypeCode(), new AppStateProcessor(), messageExecutor);
-            super.registerProcessor(MessageType.TYPE_CLIENT_MESSAGE_TREE.getTypeCode(), new MessageTreeProcessor(), messageExecutor);
-        }
-        //如果是storage
-        if (storageRole) {
-
+            super.registerProcessor(MessageType.TYPE_NODE_REGISTER.getTypeCode(), new RegisterRequestProcessor(), messageExecutor);
+            super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT.getTypeCode(), new HeartbeatRequestProcessor(), messageExecutor);
         }
     }
 
@@ -64,11 +55,12 @@ public class ManageRemotingServer extends AbstractRemotingServer {
         if (INSTANCE == null) {
             synchronized (ManageRemotingServer.class) {
                 if (INSTANCE == null) {
-                /*    final ThreadPoolExecutor workingThreads = new ThreadPoolExecutor(NetworkManageConfig.getMinServerPoolSize(),
-                            NetworkManageConfig.getMaxServerPoolSize(), NetworkConfig.getKeepAliveTime(), TimeUnit.SECONDS,
-                            new LinkedBlockingQueue<>(NetworkManageConfig.getMaxTaskQueueSize()),
-                            new NamedThreadFactory("ServerHandlerThread", NetworkManageConfig.getMaxServerPoolSize()), new ThreadPoolExecutor.CallerRunsPolicy());*/
-                    INSTANCE = new ManageRemotingServer(null, null);
+                    final NetworkManageConfig networkManageConfig = new NetworkManageConfig();
+                    final ThreadPoolExecutor workingThreads = new ThreadPoolExecutor(networkManageConfig.getMinServerPoolSize(),
+                            networkManageConfig.getMaxServerPoolSize(), networkManageConfig.getKeepAliveTime(), TimeUnit.SECONDS,
+                            new LinkedBlockingQueue<>(networkManageConfig.getMaxTaskQueueSize()),
+                            new NamedThreadFactory("ManageServerHandlerThread", networkManageConfig.getMaxServerPoolSize()), new ThreadPoolExecutor.CallerRunsPolicy());
+                    INSTANCE = new ManageRemotingServer(workingThreads, networkManageConfig);
                 }
             }
         }

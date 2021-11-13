@@ -1,4 +1,7 @@
 package cn.heimdall.core.config;
 
-public class NetworkDataConfig extends NetworkConfig{
+/**
+ * 传输类配置
+ */
+public class NetworkTransportConfig extends NetworkConfig{
 }
