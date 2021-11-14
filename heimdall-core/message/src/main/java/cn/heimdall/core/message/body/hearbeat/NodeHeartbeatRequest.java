@@ -1,14 +1,11 @@
-package cn.heimdall.core.message.body.register;
+package cn.heimdall.core.message.body.hearbeat;
 
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.NodeRole;
 
 import java.util.List;
 
-/**
- * 注册节点的角色，一个节点可能有多个角色
- */
-public class NodeRegisterRequest extends MessageBody {
+public class NodeHeartbeatRequest extends MessageBody {
     private List<NodeRole> nodeRoles;
     private String ip;
     private int port;
@@ -36,5 +33,4 @@ public class NodeRegisterRequest extends MessageBody {
     public void setIp(String ip) {
         this.ip = ip;
     }
-
 }

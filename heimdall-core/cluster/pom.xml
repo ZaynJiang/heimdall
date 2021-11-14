@@ -17,5 +17,10 @@
             <artifactId>config</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.heimdall</groupId>
+            <artifactId>message</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

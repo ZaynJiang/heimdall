@@ -46,7 +46,7 @@ public class ManageRemotingServer extends AbstractRemotingServer {
         boolean storageRole = ConfigurationFactory.getInstance().getBoolean(ConfigurationKeys.NODE_STORAGE, true);
         //如果是guarder
         if (guarderRole) {
-            super.registerProcessor(MessageType.TYPE_NODE_REGISTER.getTypeCode(), new RegisterRequestProcessor(), messageExecutor);
+            super.registerProcessor(MessageType.TYPE_NODE_REGISTER.getTypeCode(), new RegisterRequestProcessor(this), messageExecutor);
             super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT.getTypeCode(), new HeartbeatRequestProcessor(), messageExecutor);
         }
     }
