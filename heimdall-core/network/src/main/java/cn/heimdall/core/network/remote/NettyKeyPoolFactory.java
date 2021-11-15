@@ -40,7 +40,7 @@ public class NettyKeyPoolFactory implements KeyedPooledObjectFactory<ClientPoolK
         Object response;
         Channel channelToServer = null;
         if (key.getMessage() == null) {
-            throw new NetworkException("register msg is null, role:" + key.getNettyRole());
+            throw new NetworkException("register msg is null, role:" + key.getNodeRoles());
         }
         try {
             //发去注册信息

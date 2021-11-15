@@ -8,7 +8,8 @@ public enum MessageType {
     TYPE_CLIENT_APP_STATE(1, null, null, null),
     //客户端发送客户端消息数
     TYPE_CLIENT_MESSAGE_TREE(2, null, null, null),
-    //客户端心跳数据
+
+    //客户端心跳数据（发给guarder的）
     TYPE_CLIENT_HEARTBEAT(3, null, null, null),
     //节点注册消息
     TYPE_NODE_REGISTER(4, null, null, null),

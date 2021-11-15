@@ -16,7 +16,7 @@ import java.util.function.Function;
 /**
  * netty client channel的管理
  */
-public abstract class ClientChannelManager {
+public class ClientChannelManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientChannelManager.class);
 

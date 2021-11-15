@@ -26,20 +26,16 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
 
     private NettyClientBootstrap clientBootstrap;
 
-    private ThreadPoolExecutor executor;
-
     private ClientChannelManager clientChannelManager;
 
-    public AbstractRemotingClient(NetworkConfig networkConfig,
-                                  ClientChannelManager clientChannelManager,
-                                  EventExecutorGroup eventExecutorGroup,
-                                  ThreadPoolExecutor executor) {
-        super(executor);
-        this.executor = executor;
+    public AbstractRemotingClient(NetworkConfig networkConfig,ThreadPoolExecutor messageExecutor,
+                                  EventExecutorGroup eventExecutorGroup) {
+        super(messageExecutor);
         //TODO 还有一些其它的初始化工作
         this.clientBootstrap = new NettyClientBootstrap(networkConfig, eventExecutorGroup);
         this.clientBootstrap.setChannelHandlers(new ClientHandler());
-        this.clientChannelManager = clientChannelManager;
+        this.clientChannelManager = new ClientChannelManager(
+                new NettyKeyPoolFactory(this, clientBootstrap), getPoolKeyFunction(), networkConfig);
     }
 
     @Override

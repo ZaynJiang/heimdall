@@ -2,18 +2,18 @@ package cn.heimdall.server.network;
 
 import cn.heimdall.compute.processor.server.AppStateProcessor;
 import cn.heimdall.compute.processor.server.MessageTreeProcessor;
-import cn.heimdall.core.config.ConfigurationFactory;
-import cn.heimdall.core.config.NetworkManageConfig;
-import cn.heimdall.core.config.constants.ConfigurationKeys;
+import cn.heimdall.core.cluster.NodeInfo;
+import cn.heimdall.core.cluster.NodeInfoManager;
+import cn.heimdall.core.config.NetworkTransportConfig;
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.network.remote.AbstractRemotingServer;
-import cn.heimdall.storage.processor.server.StoreAppStateProcessor;
-import cn.heimdall.storage.processor.server.StoreMetricProcessor;
-import cn.heimdall.storage.processor.server.StoreTraceLogProcessor;
+import cn.heimdall.core.utils.thread.NamedThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TransportRemotingServer extends AbstractRemotingServer {
@@ -24,8 +24,11 @@ public class TransportRemotingServer extends AbstractRemotingServer {
 
     private static volatile TransportRemotingServer INSTANCE;
 
+    private NodeInfo nodeInfo;
+
     @Override
     public void init() {
+        nodeInfo = NodeInfoManager.getInstance().getNodeInfo();
         // registry processor
         registerProcessor();
         if (initialized.compareAndSet(false, true)) {
@@ -33,35 +36,40 @@ public class TransportRemotingServer extends AbstractRemotingServer {
         }
     }
 
-    public TransportRemotingServer(ThreadPoolExecutor executor, NetworkManageConfig manageConfig) {
-        super(executor, manageConfig);
+    public TransportRemotingServer(ThreadPoolExecutor executor, NetworkTransportConfig transportConfig) {
+        super(executor, transportConfig);
     }
 
     private void registerProcessor() {
-        boolean computeRole = ConfigurationFactory.getInstance().getBoolean(ConfigurationKeys.NODE_COMPUTE, true);
-        boolean storageRole = ConfigurationFactory.getInstance().getBoolean(ConfigurationKeys.NODE_STORAGE, true);
         //如果是compute
-        if (computeRole) {
+        if (nodeInfo.isGuarder()) {
+            //应用状态上报processor
             super.registerProcessor(MessageType.TYPE_CLIENT_APP_STATE.getTypeCode(), new AppStateProcessor(), messageExecutor);
+            //消息树上报processor
             super.registerProcessor(MessageType.TYPE_CLIENT_MESSAGE_TREE.getTypeCode(), new MessageTreeProcessor(), messageExecutor);
         }
-        //如果是storage
-        if (storageRole) {
-            super.registerProcessor(MessageType.TYPE_COMPUTE_STORE_METRIC.getTypeCode(), new StoreMetricProcessor(), messageExecutor);
-            super.registerProcessor(MessageType.TYPE_COMPUTE_STORE_APP_STATE.getTypeCode(), new StoreAppStateProcessor(), messageExecutor);
-            super.registerProcessor(MessageType.TYPE_COMPUTE_STORE_TRANCE_LOG.getTypeCode(), new StoreTraceLogProcessor(), messageExecutor);
+        //如果是存储器
+        if (nodeInfo.isStorage()) {
+            //应用状态上报processor
+            super.registerProcessor(MessageType.TYPE_COMPUTE_STORE_APP_STATE.getTypeCode(), new AppStateProcessor(), messageExecutor);
+            //消息树上报processor
+            super.registerProcessor(MessageType.TYPE_COMPUTE_STORE_METRIC.getTypeCode(), new MessageTreeProcessor(), messageExecutor);
+            super.registerProcessor(MessageType.TYPE_COMPUTE_STORE_TRANCE_LOG.getTypeCode(), new MessageTreeProcessor(), messageExecutor);
         }
+
     }
 
     public static TransportRemotingServer getInstance() {
         if (INSTANCE == null) {
             synchronized (TransportRemotingServer.class) {
                 if (INSTANCE == null) {
-                /*    final ThreadPoolExecutor workingThreads = new ThreadPoolExecutor(NetworkManageConfig.getMinServerPoolSize(),
-                            NetworkManageConfig.getMaxServerPoolSize(), NetworkConfig.getKeepAliveTime(), TimeUnit.SECONDS,
-                            new LinkedBlockingQueue<>(NetworkManageConfig.getMaxTaskQueueSize()),
-                            new NamedThreadFactory("ServerHandlerThread", NetworkManageConfig.getMaxServerPoolSize()), new ThreadPoolExecutor.CallerRunsPolicy());*/
-                    INSTANCE = new TransportRemotingServer(null, null);
+                    final NetworkTransportConfig networkTransportConfig = new NetworkTransportConfig();
+                    final ThreadPoolExecutor workingThreads = new ThreadPoolExecutor(networkTransportConfig.getMinServerPoolSize(),
+                            networkTransportConfig.getMaxServerPoolSize(), networkTransportConfig.getKeepAliveTime(), TimeUnit.SECONDS,
+                            new LinkedBlockingQueue<>(networkTransportConfig.getMaxTaskQueueSize()),
+                            new NamedThreadFactory("ServerHandlerThread", networkTransportConfig.getMaxServerPoolSize()),
+                            new ThreadPoolExecutor.CallerRunsPolicy());
+                    INSTANCE = new TransportRemotingServer(workingThreads, networkTransportConfig);
                 }
             }
         }

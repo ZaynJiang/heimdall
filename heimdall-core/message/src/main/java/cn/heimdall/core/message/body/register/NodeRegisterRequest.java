@@ -11,7 +11,7 @@ import java.util.List;
 public class NodeRegisterRequest extends MessageBody {
     private List<NodeRole> nodeRoles;
     private String ip;
-    private int port;
+    private int host;
 
     public List<NodeRole> getNodeRoles() {
         return nodeRoles;
@@ -25,12 +25,12 @@ public class NodeRegisterRequest extends MessageBody {
         return ip;
     }
 
-    public int getPort() {
-        return port;
+    public int getHost() {
+        return host;
     }
 
-    public void setPort(int port) {
-        this.port = port;
+    public void setHost(int host) {
+        this.host = host;
     }
 
     public void setIp(String ip) {

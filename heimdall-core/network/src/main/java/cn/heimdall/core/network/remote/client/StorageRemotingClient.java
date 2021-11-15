@@ -1,9 +1,9 @@
-package cn.heimdall.compute.client;
+package cn.heimdall.core.network.remote.client;
 
+import cn.heimdall.core.cluster.NodeInfo;
+import cn.heimdall.core.cluster.NodeInfoManager;
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.NetworkManageConfig;
-import cn.heimdall.core.message.NodeRole;
-import cn.heimdall.core.network.remote.ClientChannelManager;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
 import cn.heimdall.core.network.remote.ClientPoolKey;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
@@ -14,17 +14,20 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-public class RemotingStorageClient extends AbstractRemotingClient {
+public class StorageRemotingClient extends AbstractRemotingClient {
 
-    private static volatile RemotingStorageClient instance;
+    private static volatile StorageRemotingClient instance;
 
-    public RemotingStorageClient(NetworkConfig networkConfig, ClientChannelManager clientChannelManager, ThreadPoolExecutor executor) {
+    private NodeInfo nodeInfo;
+
+    public StorageRemotingClient(NetworkConfig networkConfig, ThreadPoolExecutor executor) {
         //TODO
-        super(networkConfig, clientChannelManager, null, executor);
+        super(networkConfig, executor, null);
     }
 
     @Override
     public void init() {
+        nodeInfo = NodeInfoManager.getInstance().getNodeInfo();
         super.init();
         //TODO 自身的一些初始化
     }
@@ -32,9 +35,9 @@ public class RemotingStorageClient extends AbstractRemotingClient {
     private static final long KEEP_ALIVE_TIME = Integer.MAX_VALUE;
     private static final int MAX_QUEUE_SIZE = 20000;
 
-    public static RemotingStorageClient getInstance() {
+    public static StorageRemotingClient getInstance() {
         if (instance == null) {
-            synchronized (RemotingStorageClient.class) {
+            synchronized (StorageRemotingClient.class) {
                 if (instance == null) {
                     NetworkManageConfig networkManageConfig = new NetworkManageConfig();
                     final ThreadPoolExecutor messageExecutor = new ThreadPoolExecutor(
@@ -42,7 +45,7 @@ public class RemotingStorageClient extends AbstractRemotingClient {
                             KEEP_ALIVE_TIME, TimeUnit.SECONDS, new LinkedBlockingQueue<>(MAX_QUEUE_SIZE),
                             new NamedThreadFactory("manage:", true),
                             new ThreadPoolExecutor.CallerRunsPolicy());
-                    instance = new RemotingStorageClient(networkManageConfig, null, messageExecutor);
+                    instance = new StorageRemotingClient(networkManageConfig, messageExecutor);
                 }
             }
         }
@@ -56,7 +59,7 @@ public class RemotingStorageClient extends AbstractRemotingClient {
 
     @Override
     protected Function<String, ClientPoolKey> getPoolKeyFunction() {
-        return addressIp -> new ClientPoolKey(NodeRole.STORAGE, addressIp,null);
+        return addressIp -> new ClientPoolKey(nodeInfo.getNodeRoles(), addressIp,null);
     }
 
     @Override

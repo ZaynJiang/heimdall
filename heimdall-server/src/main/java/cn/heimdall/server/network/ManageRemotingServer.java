@@ -1,8 +1,8 @@
 package cn.heimdall.server.network;
 
-import cn.heimdall.core.config.ConfigurationFactory;
+import cn.heimdall.core.cluster.NodeInfo;
+import cn.heimdall.core.cluster.NodeInfoManager;
 import cn.heimdall.core.config.NetworkManageConfig;
-import cn.heimdall.core.config.constants.ConfigurationKeys;
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.network.remote.AbstractRemotingServer;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
@@ -27,8 +27,15 @@ public class ManageRemotingServer extends AbstractRemotingServer {
 
     private static volatile ManageRemotingServer INSTANCE;
 
+    private NodeInfo nodeInfo;
+
+    public ManageRemotingServer(ThreadPoolExecutor executor, NetworkManageConfig manageConfig) {
+        super(executor, manageConfig);
+    }
+
     @Override
     public void init() {
+        nodeInfo = NodeInfoManager.getInstance().getNodeInfo();
         // registry processor
         registerProcessor();
         if (initialized.compareAndSet(false, true)) {
@@ -36,18 +43,12 @@ public class ManageRemotingServer extends AbstractRemotingServer {
         }
     }
 
-    public ManageRemotingServer(ThreadPoolExecutor executor, NetworkManageConfig manageConfig) {
-        super(executor, manageConfig);
-    }
 
     private void registerProcessor() {
-        boolean guarderRole = ConfigurationFactory.getInstance().getBoolean(ConfigurationKeys.NODE_GUARDER, true);
-        boolean computeRole = ConfigurationFactory.getInstance().getBoolean(ConfigurationKeys.NODE_COMPUTE, true);
-        boolean storageRole = ConfigurationFactory.getInstance().getBoolean(ConfigurationKeys.NODE_STORAGE, true);
         //如果是guarder
-        if (guarderRole) {
+        if (nodeInfo.isGuarder()) {
             super.registerProcessor(MessageType.TYPE_NODE_REGISTER.getTypeCode(), new RegisterRequestProcessor(this), messageExecutor);
-            super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT.getTypeCode(), new HeartbeatRequestProcessor(), messageExecutor);
+            super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT.getTypeCode(), new HeartbeatRequestProcessor(this), messageExecutor);
         }
     }
 

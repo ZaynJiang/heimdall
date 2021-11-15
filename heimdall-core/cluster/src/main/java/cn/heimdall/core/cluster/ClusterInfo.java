@@ -31,21 +31,33 @@ public class ClusterInfo {
     }
 
     //添加节点角色的地址信息到全局集群信息中
-    public void putInetSocketAddress(NodeRole nodeRole, InetSocketAddress inetSocketAddress) {
+    public void putInetSocketAddress(NodeRole nodeRole, InetSocketAddress inetSocketAddress, long currentTime) {
         switch (nodeRole) {
             case COMPUTE:
-                computeNodes.put(inetSocketAddress, CurrentTimeFactory.currentTimeMillis());
+                safeUpdateInetSocketAddress(computeNodes, inetSocketAddress, currentTime);
                 break;
             case GUARDER:
-                guarderNodes.put(inetSocketAddress, CurrentTimeFactory.currentTimeMillis());
+                safeUpdateInetSocketAddress(guarderNodes, inetSocketAddress, currentTime);
                 break;
             case STORAGE:
-                storageNodes.put(inetSocketAddress, CurrentTimeFactory.currentTimeMillis());
+                safeUpdateInetSocketAddress(storageNodes, inetSocketAddress, currentTime);
                 break;
         }
     }
 
-    public Set<InetSocketAddress> getActiveInetSocketAddress(NodeRole nodeRole, long expireThreshold){
+    //只更新最新的值，以免老值被覆盖
+    public void safeUpdateInetSocketAddress(Map<InetSocketAddress, Long> map, InetSocketAddress inetSocketAddress, long newCurrentTime) {
+        Long oldValue;
+        do {
+            oldValue = map.putIfAbsent(inetSocketAddress, newCurrentTime);
+        } while (oldValue != null && oldValue < newCurrentTime
+                && !map.replace(inetSocketAddress, oldValue, newCurrentTime));
+    }
+
+    /**
+     *  获取属于获取的地址。
+     */
+    public Set<InetSocketAddress> getActiveInetSocketAddress(NodeRole nodeRole, long expireThreshold) {
         long currentTimestamp = CurrentTimeFactory.currentTimeMillis();
         switch (nodeRole) {
             case COMPUTE:
