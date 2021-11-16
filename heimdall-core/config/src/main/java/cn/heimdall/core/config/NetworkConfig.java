@@ -2,6 +2,7 @@ package cn.heimdall.core.config;
 
 import io.netty.channel.Channel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.NettyRuntime;
 
 public class NetworkConfig extends HeimdallConfig{
 
@@ -94,6 +95,47 @@ public class NetworkConfig extends HeimdallConfig{
     }
 
     public boolean isPoolLifo() {
+
         return true;
+    }
+
+    public boolean enableEpoll() {
+        return true;
+    }
+
+    public int getBossThreadSize() {
+        return 1;
+    }
+
+    public String getBossThreadPrefix() {
+        return "NettyBoss";
+    }
+
+    public int getServerWorkerThreads() {
+        return NettyRuntime.availableProcessors() * 2;
+    }
+
+    public String getWorkerThreadPrefix() {
+        return "NettyServerNIOWorker";
+    }
+
+    public int getSoBackLogSize() {
+        return 1024;
+    }
+
+    public int getServerSocketResvBufSize() {
+        return 153600;
+    }
+
+    public int getServerSocketSendBufSize() {
+        return 153600;
+    }
+
+    public int getWriteBufferLowWaterMark() {
+        return 1048576;
+    }
+
+    public int getWriteBufferHighWaterMark() {
+        return 67108864;
     }
 }

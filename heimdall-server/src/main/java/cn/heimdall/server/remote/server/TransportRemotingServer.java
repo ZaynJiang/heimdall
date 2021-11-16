@@ -1,4 +1,4 @@
-package cn.heimdall.server.network;
+package cn.heimdall.server.remote.server;
 
 import cn.heimdall.compute.processor.server.AppStateProcessor;
 import cn.heimdall.compute.processor.server.MessageTreeProcessor;
@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class TransportRemotingServer extends AbstractRemotingServer {
+public final class TransportRemotingServer extends AbstractRemotingServer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ManageRemotingServer.class);
 

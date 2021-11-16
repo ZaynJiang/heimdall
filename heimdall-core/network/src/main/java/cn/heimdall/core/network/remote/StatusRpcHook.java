@@ -1,7 +1,6 @@
-package cn.heimdall.core.network.remote.hook;
+package cn.heimdall.core.network.remote;
 
 import cn.heimdall.core.message.Message;
-import cn.heimdall.core.network.remote.RemoteStatus;
 
 public class StatusRpcHook implements RemoteHook {
 

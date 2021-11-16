@@ -25,6 +25,14 @@ public class AbstractRemotingServer extends AbstractRemoting implements Remoting
         serverBootstrap.setChannelHandlers(null);
     }
 
+    public void setListenPort(int listenPort) {
+        serverBootstrap.setListenPort(listenPort);
+    }
+
+    public NettyServerBootstrap getServerBootstrap() {
+        return serverBootstrap;
+    }
+
     @Override
     public void init() {
         super.init();

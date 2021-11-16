@@ -1,4 +1,4 @@
-package cn.heimdall.core.network.remote.hook;
+package cn.heimdall.core.network.remote;
 
 import cn.heimdall.core.message.Message;
 

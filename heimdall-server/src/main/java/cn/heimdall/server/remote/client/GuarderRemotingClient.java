@@ -1,9 +1,11 @@
-package cn.heimdall.core.network.remote.client;
+package cn.heimdall.server.remote.client;
 
 import cn.heimdall.core.cluster.NodeInfo;
 import cn.heimdall.core.cluster.NodeInfoManager;
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.NetworkManageConfig;
+import cn.heimdall.core.message.MessageType;
+import cn.heimdall.core.network.processor.client.NodeHeartbeatProcessor;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
 import cn.heimdall.core.network.remote.ClientPoolKey;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
@@ -14,6 +16,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
+/**
+ * 请求到guarder的client
+ */
 public class GuarderRemotingClient extends AbstractRemotingClient {
 
     private static volatile GuarderRemotingClient instance;
@@ -29,7 +34,13 @@ public class GuarderRemotingClient extends AbstractRemotingClient {
     public void init() {
         nodeInfo = NodeInfoManager.getInstance().getNodeInfo();
         super.init();
-        //TODO 自身的一些初始化
+        this.registerProcessor();
+    }
+
+    private void registerProcessor() {
+        NodeHeartbeatProcessor nodeHeartbeatProcessor = new NodeHeartbeatProcessor();
+        super.registerProcessor(MessageType.TYPE_NODE_REGISTER.getTypeCode(), nodeHeartbeatProcessor, messageExecutor);
+        super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT.getTypeCode(), nodeHeartbeatProcessor, messageExecutor);
     }
 
     private static final long KEEP_ALIVE_TIME = Integer.MAX_VALUE;

@@ -1,9 +1,11 @@
-package cn.heimdall.core.network.remote.client;
+package cn.heimdall.server.remote.client;
 
 import cn.heimdall.core.cluster.NodeInfo;
 import cn.heimdall.core.cluster.NodeInfoManager;
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.NetworkManageConfig;
+import cn.heimdall.core.message.MessageType;
+import cn.heimdall.core.network.processor.client.NodeHeartbeatProcessor;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
 import cn.heimdall.core.network.remote.ClientPoolKey;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
@@ -14,6 +16,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
+/**
+ * 请求到storage的client
+ */
 public class StorageRemotingClient extends AbstractRemotingClient {
 
     private static volatile StorageRemotingClient instance;
@@ -31,6 +36,14 @@ public class StorageRemotingClient extends AbstractRemotingClient {
         super.init();
         //TODO 自身的一些初始化
     }
+
+    private void registerProcessor() {
+        NodeHeartbeatProcessor nodeHeartbeatProcessor = new NodeHeartbeatProcessor();
+        super.registerProcessor(MessageType.TYPE_COMPUTE_STORE_TRANCE_LOG.getTypeCode(), nodeHeartbeatProcessor, messageExecutor);
+        super.registerProcessor(MessageType.TYPE_COMPUTE_STORE_METRIC.getTypeCode(), nodeHeartbeatProcessor, messageExecutor);
+        super.registerProcessor(MessageType.TYPE_COMPUTE_STORE_APP_STATE.getTypeCode(), nodeHeartbeatProcessor, messageExecutor);
+    }
+
 
     private static final long KEEP_ALIVE_TIME = Integer.MAX_VALUE;
     private static final int MAX_QUEUE_SIZE = 20000;
@@ -59,7 +72,7 @@ public class StorageRemotingClient extends AbstractRemotingClient {
 
     @Override
     protected Function<String, ClientPoolKey> getPoolKeyFunction() {
-        return addressIp -> new ClientPoolKey(nodeInfo.getNodeRoles(), addressIp,null);
+        return addressIp -> new ClientPoolKey(nodeInfo.getNodeRoles(), addressIp, null);
     }
 
     @Override

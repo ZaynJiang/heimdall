@@ -6,9 +6,9 @@ import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ClientHeartbeatProcessor implements ClientProcessor {
+public class StoreHbtResponseProcessor implements ClientProcessor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClientHeartbeatProcessor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StoreHbtResponseProcessor.class);
 
     @Override
     public void process(ChannelHandlerContext ctx, Message message) throws Exception {

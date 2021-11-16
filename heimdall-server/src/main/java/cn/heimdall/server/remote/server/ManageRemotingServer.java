@@ -1,4 +1,4 @@
-package cn.heimdall.server.network;
+package cn.heimdall.server.remote.server;
 
 import cn.heimdall.core.cluster.NodeInfo;
 import cn.heimdall.core.cluster.NodeInfoManager;
@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * 管理类server
  */
-public class ManageRemotingServer extends AbstractRemotingServer {
+public final class ManageRemotingServer extends AbstractRemotingServer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ManageRemotingServer.class);
 
