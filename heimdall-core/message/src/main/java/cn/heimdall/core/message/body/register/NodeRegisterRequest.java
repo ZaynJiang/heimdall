@@ -1,6 +1,7 @@
 package cn.heimdall.core.message.body.register;
 
 import cn.heimdall.core.message.MessageBody;
+import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.NodeRole;
 
 import java.util.List;
@@ -37,4 +38,9 @@ public class NodeRegisterRequest extends MessageBody {
         this.ip = ip;
     }
 
+
+    @Override
+    public MessageType getMessageType() {
+        return MessageType.TYPE_NODE_REGISTER;
+    }
 }

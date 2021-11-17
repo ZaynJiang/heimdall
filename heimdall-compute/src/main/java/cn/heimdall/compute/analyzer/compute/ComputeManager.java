@@ -1,8 +1,4 @@
-package cn.heimdall.compute.analyzer;
-
-import cn.heimdall.compute.analyzer.impl.Compute;
-import cn.heimdall.compute.analyzer.impl.EventLogCompute;
-import cn.heimdall.compute.analyzer.impl.SpanLogCompute;
+package cn.heimdall.compute.analyzer.compute;
 
 public class ComputeManager {
     private static volatile Compute spanMetricCompute;

@@ -1,4 +1,4 @@
-package cn.heimdall.compute.analyzer.impl;
+package cn.heimdall.compute.analyzer.compute;
 
 import cn.heimdall.core.message.body.HeartbeatBody;
 import cn.heimdall.core.message.MessageBody;

@@ -1,8 +1,10 @@
-package cn.heimdall.server.remote.server;
+package cn.heimdall.server;
 
 import cn.heimdall.core.cluster.NodeInfo;
 import cn.heimdall.core.config.Configuration;
 import cn.heimdall.core.config.constants.ConfigurationKeys;
+import cn.heimdall.server.remote.server.ManageRemotingServer;
+import cn.heimdall.server.remote.server.TransportRemotingServer;
 
 public final class MultiNettyServer {
 
@@ -26,7 +28,7 @@ public final class MultiNettyServer {
                 manageServer.setListenPort(configuration.getInt(ConfigurationKeys.MANAGE_PORT, 7200));
                 manageServer.init();
             }
-            //如果是存储器和计算者,则需要启动数据存储服务
+            //如果是存储器和计算者,则需要启动业务数据处理服务
             if (nodeInfo.isStorage() || nodeInfo.isCompute()) {
                 transportServer = TransportRemotingServer.getInstance();
                 transportServer.setListenPort(configuration.getInt(ConfigurationKeys.TRANSPORT_PORT, 7300));

@@ -2,21 +2,29 @@ package cn.heimdall.core.network.remote;
 
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.message.Message;
+import cn.heimdall.core.message.MessageType;
+import cn.heimdall.core.message.MessageTypeAware;
 import cn.heimdall.core.network.processor.RemoteProcessor;
 import cn.heimdall.core.utils.exception.NetworkException;
 import cn.heimdall.core.utils.spi.ServiceLoaderUtil;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
+import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -34,10 +42,8 @@ public abstract class AbstractRemoting {
     protected final ScheduledExecutorService timerExecutor = new ScheduledThreadPoolExecutor(1,
             new NamedThreadFactory("timeoutChecker", 1, true));
 
-    /**
-     * processor type {@link cn.heimdall.core.message.MessageType}
-     */
-    protected final HashMap<Integer/*MessageType*/, Pair<RemoteProcessor, ExecutorService>>
+
+    protected final HashMap<Short/*MessageType*/, Pair<RemoteProcessor, ExecutorService>>
             processorTable = new HashMap<>(32);
 
 
@@ -55,11 +61,21 @@ public abstract class AbstractRemoting {
      * 注册处理器
      * @param messageType
      * @param processor
-     * @param executor
      */
-    protected void registerProcessor(int messageType, RemoteProcessor processor, ExecutorService executor) {
-        Pair<RemoteProcessor, ExecutorService> pair = new Pair<>(processor, executor);
-        this.processorTable.put(messageType, pair);
+    protected void registerProcessor(MessageType messageType, RemoteProcessor processor) {
+        Pair<RemoteProcessor, ExecutorService> pair = new Pair<>(processor, messageExecutor);
+        this.processorTable.put(messageType.getTypeCode(), pair);
+    }
+
+    protected void registerProcessor(MessageType messageType, RemoteProcessor processor, ThreadPoolExecutor messageExecutor) {
+        Pair<RemoteProcessor, ExecutorService> pair = new Pair<>(processor, messageExecutor);
+        this.processorTable.put(messageType.getTypeCode(), pair);
+    }
+
+    protected void processMessage(ChannelHandlerContext ctx, Message rpcMessage) throws Exception {
+        if (LOGGER.isDebugEnabled()) {
+        }
+        //do something
     }
 
     public void init() {

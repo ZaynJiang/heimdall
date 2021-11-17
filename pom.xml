@@ -23,6 +23,7 @@
         <module>heimdall-server</module>
         <module>heimdall-guarder</module>
         <module>heimdall-bom</module>
+        <module>heimdall-compress</module>
     </modules>
 
     <dependencyManagement>

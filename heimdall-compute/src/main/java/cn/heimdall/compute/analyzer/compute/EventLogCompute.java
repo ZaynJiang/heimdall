@@ -1,50 +1,47 @@
-package cn.heimdall.compute.analyzer.impl;
+package cn.heimdall.compute.analyzer.compute;
 
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.body.MessageTreeBody;
 import cn.heimdall.core.config.constants.MessageConstants;
 import cn.heimdall.compute.metric.DefaultMetricKey;
+import cn.heimdall.compute.metric.EventMetric;
 import cn.heimdall.compute.metric.Metric;
 import cn.heimdall.compute.metric.MetricKey;
-import cn.heimdall.compute.metric.SpanMetric;
 import cn.heimdall.compute.metric.SpanMetricInvoker;
+import cn.heimdall.core.message.trace.EventLog;
 import cn.heimdall.core.message.trace.SpanLog;
 import cn.heimdall.core.message.trace.TraceLog;
 import cn.heimdall.core.utils.common.CollectionUtil;
 
 import java.util.List;
 
-public class SpanLogCompute extends AbstractMetricCompute {
-
-    public SpanLogCompute() {
-        super();
-    }
+public class EventLogCompute extends AbstractMetricCompute {
 
     @Override
     public void compute(MessageBody messageBody) {
-        MessageTreeBody treeBody = (MessageTreeBody) messageBody;
-        List<SpanLog> childSpanLogs = treeBody.getSpanLogs();
-        if (CollectionUtil.isEmpty(childSpanLogs)) {
-            childSpanLogs.stream().forEach(this::doInvokeMetric);
+        MessageTreeBody messageTreeBody = (MessageTreeBody) messageBody;
+        List<EventLog> eventLogs = messageTreeBody.getEventLogs();
+        if (!CollectionUtil.isEmpty(eventLogs)) {
+            eventLogs.stream().forEach(this::doInvokeMetric);
         }
     }
 
     @Override
     protected void doInvokeMetric(TraceLog tracelog) {
-        MetricKey metricKey = wrapMetricKey(tracelog);
-        SpanMetric spanMetric = (SpanMetric) getMetricInvoker(metricKey);
-        SpanLog spanLog = (SpanLog) tracelog;
-        spanMetric.addRT(spanLog.getCostInMillis());
-        spanMetric.addCount(1);
-        if (spanLog.isErrorTag()) {
-            spanMetric.addException(1);
+        Metric metric = getMetricInvoker(wrapMetricKey(tracelog));
+        EventMetric eventMetric = (EventMetric) metric;
+        EventLog eventLog = (EventLog) tracelog;
+        eventMetric.addCount(1);
+        if (eventLog.isErrorTag()) {
+            eventMetric.addException(1);
         }
     }
 
+
     @Override
     protected Metric newMetric() {
-        return new SpanMetricInvoker(MessageConstants.METRIC_SPAN_WINDOW_INTERVAL,
-                MessageConstants.METRIC_SPAN_WINDOW_COUNT);
+        return new SpanMetricInvoker(MessageConstants.METRIC_EVENT_WINDOW_INTERVAL,
+                MessageConstants.METRIC_EVENT_WINDOW_COUNT);
     }
 
     @Override

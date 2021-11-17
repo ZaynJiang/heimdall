@@ -47,8 +47,8 @@ public final class ManageRemotingServer extends AbstractRemotingServer {
     private void registerProcessor() {
         //如果是guarder
         if (nodeInfo.isGuarder()) {
-            super.registerProcessor(MessageType.TYPE_NODE_REGISTER.getTypeCode(), new RegisterRequestProcessor(this), messageExecutor);
-            super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT.getTypeCode(), new HeartbeatRequestProcessor(this), messageExecutor);
+            super.registerProcessor(MessageType.TYPE_NODE_REGISTER, new RegisterRequestProcessor(this), messageExecutor);
+            super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT, new HeartbeatRequestProcessor(this), messageExecutor);
         }
     }
 

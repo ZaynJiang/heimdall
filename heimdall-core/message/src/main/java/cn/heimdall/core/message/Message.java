@@ -11,7 +11,12 @@ public abstract class Message<T extends MessageBody>  {
 
     private int messageId;
 
+    private int compressorType;
+
     private T messageBody;
+
+    protected Message() {
+    }
 
     public T getMessageBody(){
         return messageBody;
@@ -24,6 +29,7 @@ public abstract class Message<T extends MessageBody>  {
     }
 
     public void decode(ByteBuf msg) {
+        //读取头信息
         int version = msg.readInt();
         short typeCode = msg.readShort();
         this.messageHeader = wrapHeader(typeCode, version);
@@ -31,6 +37,15 @@ public abstract class Message<T extends MessageBody>  {
         //目前使用json协议，需要改成自定义协议
         T body = JsonUtil.fromJson(msg.toString(StandardCharsets.UTF_8), bodyClazz);
         this.messageBody = body;
+    }
+
+    public int getCompressorType() {
+        return compressorType;
+    }
+
+    public Message<T> setCompressorType(int compressorType) {
+        this.compressorType = compressorType;
+        return this;
     }
 
     private MessageHeader wrapHeader(short type, int version){

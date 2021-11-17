@@ -1,5 +1,7 @@
 package cn.heimdall.compute.analyzer;
 
+import cn.heimdall.compute.analyzer.compute.ComputeManager;
+import cn.heimdall.compute.analyzer.compute.MetricComputeTask;
 import cn.heimdall.core.config.constants.MessageConstants;
 import cn.heimdall.core.message.task.MessageTask;
 
@@ -7,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class HeartbeatAnalyzer extends AbstractMessageAnalyzer{
+public class AppStateAnalyzer extends AbstractMessageAnalyzer{
 
     //TODO 初始化
 

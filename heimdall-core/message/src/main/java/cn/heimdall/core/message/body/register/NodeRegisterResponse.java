@@ -1,6 +1,7 @@
 package cn.heimdall.core.message.body.register;
 
 import cn.heimdall.core.message.MessageBody;
+import cn.heimdall.core.message.MessageType;
 
 public class NodeRegisterResponse extends MessageBody {
     private String extraData;
@@ -24,5 +25,10 @@ public class NodeRegisterResponse extends MessageBody {
 
     public void setIdentified(boolean identified) {
         this.identified = identified;
+    }
+
+    @Override
+    public MessageType getMessageType() {
+        return null;
     }
 }
