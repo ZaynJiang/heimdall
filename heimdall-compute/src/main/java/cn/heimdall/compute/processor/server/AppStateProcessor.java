@@ -4,6 +4,7 @@ package cn.heimdall.compute.processor.server;
 import cn.heimdall.compute.analyzer.AbstractMessageAnalyzer;
 import cn.heimdall.compute.analyzer.AppStateAnalyzer;
 import cn.heimdall.core.message.Message;
+import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.network.processor.ServerProcessor;
 import cn.heimdall.core.network.remote.RemotingServer;
 import io.netty.channel.ChannelHandlerContext;
@@ -25,6 +26,8 @@ public class AppStateProcessor implements ServerProcessor {
 
     @Override
     public void process(ChannelHandlerContext ctx, Message message) throws Exception {
-
+        MessageBody messageBody = message.getMessageBody();
+        messageAnalyzer.distribute(messageBody);
+        //todo 处理返回值
     }
 }

@@ -1,6 +1,7 @@
 package cn.heimdall.core.message.body.hearbeat;
 
 import cn.heimdall.core.message.MessageBody;
+import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.NodeRole;
 
 import java.util.List;
@@ -32,5 +33,10 @@ public class NodeHeartbeatRequest extends MessageBody {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    @Override
+    public MessageType getMessageType() {
+        return null;
     }
 }

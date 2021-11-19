@@ -3,11 +3,10 @@ package cn.heimdall.compute.processor.server;
 import cn.heimdall.compute.analyzer.AbstractMessageAnalyzer;
 import cn.heimdall.compute.analyzer.MessageTreeAnalyzer;
 import cn.heimdall.core.message.Message;
+import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.network.processor.ServerProcessor;
 import cn.heimdall.core.network.remote.RemotingServer;
 import io.netty.channel.ChannelHandlerContext;
-
-import java.rmi.server.RemoteServer;
 
 /**
  * 客户端发送的消息树
@@ -24,15 +23,10 @@ public class MessageTreeProcessor implements ServerProcessor {
         this.remotingServer = remotingServer;
     }
 
-/*    @Override
-    public ProcessResult execute(MessageBody messageBody) {
-        abstractMessageAnalyzer.distribute(messageBody);
-        //TODO 返回需要注意计算节点的状态是否正常
-        return new ProcessResult();
-    }*/
-
     @Override
     public void process(ChannelHandlerContext ctx, Message message) throws Exception {
-
+        MessageBody messageBody = message.getMessageBody();
+        messageAnalyzer.distribute(messageBody);
+        //TODO 处理返回值
     }
 }

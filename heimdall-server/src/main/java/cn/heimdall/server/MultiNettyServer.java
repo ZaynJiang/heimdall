@@ -3,8 +3,8 @@ package cn.heimdall.server;
 import cn.heimdall.core.cluster.NodeInfo;
 import cn.heimdall.core.config.Configuration;
 import cn.heimdall.core.config.constants.ConfigurationKeys;
-import cn.heimdall.server.remote.server.ManageRemotingServer;
-import cn.heimdall.server.remote.server.TransportRemotingServer;
+import cn.heimdall.server.server.ManageRemotingServer;
+import cn.heimdall.server.server.TransportRemotingServer;
 
 public final class MultiNettyServer {
 

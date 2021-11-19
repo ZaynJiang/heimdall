@@ -1,6 +1,7 @@
 package cn.heimdall.core.message.body.hearbeat;
 
 import cn.heimdall.core.message.MessageBody;
+import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.NodeRole;
 
 import java.net.InetSocketAddress;
@@ -35,5 +36,10 @@ public class NodeHeartbeatResponse extends MessageBody {
 
     public void setPort(String port) {
         this.port = port;
+    }
+
+    @Override
+    public MessageType getMessageType() {
+        return null;
     }
 }

@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>cn.heimdall</groupId>
-            <artifactId>heimdall-storage</artifactId>
+            <artifactId>heimdall-storage-core</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

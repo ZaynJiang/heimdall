@@ -5,6 +5,8 @@ node:
   guarder: true
   compute: true
   storage: true
+store:
+  type: lucene
 path:
   data: /heimdall/data/
   log: /heimdall/log/

@@ -1,5 +1,6 @@
 package cn.heimdall.core.message.body;
 
+import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.trace.EventLog;
 import cn.heimdall.core.message.trace.SpanLog;
 import io.netty.buffer.ByteBuf;
@@ -115,5 +116,10 @@ public class MessageTreeBody extends ClientMessageBody {
 
     public void setSpanLogs(List<SpanLog> spanLogs) {
         this.spanLogs = spanLogs;
+    }
+
+    @Override
+    public MessageType getMessageType() {
+        return null;
     }
 }
