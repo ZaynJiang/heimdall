@@ -1,9 +1,12 @@
 package cn.heimdall.core.message.body.store;
 
+import cn.heimdall.core.message.request.ServerRequest;
+
 /**
  *  发送给存储器的消息
  */
-public abstract class AbstractStoreRequest {
+public abstract class AbstractStoreRequest extends ServerRequest {
+
     /**
      *  计算处理器ip
      */
@@ -42,4 +45,5 @@ public abstract class AbstractStoreRequest {
     public void setAddressIp(String addressIp) {
         this.addressIp = addressIp;
     }
+
 }

@@ -1,12 +1,12 @@
-package cn.heimdall.guarder;
+package cn.heimdall.storage.core;
 
 import cn.heimdall.core.message.Message;
 import cn.heimdall.core.message.MessageHandler;
 
-public class GuarderHandler implements MessageHandler {
+public class StorageHandler implements MessageHandler {
 
     @Override
-    public Message syncHand(Message message) {
+    public Message handle(Message message) {
         return null;
     }
 }
