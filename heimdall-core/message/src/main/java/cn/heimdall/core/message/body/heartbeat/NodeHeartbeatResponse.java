@@ -1,4 +1,4 @@
-package cn.heimdall.core.message.body.hearbeat;
+package cn.heimdall.core.message.body.heartbeat;
 
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageType;

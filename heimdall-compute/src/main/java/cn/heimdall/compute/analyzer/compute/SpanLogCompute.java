@@ -1,7 +1,7 @@
 package cn.heimdall.compute.analyzer.compute;
 
 import cn.heimdall.core.message.MessageBody;
-import cn.heimdall.core.message.body.MessageTreeBody;
+import cn.heimdall.core.message.body.client.MessageTreeRequest;
 import cn.heimdall.core.config.constants.MessageConstants;
 import cn.heimdall.compute.metric.DefaultMetricKey;
 import cn.heimdall.compute.metric.Metric;
@@ -22,7 +22,7 @@ public class SpanLogCompute extends AbstractMetricCompute {
 
     @Override
     public void compute(MessageBody messageBody) {
-        MessageTreeBody treeBody = (MessageTreeBody) messageBody;
+        MessageTreeRequest treeBody = (MessageTreeRequest) messageBody;
         List<SpanLog> childSpanLogs = treeBody.getSpanLogs();
         if (CollectionUtil.isEmpty(childSpanLogs)) {
             childSpanLogs.stream().forEach(this::doInvokeMetric);

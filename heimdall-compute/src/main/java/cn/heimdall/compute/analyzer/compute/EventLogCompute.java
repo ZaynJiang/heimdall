@@ -1,7 +1,7 @@
 package cn.heimdall.compute.analyzer.compute;
 
 import cn.heimdall.core.message.MessageBody;
-import cn.heimdall.core.message.body.MessageTreeBody;
+import cn.heimdall.core.message.body.client.MessageTreeRequest;
 import cn.heimdall.core.config.constants.MessageConstants;
 import cn.heimdall.compute.metric.DefaultMetricKey;
 import cn.heimdall.compute.metric.EventMetric;
@@ -19,8 +19,8 @@ public class EventLogCompute extends AbstractMetricCompute {
 
     @Override
     public void compute(MessageBody messageBody) {
-        MessageTreeBody messageTreeBody = (MessageTreeBody) messageBody;
-        List<EventLog> eventLogs = messageTreeBody.getEventLogs();
+        MessageTreeRequest messageTreeRequest = (MessageTreeRequest) messageBody;
+        List<EventLog> eventLogs = messageTreeRequest.getEventLogs();
         if (!CollectionUtil.isEmpty(eventLogs)) {
             eventLogs.stream().forEach(this::doInvokeMetric);
         }

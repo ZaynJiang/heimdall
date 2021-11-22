@@ -1,6 +1,6 @@
 package cn.heimdall.core.message.body.store;
 
-import cn.heimdall.core.message.request.ServerRequest;
+import cn.heimdall.core.message.body.ServerRequest;
 
 /**
  *  发送给存储器的消息

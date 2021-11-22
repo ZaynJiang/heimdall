@@ -1,4 +1,4 @@
-package cn.heimdall.core.message.request;
+package cn.heimdall.core.message.body;
 
 import cn.heimdall.core.message.Message;
 import cn.heimdall.core.message.MessageBody;

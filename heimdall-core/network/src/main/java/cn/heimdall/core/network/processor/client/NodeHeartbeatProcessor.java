@@ -2,7 +2,7 @@ package cn.heimdall.core.network.processor.client;
 
 import cn.heimdall.core.cluster.ClusterInfoManager;
 import cn.heimdall.core.message.Message;
-import cn.heimdall.core.message.body.hearbeat.NodeHeartbeatResponse;
+import cn.heimdall.core.message.body.heartbeat.NodeHeartbeatResponse;
 import cn.heimdall.core.network.processor.ClientProcessor;
 import io.netty.channel.ChannelHandlerContext;
 

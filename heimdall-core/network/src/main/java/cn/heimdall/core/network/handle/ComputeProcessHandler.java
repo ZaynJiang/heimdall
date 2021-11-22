@@ -1,6 +1,6 @@
 package cn.heimdall.core.network.handle;
 
-import cn.heimdall.core.message.request.RequestMessage;
+import cn.heimdall.core.message.body.RequestMessage;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.apache.log4j.LogManager;

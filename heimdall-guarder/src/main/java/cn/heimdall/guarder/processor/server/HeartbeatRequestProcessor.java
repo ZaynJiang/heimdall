@@ -2,7 +2,7 @@ package cn.heimdall.guarder.processor.server;
 
 import cn.heimdall.core.cluster.ClusterInfoManager;
 import cn.heimdall.core.message.Message;
-import cn.heimdall.core.message.body.hearbeat.NodeHeartbeatRequest;
+import cn.heimdall.core.message.body.heartbeat.NodeHeartbeatRequest;
 import cn.heimdall.core.message.body.register.NodeRegisterResponse;
 import cn.heimdall.core.network.processor.ServerProcessor;
 import cn.heimdall.core.network.remote.RemotingServer;

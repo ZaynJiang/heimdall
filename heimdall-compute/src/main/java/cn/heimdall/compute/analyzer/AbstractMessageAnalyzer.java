@@ -2,7 +2,7 @@ package cn.heimdall.compute.analyzer;
 
 import cn.heimdall.core.config.constants.MessageConstants;
 import cn.heimdall.core.message.MessageBody;
-import cn.heimdall.core.message.body.ClientMessageBody;
+import cn.heimdall.core.message.body.client.ClientMessageRequest;
 import cn.heimdall.core.message.task.MessageTask;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public abstract class AbstractMessageAnalyzer {
     }
 
     public void distribute(MessageBody messageBody) {
-        ClientMessageBody clientMessage = (ClientMessageBody)messageBody;
+        ClientMessageRequest clientMessage = (ClientMessageRequest)messageBody;
         //遍历多个分析器
         for (Map.Entry<String, List<MessageTask>> entry : analyzerTasks.entrySet()) {
             //获取domain相关的任务

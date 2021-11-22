@@ -1,6 +1,7 @@
-package cn.heimdall.core.message.body;
+package cn.heimdall.core.message.body.client;
 
 import cn.heimdall.core.message.MessageType;
+import cn.heimdall.core.message.body.ServerResponse;
 import cn.heimdall.core.message.trace.EventLog;
 import cn.heimdall.core.message.trace.SpanLog;
 import io.netty.buffer.ByteBuf;
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * 客户端形成的消息树
  */
-public class MessageTreeBody extends ClientMessageBody {
+public class MessageTreeRequest extends ClientMessageRequest {
 
     private ByteBuf byteBuf;
 
@@ -120,6 +121,11 @@ public class MessageTreeBody extends ClientMessageBody {
 
     @Override
     public MessageType getMessageType() {
+        return null;
+    }
+
+    @Override
+    public ServerResponse handle() {
         return null;
     }
 }

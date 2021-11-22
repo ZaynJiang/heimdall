@@ -1,13 +1,12 @@
 package cn.heimdall.core.network.codec;
 
 import cn.heimdall.core.message.Message;
-import cn.heimdall.core.message.request.RequestMessage;
+import cn.heimdall.core.message.body.RequestMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 
 import java.util.List;
-import java.util.Map;
 
 public class ProtocolDecoder extends MessageToMessageDecoder<ByteBuf> {
     @Override
