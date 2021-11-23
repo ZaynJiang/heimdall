@@ -2,7 +2,7 @@ package cn.heimdall.core.message.body;
 
 import cn.heimdall.core.message.MessageBody;
 
-public abstract class ServerResponse extends MessageBody {
+public abstract class MessageResponse extends MessageBody {
 
     private int resultCode;
     private String msg;

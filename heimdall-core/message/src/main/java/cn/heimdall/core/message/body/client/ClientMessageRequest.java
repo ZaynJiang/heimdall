@@ -1,9 +1,9 @@
 package cn.heimdall.core.message.body.client;
 
-import cn.heimdall.core.message.body.ServerRequest;
+import cn.heimdall.core.message.body.AbstractMessageTransaction;
 import cn.heimdall.core.message.hander.ComputeInboundHandler;
 
-public abstract class ClientMessageRequest extends ServerRequest {
+public abstract class ClientMessageRequest extends AbstractMessageTransaction {
     private String domain;
     private String ipAddress;
     protected ComputeInboundHandler computeInboundHandler;

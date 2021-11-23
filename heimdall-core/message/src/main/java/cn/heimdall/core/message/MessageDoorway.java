@@ -1,11 +1,11 @@
-package cn.heimdall.core.message.hander;
+package cn.heimdall.core.message;
 
 import cn.heimdall.core.message.MessageBody;
 
 /**
  * 通用的消息周期
  */
-public interface OnRequest {
+public interface MessageDoorway {
     //处理消息的请求
     MessageBody onRequest(MessageBody request);
     //处理消息的返回

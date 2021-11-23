@@ -3,6 +3,7 @@ package cn.heimdall.compute.analyzer;
 import cn.heimdall.compute.analyzer.compute.ComputeManager;
 import cn.heimdall.compute.analyzer.compute.MetricComputeTask;
 import cn.heimdall.core.config.constants.MessageConstants;
+import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.task.MessageTask;
 
 import java.util.ArrayList;
@@ -24,4 +25,10 @@ public class AppStateAnalyzer extends AbstractMessageAnalyzer{
                     ComputeManager.singleHeartbeatMetricCompute()));
         }
     }
+
+    @Override
+    public MessageType getMessageType() {
+        return MessageType.TYPE_CLIENT_APP_STATE_REQUEST;
+    }
+
 }

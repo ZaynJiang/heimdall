@@ -3,6 +3,7 @@ package cn.heimdall.compute.analyzer;
 import cn.heimdall.compute.analyzer.compute.ComputeManager;
 import cn.heimdall.compute.analyzer.compute.MetricComputeTask;
 import cn.heimdall.core.config.constants.MessageConstants;
+import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.task.MessageTask;
 import cn.heimdall.core.message.task.TraceLogDumperTask;
 
@@ -31,5 +32,10 @@ public class MessageTreeAnalyzer extends AbstractMessageAnalyzer{
             eventComputes.add(new MetricComputeTask(MessageConstants.MESSAGE_ANALYZER_QUEUE_SIZE, ComputeManager.singleEventMetricCompute()));
             traceLogDumper.add(new TraceLogDumperTask(MessageConstants.MESSAGE_ANALYZER_QUEUE_SIZE));
         }
+    }
+
+    @Override
+    public MessageType getMessageType() {
+        return MessageType.TYPE_CLIENT_MESSAGE_TREE_REQUEST;
     }
 }

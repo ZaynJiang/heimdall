@@ -1,7 +1,7 @@
 package cn.heimdall.core.message.body.client;
 
 import cn.heimdall.core.message.MessageType;
-import cn.heimdall.core.message.body.ServerResponse;
+import cn.heimdall.core.message.body.MessageResponse;
 
 /**
  * 客户端的心跳等信息指标
@@ -13,11 +13,11 @@ public class AppStateRequest extends ClientMessageRequest {
 
     @Override
     public MessageType getMessageType() {
-        return null;
+        return MessageType.TYPE_CLIENT_APP_STATE_REQUEST;
     }
 
     @Override
-    public ServerResponse handle() {
+    public MessageResponse handle() {
         return computeInboundHandler.handle(this);
     }
 }

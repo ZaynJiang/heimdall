@@ -50,9 +50,9 @@ public final class TransportRemotingServer extends AbstractRemotingServer {
         //如果是compute
         if (nodeInfo.isCompute()) {
             //应用状态上报server-processor
-            super.registerProcessor(MessageType.TYPE_CLIENT_APP_STATE, new AppStateProcessor(this));
+            super.registerProcessor(MessageType.TYPE_CLIENT_APP_STATE_REQUEST, new AppStateProcessor(this));
             //消息树上报server-processor
-            super.registerProcessor(MessageType.TYPE_CLIENT_MESSAGE_TREE, new MessageTreeProcessor(this));
+            super.registerProcessor(MessageType.TYPE_CLIENT_MESSAGE_TREE_REQUEST, new MessageTreeProcessor(this));
         }
         //如果是存储器
         if (nodeInfo.isStorage()) {

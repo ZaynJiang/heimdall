@@ -1,7 +1,7 @@
 package cn.heimdall.core.message.body.store;
 
 import cn.heimdall.core.message.MessageType;
-import cn.heimdall.core.message.body.ServerResponse;
+import cn.heimdall.core.message.body.MessageResponse;
 import cn.heimdall.core.message.trace.TraceLog;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class StoreTraceRequest extends AbstractStoreRequest {
     }
 
     @Override
-    public ServerResponse handle() {
+    public MessageResponse handle() {
         return null;
     }
 }

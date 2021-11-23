@@ -2,13 +2,13 @@ package cn.heimdall.core.message.body.store;
 
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageType;
-import cn.heimdall.core.message.body.ServerResponse;
-import cn.heimdall.core.message.hander.MessageTransaction;
+import cn.heimdall.core.message.body.MessageResponse;
+import cn.heimdall.core.message.MessageDoorway;
 
 /**
  * 存储心跳消息
  */
-public class StoreAppStateRequest extends AbstractStoreRequest implements MessageTransaction {
+public class StoreAppStateRequest extends AbstractStoreRequest implements MessageDoorway {
     @Override
     public MessageType getMessageType() {
         return null;
@@ -16,7 +16,7 @@ public class StoreAppStateRequest extends AbstractStoreRequest implements Messag
 
 
     @Override
-    public ServerResponse handle() {
+    public MessageResponse handle() {
         return null;
     }
 

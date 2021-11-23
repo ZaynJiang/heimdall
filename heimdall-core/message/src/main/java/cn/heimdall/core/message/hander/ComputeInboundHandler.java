@@ -9,6 +9,8 @@ import cn.heimdall.core.message.body.client.MessageTreeResponse;
  * 处理业务相关的输入请求
  */
 public interface ComputeInboundHandler {
+
     AppStateResponse handle(AppStateRequest request);
+
     MessageTreeResponse handle(MessageTreeRequest request);
 }

@@ -1,9 +1,9 @@
 package cn.heimdall.storage.core;
 
 import cn.heimdall.core.message.MessageBody;
-import cn.heimdall.core.message.hander.MessageTransaction;
+import cn.heimdall.core.message.MessageDoorway;
 
-public class StorageBodyHandler implements MessageTransaction {
+public class StorageBodyHandler implements MessageDoorway {
 
 
     @Override

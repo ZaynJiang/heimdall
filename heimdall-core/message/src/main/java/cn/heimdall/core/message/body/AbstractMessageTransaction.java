@@ -1,5 +1,7 @@
 package cn.heimdall.core.message.body;
 
-public interface ToRequest {
-    ServerResponse handle();
+import cn.heimdall.core.message.MessageBody;
+
+public abstract class AbstractMessageTransaction extends MessageBody {
+   public abstract MessageResponse handle();
 }

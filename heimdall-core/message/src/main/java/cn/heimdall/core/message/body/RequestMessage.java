@@ -4,6 +4,7 @@ import cn.heimdall.core.message.Message;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageType;
 
+@Deprecated
 public class RequestMessage extends Message<MessageBody> {
 
     @Override

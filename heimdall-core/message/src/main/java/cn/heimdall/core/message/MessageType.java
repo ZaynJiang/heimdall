@@ -5,9 +5,11 @@ import java.util.function.Predicate;
 
 public enum MessageType {
     //客户端发送应用状态信息
-    TYPE_CLIENT_APP_STATE(1, null, null, null),
+    TYPE_CLIENT_APP_STATE_REQUEST(1, null, null, null),
+    TYPE_CLIENT_APP_STATE_RESPONSE(2, null, null, null),
     //客户端发送客户端消息数
-    TYPE_CLIENT_MESSAGE_TREE(2, null, null, null),
+    TYPE_CLIENT_MESSAGE_TREE_REQUEST(3, null, null, null),
+    TYPE_CLIENT_MESSAGE_TREE_RESPONSE(4, null, null, null),
 
     //客户端心跳数据（发给guarder的）
     TYPE_CLIENT_HEARTBEAT(3, null, null, null),

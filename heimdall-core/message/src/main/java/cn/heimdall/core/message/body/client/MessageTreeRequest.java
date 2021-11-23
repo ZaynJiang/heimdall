@@ -1,7 +1,7 @@
 package cn.heimdall.core.message.body.client;
 
 import cn.heimdall.core.message.MessageType;
-import cn.heimdall.core.message.body.ServerResponse;
+import cn.heimdall.core.message.body.MessageResponse;
 import cn.heimdall.core.message.trace.EventLog;
 import cn.heimdall.core.message.trace.SpanLog;
 import io.netty.buffer.ByteBuf;
@@ -121,11 +121,11 @@ public class MessageTreeRequest extends ClientMessageRequest {
 
     @Override
     public MessageType getMessageType() {
-        return null;
+        return MessageType.TYPE_CLIENT_MESSAGE_TREE_REQUEST;
     }
 
     @Override
-    public ServerResponse handle() {
-        return null;
+    public MessageResponse handle() {
+        return computeInboundHandler.handle(this);
     }
 }
