@@ -30,6 +30,9 @@ public class EnhancedServiceLoader {
         return InnerEnhancedServiceLoader.getServiceLoader(service).loadAll(argsType, args, findClassLoader());
     }
 
+    public static <S> List<S> loadAll(Class<S> service) {
+        return InnerEnhancedServiceLoader.getServiceLoader(service).loadAll(findClassLoader());
+    }
     private static ClassLoader findClassLoader() {
         return EnhancedServiceLoader.class.getClassLoader();
     }
@@ -242,6 +245,10 @@ public class EnhancedServiceLoader {
                 ((Initialize)s).init();
             }
             return s;
+        }
+
+        private List<S> loadAll(ClassLoader loader) {
+            return loadAll(null, null, loader);
         }
 
         private List<S> loadAll(Class[] argsType, Object[] args, ClassLoader loader) {

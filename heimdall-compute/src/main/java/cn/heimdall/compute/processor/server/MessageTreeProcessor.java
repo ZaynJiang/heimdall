@@ -1,9 +1,8 @@
 package cn.heimdall.compute.processor.server;
 
-import cn.heimdall.compute.analyzer.AbstractMessageAnalyzer;
-import cn.heimdall.compute.analyzer.MessageTreeAnalyzer;
 import cn.heimdall.core.message.Message;
 import cn.heimdall.core.message.MessageBody;
+import cn.heimdall.core.message.MessageDoorway;
 import cn.heimdall.core.network.processor.ServerProcessor;
 import cn.heimdall.core.network.remote.RemotingServer;
 import io.netty.channel.ChannelHandlerContext;
@@ -13,20 +12,18 @@ import io.netty.channel.ChannelHandlerContext;
  */
 public class MessageTreeProcessor implements ServerProcessor {
 
-    //TODO 初始化
-    private AbstractMessageAnalyzer messageAnalyzer;
+    private final MessageDoorway messageDoorway;
+    private final RemotingServer remotingServer;
 
-    private RemotingServer remotingServer;
-
-    public MessageTreeProcessor(RemotingServer remotingServer) {
-        messageAnalyzer = new MessageTreeAnalyzer();
+    public MessageTreeProcessor(RemotingServer remotingServer, MessageDoorway messageDoorway) {
+        this.messageDoorway = messageDoorway;
         this.remotingServer = remotingServer;
     }
 
     @Override
     public void process(ChannelHandlerContext ctx, Message message) throws Exception {
         MessageBody messageBody = message.getMessageBody();
-        messageAnalyzer.distribute(messageBody);
-        //TODO 处理返回值
+        MessageBody response = messageDoorway.onRequest(messageBody);
+        remotingServer.sendSyncRequest(ctx.channel(), response);
     }
 }

@@ -1,9 +1,9 @@
 package cn.heimdall.core.message.body.register;
 
-import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageType;
+import cn.heimdall.core.message.body.MessageResponse;
 
-public class NodeRegisterResponse extends MessageBody {
+public class NodeRegisterResponse extends MessageResponse {
     private String extraData;
     private boolean identified;
 
@@ -29,6 +29,6 @@ public class NodeRegisterResponse extends MessageBody {
 
     @Override
     public MessageType getMessageType() {
-        return null;
+        return MessageType.TYPE_NODE_REGISTER_RESPONSE;
     }
 }

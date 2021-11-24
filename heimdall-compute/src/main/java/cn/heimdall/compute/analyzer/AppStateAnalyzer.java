@@ -15,7 +15,7 @@ public class AppStateAnalyzer extends AbstractMessageAnalyzer{
     //TODO 初始化
 
     @Override
-    public void initTasks() {
+    public void init() {
         //FIXME 优化
         analyzerTasks = new HashMap<>(1);
         List<MessageTask> tasks = new ArrayList<>(MessageConstants.MESSAGE_TREE_ANALYZER_LIST_SIZE);

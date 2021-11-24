@@ -15,6 +15,7 @@ import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import sun.rmi.runtime.Log;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -72,10 +73,52 @@ public abstract class AbstractRemoting {
         this.processorTable.put(messageType.getTypeCode(), pair);
     }
 
-    protected void processMessage(ChannelHandlerContext ctx, Message rpcMessage) throws Exception {
+    protected void processMessage(ChannelHandlerContext ctx, Message message) throws Exception {
         if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(String.format("%s messageId:%s, body:%s", this, message.getMessageId(), message.getMessageBody()));
         }
-        //do something
+        Object body = message.getMessageBody();
+        if (body instanceof MessageTypeAware) {
+            MessageTypeAware messageTypeAware = (MessageTypeAware) body;
+            MessageType messageType = messageTypeAware.getMessageType();
+            final Pair<RemoteProcessor, ExecutorService> pair = this.processorTable.get(messageType.getTypeCode());
+            if (pair != null) {
+                if (pair.getValue() != null) {
+                    try {
+                        //使用自己的线程池来处理
+                        pair.getValue().execute(() -> {
+                            try {
+                                pair.getKey().process(ctx, message);
+                            } catch (Throwable e) {
+                                LOGGER.error("processMessage error, message type {}", messageType.getTypeCode(), e);
+                            } finally {
+                               //TODO do nothing
+                            }
+                        });
+                    } catch (RejectedExecutionException e) {
+                        LOGGER.error("thread pool is full, current max pool size is " + messageExecutor.getActiveCount());
+                        String name = ManagementFactory.getRuntimeMXBean().getName();
+                        String pid = name.split("@")[0];
+                        int idx = new Random().nextInt(100);
+                        try {
+                            Runtime.getRuntime().exec("jstack " + pid + " >d:/" + idx + ".log");
+                        } catch (IOException exx) {
+                            LOGGER.error(exx.getMessage());
+                        }
+                    }
+                } else {
+                    try {
+                        pair.getKey().process(ctx, message);
+                    } catch (Throwable th) {
+                        LOGGER.error("process error, message info is {}", th.getMessage(), th);
+                    }
+                }
+            } else {
+                LOGGER.error("This message type [{}] has no processor.", messageType.getTypeCode());
+            }
+        } else {
+            LOGGER.error("This rpcMessage body[{}] is not MessageTypeAware type.", message);
+        }
     }
 
     public void init() {

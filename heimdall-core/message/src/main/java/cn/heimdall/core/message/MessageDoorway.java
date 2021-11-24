@@ -1,9 +1,7 @@
 package cn.heimdall.core.message;
 
-import cn.heimdall.core.message.MessageBody;
-
 /**
- * 通用的消息周期
+ * 消息出入口
  */
 public interface MessageDoorway {
     //处理消息的请求

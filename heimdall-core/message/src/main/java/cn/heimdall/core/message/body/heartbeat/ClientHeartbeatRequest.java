@@ -6,7 +6,7 @@ import cn.heimdall.core.message.NodeRole;
 
 import java.util.List;
 
-public class NodeHeartbeatRequest extends MessageBody {
+public class ClientHeartbeatRequest extends MessageBody {
     private List<NodeRole> nodeRoles;
     private String ip;
     private int port;
@@ -37,6 +37,6 @@ public class NodeHeartbeatRequest extends MessageBody {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_NODE_HEARTBEAT_REQUEST;
+        return MessageType.TYPE_CLIENT_HEARTBEAT_REQUEST;
     }
 }

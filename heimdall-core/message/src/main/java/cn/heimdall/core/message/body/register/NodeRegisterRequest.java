@@ -1,15 +1,16 @@
 package cn.heimdall.core.message.body.register;
 
-import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.NodeRole;
+import cn.heimdall.core.message.body.GuarderMessageRequest;
+import cn.heimdall.core.message.body.MessageResponse;
 
 import java.util.List;
 
 /**
  * 注册节点的角色，一个节点可能有多个角色
  */
-public class NodeRegisterRequest extends MessageBody {
+public class NodeRegisterRequest extends GuarderMessageRequest {
     private List<NodeRole> nodeRoles;
     private String ip;
     private int host;
@@ -41,6 +42,11 @@ public class NodeRegisterRequest extends MessageBody {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_NODE_REGISTER;
+        return MessageType.TYPE_NODE_REGISTER_REQUEST;
+    }
+
+    @Override
+    public MessageResponse handle() {
+        return inboundHandler.handle(this);
     }
 }

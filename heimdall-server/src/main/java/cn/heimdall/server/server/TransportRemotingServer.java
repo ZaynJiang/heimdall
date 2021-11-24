@@ -1,5 +1,6 @@
 package cn.heimdall.server.server;
 
+import cn.heimdall.compute.ComputeCoordinator;
 import cn.heimdall.compute.processor.server.AppStateProcessor;
 import cn.heimdall.compute.processor.server.MessageTreeProcessor;
 import cn.heimdall.core.cluster.NodeInfo;
@@ -49,18 +50,19 @@ public final class TransportRemotingServer extends AbstractRemotingServer {
     private void registerProcessor() {
         //如果是compute
         if (nodeInfo.isCompute()) {
+            ComputeCoordinator computeCoordinator = new ComputeCoordinator(this);
             //应用状态上报server-processor
-            super.registerProcessor(MessageType.TYPE_CLIENT_APP_STATE_REQUEST, new AppStateProcessor(this));
+            super.registerProcessor(MessageType.TYPE_CLIENT_APP_STATE_REQUEST, new AppStateProcessor(this, computeCoordinator));
             //消息树上报server-processor
-            super.registerProcessor(MessageType.TYPE_CLIENT_MESSAGE_TREE_REQUEST, new MessageTreeProcessor(this));
+            super.registerProcessor(MessageType.TYPE_CLIENT_MESSAGE_TREE_REQUEST, new MessageTreeProcessor(this, computeCoordinator));
         }
         //如果是存储器
         if (nodeInfo.isStorage()) {
             //应用状态上报processor
-            super.registerProcessor(MessageType.TYPE_COMPUTE_STORE_APP_STATE, new StoreAppStateProcessor(this));
+            super.registerProcessor(MessageType.TYPE_STORE_APP_STATE_REQUEST, new StoreAppStateProcessor(this));
             //消息树上报processor
-            super.registerProcessor(MessageType.TYPE_COMPUTE_STORE_METRIC, new StoreMetricProcessor());
-            super.registerProcessor(MessageType.TYPE_COMPUTE_STORE_TRANCE_LOG, new StoreTraceLogProcessor());
+            super.registerProcessor(MessageType.TYPE_STORE_METRIC_REQUEST, new StoreMetricProcessor());
+            super.registerProcessor(MessageType.TYPE_STORE_TRANCE_LOG_REQUEST, new StoreTraceLogProcessor());
         }
 
     }

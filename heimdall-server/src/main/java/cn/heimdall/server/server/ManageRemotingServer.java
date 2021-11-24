@@ -6,6 +6,7 @@ import cn.heimdall.core.config.NetworkManageConfig;
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.network.remote.AbstractRemotingServer;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
+import cn.heimdall.guarder.GuarderCoordinator;
 import cn.heimdall.guarder.processor.server.HeartbeatRequestProcessor;
 import cn.heimdall.guarder.processor.server.RegisterRequestProcessor;
 import org.slf4j.Logger;
@@ -47,8 +48,9 @@ public final class ManageRemotingServer extends AbstractRemotingServer {
     private void registerProcessor() {
         //如果是guarder
         if (nodeInfo.isGuarder()) {
-            super.registerProcessor(MessageType.TYPE_NODE_REGISTER, new RegisterRequestProcessor(this), messageExecutor);
-            super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT, new HeartbeatRequestProcessor(this), messageExecutor);
+            final GuarderCoordinator coordinator = new GuarderCoordinator();
+            super.registerProcessor(MessageType.TYPE_NODE_REGISTER_REQUEST, new RegisterRequestProcessor(this, coordinator), messageExecutor);
+            super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT_REQUEST, new HeartbeatRequestProcessor(this, coordinator), messageExecutor);
         }
     }
 

@@ -1,13 +1,13 @@
 package cn.heimdall.core.message.body.heartbeat;
 
+import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.NodeRole;
-import cn.heimdall.core.message.body.MessageResponse;
 
 import java.net.InetSocketAddress;
 import java.util.Map;
 
-public class NodeHeartbeatResponse extends MessageResponse {
+public class ClientHeartbeatResponse extends MessageBody {
 
     private String host;
     private String port;
@@ -40,6 +40,6 @@ public class NodeHeartbeatResponse extends MessageResponse {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_NODE_HEARTBEAT_RESPONSE;
+        return MessageType.TYPE_CLIENT_HEARTBEAT_RESPONSE;
     }
 }

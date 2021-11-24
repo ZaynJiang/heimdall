@@ -39,8 +39,8 @@ public class GuarderRemotingClient extends AbstractRemotingClient {
 
     private void registerProcessor() {
         NodeHeartbeatProcessor nodeHeartbeatProcessor = new NodeHeartbeatProcessor();
-        super.registerProcessor(MessageType.TYPE_NODE_REGISTER, nodeHeartbeatProcessor, messageExecutor);
-        super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT, nodeHeartbeatProcessor, messageExecutor);
+        super.registerProcessor(MessageType.TYPE_NODE_REGISTER_REQUEST, nodeHeartbeatProcessor, messageExecutor);
+        super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT_REQUEST, nodeHeartbeatProcessor, messageExecutor);
     }
 
     private static final long KEEP_ALIVE_TIME = Integer.MAX_VALUE;

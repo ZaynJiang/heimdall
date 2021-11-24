@@ -2,7 +2,7 @@ package cn.heimdall.core.message.task;
 
 import cn.heimdall.core.config.constants.MessageConstants;
 import cn.heimdall.core.message.MessageBody;
-import cn.heimdall.core.message.body.client.MessageTreeRequest;
+import cn.heimdall.core.message.body.origin.MessageTreeRequest;
 import cn.heimdall.core.message.trace.EventLog;
 import cn.heimdall.core.message.trace.SpanLog;
 import org.apache.log4j.LogManager;

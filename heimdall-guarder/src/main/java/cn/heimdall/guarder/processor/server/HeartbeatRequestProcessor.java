@@ -1,29 +1,29 @@
 package cn.heimdall.guarder.processor.server;
 
-import cn.heimdall.core.cluster.ClusterInfoManager;
 import cn.heimdall.core.message.Message;
-import cn.heimdall.core.message.body.heartbeat.NodeHeartbeatRequest;
-import cn.heimdall.core.message.body.register.NodeRegisterResponse;
+import cn.heimdall.core.message.MessageBody;
+import cn.heimdall.core.message.MessageDoorway;
+import cn.heimdall.core.message.body.register.NodeRegisterRequest;
 import cn.heimdall.core.network.processor.ServerProcessor;
 import cn.heimdall.core.network.remote.RemotingServer;
 import io.netty.channel.ChannelHandlerContext;
 
+import java.util.concurrent.TimeoutException;
+
 public class HeartbeatRequestProcessor implements ServerProcessor {
 
-    private RemotingServer remotingServer;
+    private final RemotingServer remotingServer;
+    private final MessageDoorway messageDoorway;
 
-    public HeartbeatRequestProcessor(RemotingServer remotingServer) {
+    public HeartbeatRequestProcessor(RemotingServer remotingServer, MessageDoorway messageDoorway) {
         this.remotingServer = remotingServer;
+        this.messageDoorway = messageDoorway;
     }
 
     @Override
-    public void process(ChannelHandlerContext ctx, Message message) throws Exception {
-        NodeHeartbeatRequest messageBody = (NodeHeartbeatRequest) message.getMessageBody();
-        //集群信息注册
-        ClusterInfoManager.getInstance().doUpdateNodeInfo(messageBody);
-
-        //TODO 设置返回值
-        NodeRegisterResponse response = new NodeRegisterResponse(true);
-        remotingServer.sendAsyncRequest(ctx.channel(), response);
+    public void process(ChannelHandlerContext ctx, Message message) throws TimeoutException {
+        NodeRegisterRequest messageBody = (NodeRegisterRequest) message.getMessageBody();
+        MessageBody messageResponse = messageDoorway.onRequest(messageBody);
+        remotingServer.sendSyncRequest(ctx.channel(), messageResponse);
     }
 }

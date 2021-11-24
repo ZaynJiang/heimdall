@@ -2,17 +2,18 @@ package cn.heimdall.compute.analyzer;
 
 import cn.heimdall.core.config.constants.MessageConstants;
 import cn.heimdall.core.message.MessageBody;
-import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.MessageTypeAware;
-import cn.heimdall.core.message.body.client.ClientMessageRequest;
+import cn.heimdall.core.message.body.ComputeMessageRequest;
 import cn.heimdall.core.message.task.MessageTask;
+import cn.heimdall.core.utils.spi.Initialize;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public abstract class AbstractMessageAnalyzer implements MessageTypeAware {
+public abstract class AbstractMessageAnalyzer implements MessageTypeAware, Initialize {
     protected final ExecutorService taskExecutor = Executors.newFixedThreadPool(MessageConstants.MESSAGE_ANALYZER_THREAD_COUNT);
     //多个分析器（span、event、tree、heartbeat等）
     protected Map<String, List<MessageTask>> analyzerTasks;
@@ -23,7 +24,7 @@ public abstract class AbstractMessageAnalyzer implements MessageTypeAware {
     }
 
     public void distribute(MessageBody messageBody) {
-        ClientMessageRequest clientMessage = (ClientMessageRequest)messageBody;
+        ComputeMessageRequest clientMessage = (ComputeMessageRequest)messageBody;
         //遍历多个分析器
         for (Map.Entry<String, List<MessageTask>> entry : analyzerTasks.entrySet()) {
             //获取domain相关的任务
@@ -35,8 +36,4 @@ public abstract class AbstractMessageAnalyzer implements MessageTypeAware {
             messageTask.offerQueue(messageBody);
         }
     }
-
-    public abstract void initTasks();
-
-    public abstract MessageType getMessageType();
 }

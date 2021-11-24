@@ -1,9 +1,9 @@
 package cn.heimdall.storage.core;
 
-import cn.heimdall.core.message.body.client.AppStateRequest;
-import cn.heimdall.core.message.body.client.AppStateResponse;
-import cn.heimdall.core.message.body.client.MessageTreeRequest;
-import cn.heimdall.core.message.body.client.MessageTreeResponse;
+import cn.heimdall.core.message.body.origin.AppStateRequest;
+import cn.heimdall.core.message.body.origin.AppStateResponse;
+import cn.heimdall.core.message.body.origin.MessageTreeRequest;
+import cn.heimdall.core.message.body.origin.MessageTreeResponse;
 import cn.heimdall.core.message.hander.ComputeInboundHandler;
 
 public class StorageInboundHandler implements ComputeInboundHandler {

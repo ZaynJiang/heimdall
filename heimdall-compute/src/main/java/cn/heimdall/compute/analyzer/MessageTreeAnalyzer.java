@@ -18,7 +18,7 @@ public class MessageTreeAnalyzer extends AbstractMessageAnalyzer{
     }
 
     @Override
-    public void initTasks() {
+    public void init() {
         //FIXME 优化
         analyzerTasks = new HashMap<>(3);
         List<MessageTask> spanComputes = new ArrayList<>(MessageConstants.MESSAGE_TREE_ANALYZER_LIST_SIZE);

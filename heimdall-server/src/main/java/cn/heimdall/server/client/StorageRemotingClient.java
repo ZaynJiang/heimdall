@@ -39,9 +39,9 @@ public class StorageRemotingClient extends AbstractRemotingClient {
 
     private void registerProcessor() {
         NodeHeartbeatProcessor nodeHeartbeatProcessor = new NodeHeartbeatProcessor();
-        super.registerProcessor(MessageType.TYPE_COMPUTE_STORE_TRANCE_LOG, nodeHeartbeatProcessor, messageExecutor);
-        super.registerProcessor(MessageType.TYPE_COMPUTE_STORE_METRIC, nodeHeartbeatProcessor, messageExecutor);
-        super.registerProcessor(MessageType.TYPE_COMPUTE_STORE_APP_STATE, nodeHeartbeatProcessor, messageExecutor);
+        super.registerProcessor(MessageType.TYPE_STORE_TRANCE_LOG_REQUEST, nodeHeartbeatProcessor, messageExecutor);
+        super.registerProcessor(MessageType.TYPE_STORE_METRIC_REQUEST, nodeHeartbeatProcessor, messageExecutor);
+        super.registerProcessor(MessageType.TYPE_STORE_APP_STATE_REQUEST, nodeHeartbeatProcessor, messageExecutor);
     }
 
 

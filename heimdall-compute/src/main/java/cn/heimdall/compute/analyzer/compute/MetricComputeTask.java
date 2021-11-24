@@ -2,7 +2,7 @@ package cn.heimdall.compute.analyzer.compute;
 
 import cn.heimdall.core.config.constants.MessageConstants;
 import cn.heimdall.core.message.MessageBody;
-import cn.heimdall.core.message.body.client.MessageTreeRequest;
+import cn.heimdall.core.message.body.origin.MessageTreeRequest;
 import cn.heimdall.core.message.task.DefaultMessageQueue;
 import cn.heimdall.core.message.task.MessageQueue;
 import cn.heimdall.core.message.task.MessageTask;
