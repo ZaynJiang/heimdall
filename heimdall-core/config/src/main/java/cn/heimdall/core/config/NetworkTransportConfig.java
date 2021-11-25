@@ -5,15 +5,15 @@ package cn.heimdall.core.config;
  */
 public class NetworkTransportConfig extends NetworkConfig{
     public int getMinServerPoolSize() {
-        return 0;
+        return 50;
     }
 
     public int getMaxServerPoolSize() {
-        return 0;
+        return 500;
     }
 
     public long getKeepAliveTime() {
-        return 0;
+        return 500;
     }
 
     public int getMaxTaskQueueSize() {

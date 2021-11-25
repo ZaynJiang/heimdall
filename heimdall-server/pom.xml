@@ -18,11 +18,6 @@
         </dependency>
         <dependency>
             <groupId>cn.heimdall</groupId>
-            <artifactId>heimdall-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.heimdall</groupId>
             <artifactId>heimdall-guarder</artifactId>
             <version>${project.version}</version>
         </dependency>

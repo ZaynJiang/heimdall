@@ -100,7 +100,7 @@ public class NetworkConfig extends HeimdallConfig{
     }
 
     public boolean enableEpoll() {
-        return true;
+        return false;
     }
 
     public int getBossThreadSize() {

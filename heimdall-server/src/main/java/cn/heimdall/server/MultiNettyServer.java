@@ -5,8 +5,12 @@ import cn.heimdall.core.config.Configuration;
 import cn.heimdall.core.config.constants.ConfigurationKeys;
 import cn.heimdall.server.server.ManageRemotingServer;
 import cn.heimdall.server.server.TransportRemotingServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class MultiNettyServer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MultiNettyServer.class);
 
     private final NodeInfo nodeInfo;
 
@@ -34,6 +38,8 @@ public final class MultiNettyServer {
                 transportServer.setListenPort(configuration.getInt(ConfigurationKeys.TRANSPORT_PORT, 7300));
                 transportServer.init();
             }
+        } catch (Throwable e){
+            LOGGER.error("multiNettyServerStart error, ", e);
         } finally {
             if (manageServer != null) {
                 manageServer.getServerBootstrap().closeFutureSync();

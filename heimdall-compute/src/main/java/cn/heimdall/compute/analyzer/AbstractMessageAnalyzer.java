@@ -3,7 +3,7 @@ package cn.heimdall.compute.analyzer;
 import cn.heimdall.core.config.constants.MessageConstants;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageTypeAware;
-import cn.heimdall.core.message.body.ComputeMessageRequest;
+import cn.heimdall.core.message.body.origin.ClientMessageRequest;
 import cn.heimdall.core.message.task.MessageTask;
 import cn.heimdall.core.utils.spi.Initialize;
 
@@ -24,7 +24,7 @@ public abstract class AbstractMessageAnalyzer implements MessageTypeAware, Initi
     }
 
     public void distribute(MessageBody messageBody) {
-        ComputeMessageRequest clientMessage = (ComputeMessageRequest)messageBody;
+        ClientMessageRequest clientMessage = (ClientMessageRequest)messageBody;
         //遍历多个分析器
         for (Map.Entry<String, List<MessageTask>> entry : analyzerTasks.entrySet()) {
             //获取domain相关的任务
