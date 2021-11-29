@@ -5,8 +5,12 @@ package cn.heimdall.core.config.constants;
  */
 public interface ConfigurationKeys {
 
+    String SYSTEM_PROPERTY_HEIMDALL_CONFIG_TARGET = "heimdall.config.target";
     String SYSTEM_PROPERTY_HEIMDALL_CONFIG_NAME = "heimdall.config.name";
     String SERVER_CONF_DEFAULT = "heimdall.yml";
+
+    String CLIENT_APP_NAME = "client.app.name";
+
 
     String FILE_CONFIG_SPLIT_CHAR = ".";
 

@@ -1,5 +1,7 @@
 package cn.heimdall.client;
 
+import cn.heimdall.client.processor.HeartbeatResponseProcessor;
+import cn.heimdall.client.processor.RegisterResponseProcessor;
 import cn.heimdall.core.cluster.NodeInfo;
 import cn.heimdall.core.cluster.NodeInfoManager;
 import cn.heimdall.core.config.NetworkConfig;
@@ -23,7 +25,7 @@ public class ManageRemotingClient extends AbstractRemotingClient {
 
     private static volatile ManageRemotingClient instance;
 
-    private NodeInfo nodeInfo;
+    private ClientInfoManager clientInfoManager;
 
     public ManageRemotingClient(NetworkConfig networkConfig, ThreadPoolExecutor executor) {
         //TODO
@@ -32,15 +34,14 @@ public class ManageRemotingClient extends AbstractRemotingClient {
 
     @Override
     public void init() {
-        nodeInfo = NodeInfoManager.getInstance().getNodeInfo();
+        this.clientInfoManager = ClientInfoManager.getInstance();
         super.init();
         this.registerProcessor();
     }
 
     private void registerProcessor() {
-        NodeHeartbeatProcessor nodeHeartbeatProcessor = new NodeHeartbeatProcessor();
-        super.registerProcessor(MessageType.TYPE_NODE_REGISTER_REQUEST, nodeHeartbeatProcessor, messageExecutor);
-        super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT_REQUEST, nodeHeartbeatProcessor, messageExecutor);
+        super.registerProcessor(MessageType.TYPE_NODE_REGISTER_REQUEST, new RegisterResponseProcessor(), messageExecutor);
+        super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT_REQUEST, new HeartbeatResponseProcessor(), messageExecutor);
     }
 
     private static final long KEEP_ALIVE_TIME = Integer.MAX_VALUE;
@@ -56,7 +57,7 @@ public class ManageRemotingClient extends AbstractRemotingClient {
                     final ThreadPoolExecutor messageExecutor = new ThreadPoolExecutor(
                             NetworkManageConfig.MANAGE_WORK_THREAD_SIZE, NetworkManageConfig.MANAGE_WORK_THREAD_SIZE,
                             KEEP_ALIVE_TIME, TimeUnit.SECONDS, new LinkedBlockingQueue<>(MAX_QUEUE_SIZE),
-                            new NamedThreadFactory("manage-remoting-client:", true),
+                            new NamedThreadFactory("app-manage-remoting-client:", true),
                             new ThreadPoolExecutor.CallerRunsPolicy());
                     instance = new ManageRemotingClient(networkManageConfig,  messageExecutor);
                 }
@@ -72,7 +73,7 @@ public class ManageRemotingClient extends AbstractRemotingClient {
 
     @Override
     protected Function<String, ClientPoolKey> getPoolKeyFunction() {
-        return addressIp -> new ClientPoolKey(nodeInfo.getNodeRoles(), addressIp,null);
+        return addressIp -> new ClientPoolKey(clientInfoManager.getNodeRoles(), addressIp,null);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package cn.heimdall.core.message;
 
 public enum NodeRole {
+    CLIENT(0),
     COMPUTE(1),
     STORAGE(2),
     GUARDER(3);
