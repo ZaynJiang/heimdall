@@ -9,6 +9,6 @@ public class RequestMessage extends Message<MessageBody> {
 
     @Override
     public Class<MessageBody> getMessageBodyClass(int typeCode) {
-        return MessageType.fromTypeCode(typeCode).getRequestBody();
+        return MessageType.fromTypeCode(typeCode).getMessageBodyClass();
     }
 }

@@ -40,6 +40,7 @@ public class ClientInfoManager implements Initialize {
     public void init() {
         clientInfo.setAppName(CONFIG.getConfigFromSys(ConfigurationKeys.CLIENT_APP_NAME))
                 .setHost(NetUtil.getLocalHost());
+      //  clientInfo.s
     }
 
     public List<NodeRole> getNodeRoles() {

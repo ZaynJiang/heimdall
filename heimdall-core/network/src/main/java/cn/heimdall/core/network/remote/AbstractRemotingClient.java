@@ -2,6 +2,7 @@ package cn.heimdall.core.network.remote;
 
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.message.Message;
+import cn.heimdall.core.message.NodeRole;
 import cn.heimdall.core.network.bootstrap.NettyClientBootstrap;
 import cn.heimdall.core.utils.common.NetUtil;
 import io.netty.channel.Channel;
@@ -15,6 +16,8 @@ import io.netty.util.concurrent.EventExecutorGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.InetSocketAddress;
+import java.util.Set;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -26,7 +29,9 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
 
     private NettyClientBootstrap clientBootstrap;
 
-    private ClientChannelManager clientChannelManager;
+    private final ClientChannelManager clientChannelManager;
+
+    private final NetworkConfig networkConfig;
 
     public AbstractRemotingClient(NetworkConfig networkConfig,ThreadPoolExecutor messageExecutor,
                                   EventExecutorGroup eventExecutorGroup) {
@@ -34,6 +39,7 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
         //TODO 还有一些其它的初始化工作
         this.clientBootstrap = new NettyClientBootstrap(networkConfig, eventExecutorGroup);
         this.clientBootstrap.setChannelHandlers(new ClientHandler());
+        this.networkConfig = networkConfig;
         this.clientChannelManager = new ClientChannelManager(
                 new NettyKeyPoolFactory(this, clientBootstrap), getPoolKeyFunction(), networkConfig);
     }
@@ -42,11 +48,18 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
     public void init() {
         timerExecutor.scheduleAtFixedRate(() -> {
             //TODO 连接
-            clientChannelManager.reconnect(null);
+            clientChannelManager.reconnect(getAvailableAddress());
         }, 60 * 1000L, 10 * 1000L, TimeUnit.MILLISECONDS);
         super.init();
         clientBootstrap.start();
     }
+
+    protected abstract Set<InetSocketAddress> getAvailableAddress();
+
+
+    protected abstract long getResourceExpireTime();
+
+    protected abstract NodeRole getRemoteRole();
 
     public abstract String loadBalance();
 

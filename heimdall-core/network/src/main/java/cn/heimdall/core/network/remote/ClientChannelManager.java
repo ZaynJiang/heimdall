@@ -1,14 +1,21 @@
 package cn.heimdall.core.network.remote;
 
+import cn.heimdall.core.cluster.ClusterInfoManager;
+import cn.heimdall.core.config.Configuration;
+import cn.heimdall.core.config.ConfigurationFactory;
 import cn.heimdall.core.config.NetworkConfig;
+import cn.heimdall.core.message.NodeRole;
 import cn.heimdall.core.utils.common.CollectionUtil;
+import cn.heimdall.core.utils.exception.NetworkException;
 import io.netty.channel.Channel;
 import org.apache.commons.pool2.impl.GenericKeyedObjectPool;
 import org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.InetSocketAddress;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
@@ -113,23 +120,16 @@ public class ClientChannelManager {
         }
     }
 
-    void reconnect(String key) {
-        List<String> availList = null;
-        try {
-            availList = getAvailServerList(key);
-        } catch (Exception e) {
-            LOGGER.error("Failed to get available servers: {}", e.getMessage(), e);
-            return;
-        }
+    void reconnect(Set<InetSocketAddress> availList) {
         if (CollectionUtil.isEmpty(availList)) {
-            //TODO 获取对应的ip列表
+            LOGGER.warn("ClientChannelManager reconnect availList is null");
             return;
         }
-        for (String serverAddress : availList) {
+        for (InetSocketAddress serverAddress : availList) {
             try {
-                acquireChannel(serverAddress);
+                acquireChannel(serverAddress.getHostString());
             } catch (Exception e) {
-
+                LOGGER.error("reconnect error, ", e);
             }
         }
     }
@@ -147,16 +147,23 @@ public class ClientChannelManager {
     }
 
     private Channel doConnect(String serverAddress) {
-        return null;
+        Channel channelToServer = channels.get(serverAddress);
+        if (channelToServer != null && channelToServer.isActive()) {
+            return channelToServer;
+        }
+        Channel channelFromPool;
+        try {
+            ClientPoolKey currentPoolKey = poolKeyFunction.apply(serverAddress);
+            poolKeyMap.putIfAbsent(serverAddress, currentPoolKey);
+            channelFromPool = nettyClientKeyPool.borrowObject(poolKeyMap.get(serverAddress));
+            channels.put(serverAddress, channelFromPool);
+        } catch (Exception e) {
+            LOGGER.error("ClientChannelManager doConnect is error {}", serverAddress, e);
+            throw new NetworkException("can not register RM,err:" + e.getMessage());
+        }
+        return channelFromPool;
     }
 
-    private List<String> getAvailServerList(String key) throws Exception {
-        return null;
-    }
-
-    private void setAvailServerList(String addressIp) throws Exception {
-        //TODO 注册地址信息
-    }
 
     private Channel getExistAliveChannel(Channel rmChannel, String serverAddress) {
         return null;
