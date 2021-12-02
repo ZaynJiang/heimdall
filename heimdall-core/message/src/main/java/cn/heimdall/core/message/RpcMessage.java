@@ -1,13 +1,16 @@
-package cn.heimdall.core.message.request;
+package cn.heimdall.core.message;
 
 import cn.heimdall.core.message.Message;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageHeader;
 import cn.heimdall.core.message.MessageType;
 
-public class RequestMessage extends Message<MessageBody> {
+public class RpcMessage extends Message<MessageBody> {
 
-    public RequestMessage(MessageBody messageBody) {
+    public RpcMessage() {
+    }
+
+    public RpcMessage(MessageBody messageBody) {
         MessageHeader messageHeader = new MessageHeader();
         messageHeader.setTypeCode(messageBody.getMessageType().getTypeCode());
         //TODO 设置头信息

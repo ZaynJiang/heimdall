@@ -2,7 +2,9 @@ package cn.heimdall.core.network.remote;
 
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.message.Message;
+import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.NodeRole;
+import cn.heimdall.core.message.RpcMessage;
 import cn.heimdall.core.network.bootstrap.NettyClientBootstrap;
 import cn.heimdall.core.utils.common.NetUtil;
 import io.netty.channel.Channel;
@@ -31,7 +33,7 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
 
     private final ClientChannelManager clientChannelManager;
 
-    private final NetworkConfig networkConfig;
+    protected final NetworkConfig networkConfig;
 
     public AbstractRemotingClient(NetworkConfig networkConfig,ThreadPoolExecutor messageExecutor,
                                   EventExecutorGroup eventExecutorGroup) {
@@ -49,7 +51,7 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
         timerExecutor.scheduleAtFixedRate(() -> {
             //TODO 连接
             clientChannelManager.reconnect(getAvailableAddress());
-        }, 60 * 1000L, 10 * 1000L, TimeUnit.MILLISECONDS);
+        }, 10 * 1000L, 10 * 1000L, TimeUnit.MILLISECONDS);
         super.init();
         clientBootstrap.start();
     }
@@ -73,7 +75,9 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
 
     @Override
     public Object sendSyncRequest(Channel channel, Object msg) throws TimeoutException {
-        return null;
+        RpcMessage rpcMessage = new RpcMessage((MessageBody) msg);
+        int timeoutMillis = NetworkConfig.getRpcRequestTimeout();
+        return super.sendSync(channel, rpcMessage, timeoutMillis);
     }
 
     public ClientChannelManager getClientChannelManager() {

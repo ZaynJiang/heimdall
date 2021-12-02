@@ -1,6 +1,9 @@
 package cn.heimdall.core.message;
 
 
+import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatRequest;
+import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatResponse;
+
 import java.util.function.Predicate;
 
 public enum MessageType {
@@ -14,8 +17,8 @@ public enum MessageType {
     TYPE_CLIENT_REGISTER_REQUEST(103, null),
     TYPE_CLIENT_REGISTER_RESPONSE(203, null),
     //客户端心跳数据（发给guarder的）
-    TYPE_CLIENT_HEARTBEAT_REQUEST(104, null),
-    TYPE_CLIENT_HEARTBEAT_RESPONSE(204, null),
+    TYPE_CLIENT_HEARTBEAT_REQUEST(104, ClientHeartbeatRequest.class),
+    TYPE_CLIENT_HEARTBEAT_RESPONSE(204, ClientHeartbeatResponse.class),
     //节点注册消息
     TYPE_NODE_REGISTER_REQUEST(105, null),
     TYPE_NODE_REGISTER_RESPONSE(205, null),

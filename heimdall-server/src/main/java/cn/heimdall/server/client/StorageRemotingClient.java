@@ -5,12 +5,15 @@ import cn.heimdall.core.cluster.NodeInfoManager;
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.NetworkManageConfig;
 import cn.heimdall.core.message.MessageType;
+import cn.heimdall.core.message.NodeRole;
 import cn.heimdall.core.network.processor.client.NodeHeartbeatProcessor;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
 import cn.heimdall.core.network.remote.ClientPoolKey;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
 import io.netty.channel.Channel;
 
+import java.net.InetSocketAddress;
+import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -35,6 +38,21 @@ public class StorageRemotingClient extends AbstractRemotingClient {
         nodeInfo = NodeInfoManager.getInstance().getNodeInfo();
         super.init();
         //TODO 自身的一些初始化
+    }
+
+    @Override
+    protected Set<InetSocketAddress> getAvailableAddress() {
+        return null;
+    }
+
+    @Override
+    protected long getResourceExpireTime() {
+        return 0;
+    }
+
+    @Override
+    protected NodeRole getRemoteRole() {
+        return null;
     }
 
     private void registerProcessor() {

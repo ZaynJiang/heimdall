@@ -1,11 +1,8 @@
 package cn.heimdall.core.network.remote;
 
-import cn.heimdall.core.cluster.ClusterInfoManager;
-import cn.heimdall.core.config.Configuration;
-import cn.heimdall.core.config.ConfigurationFactory;
 import cn.heimdall.core.config.NetworkConfig;
-import cn.heimdall.core.message.NodeRole;
 import cn.heimdall.core.utils.common.CollectionUtil;
+import cn.heimdall.core.utils.common.NetUtil;
 import cn.heimdall.core.utils.exception.NetworkException;
 import io.netty.channel.Channel;
 import org.apache.commons.pool2.impl.GenericKeyedObjectPool;
@@ -14,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -47,6 +43,7 @@ public class ClientChannelManager {
 
     /**
      * 封装对象池配置
+     *
      * @param clientConfig
      * @return
      */
@@ -54,7 +51,7 @@ public class ClientChannelManager {
         //TODO 对象池配置
         GenericKeyedObjectPoolConfig objectPoolConfig = new GenericKeyedObjectPoolConfig();
         //objectPoolConfig.setMaxTotal(clientConfig.getMaxPoolActive());
-       // objectPoolConfig.setMinIdlePerKey(clientConfig.getMinPoolIdle());
+        // objectPoolConfig.setMinIdlePerKey(clientConfig.getMinPoolIdle());
         objectPoolConfig.setMaxWaitMillis(clientConfig.getMaxAcquireConnMills());
         objectPoolConfig.setTestOnBorrow(clientConfig.isPoolTestBorrow());
         objectPoolConfig.setTestOnReturn(clientConfig.isPoolTestReturn());
@@ -86,7 +83,9 @@ public class ClientChannelManager {
     }
 
     void releaseChannel(Channel channel, String serverAddress) {
-        if (channel == null || serverAddress == null) { return; }
+        if (channel == null || serverAddress == null) {
+            return;
+        }
         try {
             synchronized (channelLocks.get(serverAddress)) {
                 Channel ch = channels.get(serverAddress);
@@ -109,7 +108,9 @@ public class ClientChannelManager {
     }
 
     void destroyChannel(String serverAddress, Channel channel) {
-        if (channel == null) { return; }
+        if (channel == null) {
+            return;
+        }
         try {
             if (channel.equals(channels.get(serverAddress))) {
                 channels.remove(serverAddress);
@@ -127,7 +128,7 @@ public class ClientChannelManager {
         }
         for (InetSocketAddress serverAddress : availList) {
             try {
-                acquireChannel(serverAddress.getHostString());
+                acquireChannel(NetUtil.toStringAddress(serverAddress));
             } catch (Exception e) {
                 LOGGER.error("reconnect error, ", e);
             }
@@ -159,13 +160,34 @@ public class ClientChannelManager {
             channels.put(serverAddress, channelFromPool);
         } catch (Exception e) {
             LOGGER.error("ClientChannelManager doConnect is error {}", serverAddress, e);
-            throw new NetworkException("can not register RM,err:" + e.getMessage());
+            throw new NetworkException("can not register client, err:" + e.getMessage());
         }
         return channelFromPool;
     }
 
 
     private Channel getExistAliveChannel(Channel rmChannel, String serverAddress) {
+        if (rmChannel.isActive()) {
+            return rmChannel;
+        } else {
+            int i = 0;
+            for (; i < NetworkConfig.getMaxCheckAliveRetry(); i++) {
+                try {
+                    Thread.sleep(NetworkConfig.getCheckAliveInternal());
+                } catch (InterruptedException exx) {
+                    LOGGER.error(exx.getMessage());
+                }
+                rmChannel = channels.get(serverAddress);
+                if (rmChannel != null && rmChannel.isActive()) {
+                    return rmChannel;
+                }
+            }
+            if (i == NetworkConfig.getMaxCheckAliveRetry()) {
+                LOGGER.warn("channel {} is not active after long wait, close it.", rmChannel);
+                releaseChannel(rmChannel, serverAddress);
+                return null;
+            }
+        }
         return null;
     }
 

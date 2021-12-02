@@ -2,23 +2,36 @@ package cn.heimdall.client;
 
 import cn.heimdall.client.processor.HeartbeatResponseProcessor;
 import cn.heimdall.client.processor.RegisterResponseProcessor;
+import cn.heimdall.core.cluster.ClusterInfo;
+import cn.heimdall.core.cluster.ClusterInfoManager;
+import cn.heimdall.core.config.Configuration;
+import cn.heimdall.core.config.ConfigurationFactory;
+import cn.heimdall.core.config.HeimdallConfig;
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.NetworkManageConfig;
+import cn.heimdall.core.config.constants.ConfigurationKeys;
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.NodeRole;
+import cn.heimdall.core.message.body.register.ClientRegisterRequest;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
 import cn.heimdall.core.network.remote.ClientPoolKey;
+import cn.heimdall.core.utils.common.CollectionUtil;
+import cn.heimdall.core.utils.common.NetUtil;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
 import io.netty.channel.Channel;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 管理类消息客户端
@@ -32,8 +45,9 @@ public class ManageRemotingClient extends AbstractRemotingClient {
     private List<NodeRole> selfRoles;
     //该客户端远程请求的角色（管理类是向guarder请求）
     private NodeRole remoteRole = NodeRole.GUARDER;
-
-    private ClientInfo clientInfo;
+    private ClusterInfo clusterInfo;
+    private Configuration configuration;
+    private Set<InetSocketAddress> seekAddresses;
 
     public ManageRemotingClient(NetworkConfig networkConfig, ThreadPoolExecutor executor) {
         //TODO
@@ -43,15 +57,26 @@ public class ManageRemotingClient extends AbstractRemotingClient {
     @Override
     public void init() {
         this.selfRoles = ClientInfoManager.getInstance().getNodeRoles();
+        this.clusterInfo = ClusterInfoManager.getInstance().getClusterInfo();
+        this.configuration = ConfigurationFactory.getInstance();
         if (initialized.compareAndSet(false, true)) {
             super.init();
             this.registerProcessor();
+            String[] ips = this.configuration.getConfigFromSys(ConfigurationKeys.GUARDER_SEED_HOSTS).split(",");
+            this.seekAddresses = Stream.of(ips).
+                    map(ip -> NetUtil.toInetSocketAddress(ip)).collect(Collectors.toSet());
         }
     }
 
     @Override
     protected Set<InetSocketAddress> getAvailableAddress() {
-        return null;
+        //如果动态变更信息中没有有效数据
+        Set<InetSocketAddress> addresses = this.clusterInfo.
+                getActiveInetSocketAddress(NodeRole.GUARDER, HeimdallConfig.NODE_HEART_BEAT_EXPIRE_TIME);
+        if (!CollectionUtil.isEmpty(addresses)) {
+            return addresses;
+        }
+        return this.seekAddresses;
     }
 
     @Override
@@ -85,7 +110,8 @@ public class ManageRemotingClient extends AbstractRemotingClient {
                             KEEP_ALIVE_TIME, TimeUnit.SECONDS, new LinkedBlockingQueue<>(MAX_QUEUE_SIZE),
                             new NamedThreadFactory("app-manage-remoting-client:", true),
                             new ThreadPoolExecutor.CallerRunsPolicy());
-                    instance = new ManageRemotingClient(networkManageConfig,  messageExecutor);
+                    instance = new ManageRemotingClient(networkManageConfig, messageExecutor);
+                    instance.init();
                 }
             }
         }
@@ -94,12 +120,21 @@ public class ManageRemotingClient extends AbstractRemotingClient {
 
     @Override
     public String loadBalance() {
-        return null;
+        //TODO 负载均衡
+        Set<InetSocketAddress> addresses = getAvailableAddress();
+        ArrayList<InetSocketAddress> ipArrayList = new ArrayList<>();
+        ipArrayList.addAll(addresses);
+        //循环随机数
+        Random random = new Random();
+        //随机数在list数量中取（1-list.size）
+        int pos = random.nextInt(ipArrayList.size());
+        InetSocketAddress serverNameReturn = ipArrayList.get(pos);
+        return NetUtil.toStringAddress(serverNameReturn);
     }
 
     @Override
     protected Function<String, ClientPoolKey> getPoolKeyFunction() {
-        return addressIp -> new ClientPoolKey(selfRoles, addressIp,null);
+        return addressIp -> new ClientPoolKey(selfRoles, addressIp, new ClientRegisterRequest());
     }
 
     @Override

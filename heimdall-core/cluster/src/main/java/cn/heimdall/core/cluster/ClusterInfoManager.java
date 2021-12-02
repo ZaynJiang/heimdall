@@ -88,9 +88,9 @@ public class ClusterInfoManager {
 
 
     /**
-     * 获取最新的集群信息
+     * 获取集群信息
      */
-    public ClusterInfo getLastClusterInfo() {
+    public ClusterInfo getClusterInfo() {
         return this.clusterInfo;
     }
 }

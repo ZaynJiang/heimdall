@@ -18,3 +18,7 @@ network:
     port: 7300
   http:
     port: 7400
+
+heimdall:
+  config:
+    target: server

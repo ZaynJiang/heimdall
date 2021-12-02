@@ -3,6 +3,8 @@ package cn.heimdall.core.network.bootstrap;
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.network.codec.FrameDecoder;
 import cn.heimdall.core.network.codec.FrameEncoder;
+import cn.heimdall.core.network.codec.ProtocolDecoder;
+import cn.heimdall.core.network.codec.ProtocolEncoder;
 import cn.heimdall.core.utils.exception.NetworkException;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
 import io.netty.bootstrap.Bootstrap;
@@ -94,7 +96,9 @@ public class NettyClientBootstrap implements RemotingBootstrap {
                                         networkConfig.getChannelMaxWriteIdleSeconds(),
                                         networkConfig.getChannelMaxAllIdleSeconds()))
                                 .addLast(new FrameDecoder())
-                                .addLast(new FrameEncoder());
+                                .addLast(new FrameEncoder())
+                                .addLast("protocolDecoder", new ProtocolEncoder())
+                                .addLast("protocolEncoder", new ProtocolDecoder());
                         addChannelPipelineLast(ch, channelHandlers);
                     }
                 });

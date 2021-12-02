@@ -22,6 +22,14 @@ public class NetworkConfig extends HeimdallConfig{
         return 10L;
     }
 
+    public static int getMaxCheckAliveRetry() {
+        return 300;
+    }
+
+    public static long getCheckAliveInternal() {
+        return 10;
+    }
+
 
     public int getClientSelectorThreadSize() {
         //TODO 从配置文件获取

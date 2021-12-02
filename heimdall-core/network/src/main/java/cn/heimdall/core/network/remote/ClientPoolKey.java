@@ -1,6 +1,7 @@
 package cn.heimdall.core.network.remote;
 
 import cn.heimdall.core.message.Message;
+import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.NodeRole;
 
 import java.util.List;
@@ -9,11 +10,11 @@ import java.util.stream.Collectors;
 public class ClientPoolKey {
 
     private String address;
-    private Message message;
+    private MessageBody message;
     private List<NodeRole> nodeRoles;
     private String nodeRoleKey;
 
-    public ClientPoolKey(List<NodeRole> nodeRoles, String address, Message message) {
+    public ClientPoolKey(List<NodeRole> nodeRoles, String address, MessageBody message) {
         this.nodeRoles = nodeRoles;
         this.address = address;
         this.message = message;
@@ -40,12 +41,13 @@ public class ClientPoolKey {
         return this;
     }
 
-    public Message getMessage() {
+    public MessageBody getMessage() {
         return message;
     }
 
-    public void setMessage(Message message) {
+    public ClientPoolKey setMessage(MessageBody message) {
         this.message = message;
+        return this;
     }
 
     @Override
