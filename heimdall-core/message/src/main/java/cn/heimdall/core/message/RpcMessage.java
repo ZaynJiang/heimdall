@@ -1,10 +1,5 @@
 package cn.heimdall.core.message;
 
-import cn.heimdall.core.message.Message;
-import cn.heimdall.core.message.MessageBody;
-import cn.heimdall.core.message.MessageHeader;
-import cn.heimdall.core.message.MessageType;
-
 public class RpcMessage extends Message<MessageBody> {
 
     public RpcMessage() {
@@ -14,13 +9,13 @@ public class RpcMessage extends Message<MessageBody> {
         MessageHeader messageHeader = new MessageHeader();
         messageHeader.setTypeCode(messageBody.getMessageType().getTypeCode());
         //TODO 设置头信息
-        //messageHeader.setVersion();
-        this.setMessageHeader(messageHeader);
-        this.setMessageBody(messageBody);
+        messageHeader.setVersion(1);
+        super.setMessageHeader(messageHeader);
+        super.setMessageBody(messageBody);
     }
 
     @Override
-    public Class<MessageBody> getMessageBodyClass(int typeCode) {
+    public Class<MessageBody> getMessageBodyClass(short typeCode) {
         return MessageType.fromTypeCode(typeCode).getMessageBodyClass();
     }
 }

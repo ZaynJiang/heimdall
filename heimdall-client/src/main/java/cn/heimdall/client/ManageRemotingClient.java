@@ -48,6 +48,7 @@ public class ManageRemotingClient extends AbstractRemotingClient {
     private ClusterInfo clusterInfo;
     private Configuration configuration;
     private Set<InetSocketAddress> seekAddresses;
+    private ClientInfo clientInfo;
 
     public ManageRemotingClient(NetworkConfig networkConfig, ThreadPoolExecutor executor) {
         //TODO
@@ -59,6 +60,7 @@ public class ManageRemotingClient extends AbstractRemotingClient {
         this.selfRoles = ClientInfoManager.getInstance().getNodeRoles();
         this.clusterInfo = ClusterInfoManager.getInstance().getClusterInfo();
         this.configuration = ConfigurationFactory.getInstance();
+        this.clientInfo = ClientInfoManager.getInstance().getClientInfo();
         if (initialized.compareAndSet(false, true)) {
             super.init();
             this.registerProcessor();
@@ -134,7 +136,7 @@ public class ManageRemotingClient extends AbstractRemotingClient {
 
     @Override
     protected Function<String, ClientPoolKey> getPoolKeyFunction() {
-        return addressIp -> new ClientPoolKey(selfRoles, addressIp, new ClientRegisterRequest());
+        return addressIp -> new ClientPoolKey(selfRoles, addressIp, new ClientRegisterRequest(clientInfo.getAppName(), clientInfo.getHost()));
     }
 
     @Override

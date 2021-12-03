@@ -5,6 +5,7 @@ import cn.heimdall.core.cluster.ClusterInfoManager;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageDoorway;
 import cn.heimdall.core.message.NodeRole;
+import cn.heimdall.core.message.RpcMessage;
 import cn.heimdall.core.message.body.GuarderMessageRequest;
 import cn.heimdall.core.message.body.MessageRequest;
 import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatRequest;
@@ -17,12 +18,15 @@ import cn.heimdall.core.message.body.register.NodeRegisterRequest;
 import cn.heimdall.core.message.body.register.NodeRegisterResponse;
 import cn.heimdall.core.message.hander.GuarderInboundHandler;
 import cn.heimdall.core.utils.spi.Initialize;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GuarderCoordinator implements MessageDoorway, GuarderInboundHandler, Initialize {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GuarderCoordinator.class);
 
     private ClusterInfoManager clusterInfoManager;
 
@@ -36,10 +40,6 @@ public class GuarderCoordinator implements MessageDoorway, GuarderInboundHandler
 
     @Override
     public MessageBody onRequest(MessageBody request) {
-        //如果不是发往服务端的消息
-        if (!(request instanceof MessageRequest)) {
-            throw new IllegalArgumentException();
-        }
         GuarderMessageRequest guarderMessageRequest = (GuarderMessageRequest) request;
         guarderMessageRequest.setInboundHandler(this);
         //执行inbound的方法
@@ -72,6 +72,9 @@ public class GuarderCoordinator implements MessageDoorway, GuarderInboundHandler
 
     @Override
     public ClientRegisterResponse handle(ClientRegisterRequest request) {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("guarder received client register request, appName is {}, ip is {}", request.getAppName(), request.getIp());
+        }
         ClientRegisterResponse nodeHeartbeatResponse = new ClientRegisterResponse();
         Map<NodeRole, Map<InetSocketAddress, Long>> addresses = this.getNodeRoleMap();
         nodeHeartbeatResponse.setAddresses(addresses);
@@ -80,6 +83,9 @@ public class GuarderCoordinator implements MessageDoorway, GuarderInboundHandler
 
     @Override
     public ClientHeartbeatResponse handle(ClientHeartbeatRequest request) {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("guarder received client heartbeat request, appName is {}, ip is {}", request.getAppName(), request.getIp());
+        }
         ClientHeartbeatResponse nodeHeartbeatResponse = new ClientHeartbeatResponse();
         Map<NodeRole, Map<InetSocketAddress, Long>> addresses = this.getNodeRoleMap();
         nodeHeartbeatResponse.setAddresses(addresses);

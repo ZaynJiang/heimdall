@@ -3,6 +3,7 @@ package cn.heimdall.core.message;
 
 import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatRequest;
 import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatResponse;
+import cn.heimdall.core.message.body.register.ClientRegisterRequest;
 
 import java.util.function.Predicate;
 
@@ -13,9 +14,9 @@ public enum MessageType {
     //客户端发送客户端消息树
     TYPE_CLIENT_MESSAGE_TREE_REQUEST(102, null),
     TYPE_CLIENT_MESSAGE_TREE_RESPONSE(202, null),
-    //客户端心跳数据（发给guarder的）
-    TYPE_CLIENT_REGISTER_REQUEST(103, null),
-    TYPE_CLIENT_REGISTER_RESPONSE(203, null),
+    //客户端注册数据（发给guarder的）
+    TYPE_CLIENT_REGISTER_REQUEST(103, ClientRegisterRequest.class),
+    TYPE_CLIENT_REGISTER_RESPONSE(203, ClientHeartbeatResponse.class),
     //客户端心跳数据（发给guarder的）
     TYPE_CLIENT_HEARTBEAT_REQUEST(104, ClientHeartbeatRequest.class),
     TYPE_CLIENT_HEARTBEAT_RESPONSE(204, ClientHeartbeatResponse.class),
@@ -53,7 +54,7 @@ public enum MessageType {
         throw new AssertionError("no found message type");
     }
 
-    public static MessageType fromTypeCode(int type) {
+    public static MessageType fromTypeCode(short type) {
         return getMessageType(requestType -> requestType.getTypeCode() == type);
     }
 

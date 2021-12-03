@@ -24,7 +24,7 @@ public abstract class Message<T extends MessageBody>  {
 
     public void encode(ByteBuf byteBuf) {
         byteBuf.writeInt(messageHeader.getVersion());
-        byteBuf.writeInt(messageHeader.getTypeCode());
+        byteBuf.writeShort(messageHeader.getTypeCode());
         byteBuf.writeBytes(JsonUtil.toJson(messageBody).getBytes());
     }
 
@@ -56,7 +56,7 @@ public abstract class Message<T extends MessageBody>  {
     }
 
     //获取消息体的class
-    public abstract Class<T> getMessageBodyClass(int typeCode);
+    public abstract Class<T> getMessageBodyClass(short typeCode);
 
     public MessageHeader getMessageHeader() {
         return messageHeader;

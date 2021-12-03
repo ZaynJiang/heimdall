@@ -3,8 +3,8 @@ cluster:
 node:
   name: heimdall-node1
   guarder: true
-  compute: true
-  storage: true
+  compute: false
+  storage: false
 store:
   type: lucene
 path:

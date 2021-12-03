@@ -5,7 +5,7 @@ import cn.heimdall.core.message.MessageType;
 
 public class ResponseMessage extends Message {
     @Override
-    public Class getMessageBodyClass(int typeCode) {
+    public Class getMessageBodyClass(short typeCode) {
         return MessageType.fromTypeCode(typeCode).getMessageBodyClass();
     }
 }

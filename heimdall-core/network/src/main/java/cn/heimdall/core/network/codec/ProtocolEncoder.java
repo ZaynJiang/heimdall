@@ -9,7 +9,6 @@ import java.util.List;
 
 public class ProtocolEncoder extends MessageToMessageEncoder<Message> {
 
-
     @Override
     protected void encode(ChannelHandlerContext ctx, Message message, List<Object> out) throws Exception {
         ByteBuf buffer = ctx.alloc().buffer();

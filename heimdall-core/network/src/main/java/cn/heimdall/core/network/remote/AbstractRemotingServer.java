@@ -2,6 +2,8 @@ package cn.heimdall.core.network.remote;
 
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.message.Message;
+import cn.heimdall.core.message.MessageBody;
+import cn.heimdall.core.message.RpcMessage;
 import cn.heimdall.core.network.bootstrap.NettyServerBootstrap;
 import cn.heimdall.core.utils.common.NetUtil;
 import io.netty.channel.Channel;
@@ -26,7 +28,7 @@ public class AbstractRemotingServer extends AbstractRemoting implements Remoting
         super(executor);
         serverBootstrap = new NettyServerBootstrap(networkConfig);
         //注入一个handle
-        serverBootstrap.setChannelHandlers(null);
+        serverBootstrap.setChannelHandlers(new ServerHandler());
     }
 
     public void setListenPort(int listenPort) {
@@ -60,7 +62,7 @@ public class AbstractRemotingServer extends AbstractRemoting implements Remoting
         if (channel == null) {
             throw new RuntimeException("client is not connected");
         }
-        return super.sendSync(channel, (Message)msg, NetworkConfig.getRpcRequestTimeout());
+        return super.sendSync(channel, new RpcMessage((MessageBody) msg), NetworkConfig.getRpcRequestTimeout());
     }
 
     @Override

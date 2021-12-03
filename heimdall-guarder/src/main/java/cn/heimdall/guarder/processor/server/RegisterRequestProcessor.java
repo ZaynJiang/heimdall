@@ -23,7 +23,7 @@ public class RegisterRequestProcessor implements ServerProcessor {
 
     @Override
     public void process(ChannelHandlerContext ctx, Message message) throws TimeoutException {
-        NodeRegisterRequest messageBody = (NodeRegisterRequest) message.getMessageBody();
+        MessageBody messageBody = message.getMessageBody();
         messageDoorway.onRequest(messageBody);
         MessageBody messageResponse = messageDoorway.onRequest(messageBody);
         remotingServer.sendSyncRequest(ctx.channel(), messageResponse);

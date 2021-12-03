@@ -30,6 +30,7 @@ public class ClientInfoManager implements Initialize {
             synchronized (ClientInfoManager.class) {
                 if (INSTANCE == null) {
                     INSTANCE = new ClientInfoManager();
+                    INSTANCE.init();
                 }
             }
         }
@@ -41,6 +42,10 @@ public class ClientInfoManager implements Initialize {
         clientInfo.setAppName(CONFIG.getConfigFromSys(ConfigurationKeys.CLIENT_APP_NAME))
                 .setHost(NetUtil.getLocalHost());
       //  clientInfo.s
+    }
+
+    public ClientInfo getClientInfo() {
+        return clientInfo;
     }
 
     public List<NodeRole> getNodeRoles() {

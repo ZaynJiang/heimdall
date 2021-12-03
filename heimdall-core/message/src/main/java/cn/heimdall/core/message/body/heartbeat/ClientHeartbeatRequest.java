@@ -9,6 +9,7 @@ import java.util.List;
 public class ClientHeartbeatRequest extends MessageBody {
     private List<NodeRole> nodeRoles;
     private String ip;
+    private String appName;
     private int port;
 
     public List<NodeRole> getNodeRoles() {
@@ -38,5 +39,14 @@ public class ClientHeartbeatRequest extends MessageBody {
     @Override
     public MessageType getMessageType() {
         return MessageType.TYPE_CLIENT_HEARTBEAT_REQUEST;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public ClientHeartbeatRequest setAppName(String appName) {
+        this.appName = appName;
+        return this;
     }
 }

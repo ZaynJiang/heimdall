@@ -1,6 +1,7 @@
 
 package cn.heimdall.core.network.remote;
 
+import cn.heimdall.core.cluster.ClusterInfo;
 import cn.heimdall.core.network.bootstrap.NettyClientBootstrap;
 import cn.heimdall.core.utils.common.NetUtil;
 import cn.heimdall.core.utils.exception.NetworkException;
