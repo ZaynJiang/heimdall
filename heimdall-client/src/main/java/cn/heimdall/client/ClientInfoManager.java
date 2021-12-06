@@ -40,7 +40,7 @@ public class ClientInfoManager implements Initialize {
     @Override
     public void init() {
         clientInfo.setAppName(CONFIG.getConfigFromSys(ConfigurationKeys.CLIENT_APP_NAME))
-                .setHost(NetUtil.getLocalHost());
+                .setHost(NetUtil.getLocalIp());
       //  clientInfo.s
     }
 

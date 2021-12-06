@@ -27,4 +27,11 @@ public class ClientRegisterResponse extends MessageResponse {
         this.addresses = addresses;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "ClientRegisterResponse{" +
+                "addresses=" + addresses +
+                '}';
+    }
 }

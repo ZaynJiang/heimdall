@@ -70,7 +70,7 @@ public class AbstractRemotingServer extends AbstractRemoting implements Remoting
         if (channel == null) {
             throw new RuntimeException("client is not connected");
         }
-        super.sendAsync(channel, (Message)msg);
+        super.sendAsync(channel, new RpcMessage((MessageBody) msg));
     }
 
 

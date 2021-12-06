@@ -6,11 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.SocketAddress;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 
 public class ChannelHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChannelHelper.class);
+
+    private static final ConcurrentMap<Channel, Channel> IDENTIFIED_CHANNELS = new ConcurrentHashMap<>();
 
     public static String getAddressFromChannel(Channel channel) {
         SocketAddress socketAddress = channel.remoteAddress();
@@ -19,6 +23,17 @@ public class ChannelHelper {
             address = socketAddress.toString().substring(HeimdallConfig.ENDPOINT_BEGIN_CHAR.length());
         }
         return address;
+    }
+
+    public static Channel getSameClientChannel(Channel channel) {
+        if (channel.isActive()) {
+            return channel;
+        }
+        return null;
+    }
+
+    public static Channel getContextFromIdentified(Channel channel) {
+        return IDENTIFIED_CHANNELS.get(channel);
     }
 
     public static String getClientIpFromChannel(Channel channel) {

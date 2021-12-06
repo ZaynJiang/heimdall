@@ -66,4 +66,15 @@ public class NodeRegisterResponse extends MessageResponse {
     public MessageType getMessageType() {
         return MessageType.TYPE_NODE_REGISTER_RESPONSE;
     }
+
+    @Override
+    public String toString() {
+        return "NodeRegisterResponse{" +
+                "extraData='" + extraData + '\'' +
+                ", identified=" + identified +
+                ", host='" + host + '\'' +
+                ", port='" + port + '\'' +
+                ", addresses=" + addresses +
+                '}';
+    }
 }

@@ -39,4 +39,13 @@ public class NodeHeartbeatRequest extends MessageBody {
     public MessageType getMessageType() {
         return MessageType.TYPE_NODE_HEARTBEAT_REQUEST;
     }
+
+    @Override
+    public String toString() {
+        return "NodeHeartbeatRequest{" +
+                "nodeRoles=" + nodeRoles +
+                ", ip='" + ip + '\'' +
+                ", port=" + port +
+                '}';
+    }
 }

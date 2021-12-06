@@ -7,6 +7,7 @@ import cn.heimdall.core.message.MessageTypeAware;
 import cn.heimdall.core.network.processor.RemoteProcessor;
 import cn.heimdall.core.utils.exception.NetworkException;
 import cn.heimdall.core.utils.spi.ServiceLoaderUtil;
+import cn.heimdall.core.utils.thread.IncrAtomicCounter;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
@@ -47,6 +48,7 @@ public abstract class AbstractRemoting {
     protected final HashMap<Short/*MessageType*/, Pair<RemoteProcessor, ExecutorService>>
             processorTable = new HashMap<>(32);
 
+    protected final IncrAtomicCounter idGenerator = new IncrAtomicCounter();
 
     protected final ThreadPoolExecutor messageExecutor;
 
@@ -149,6 +151,7 @@ public abstract class AbstractRemoting {
             LOGGER.warn("sendSync nothing, caused by null channel.");
             return null;
         }
+        message.setMessageId(idGenerator.get());
         MessageFuture messageFuture = new MessageFuture();
         messageFuture.setRequestMessage(message);
         messageFuture.setTimeout(timeoutMillis);
@@ -213,7 +216,22 @@ public abstract class AbstractRemoting {
     public abstract void destroyChannel(Channel channel);
 
     protected void sendAsync(Channel channel, Message message) {
-        //TODO 待实现
-        return;
+        channelWritableCheck(channel, message.getMessageBody());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("write message:" + message.getMessageBody() + ", channel:" + channel + ",active?"
+                    + channel.isActive() + ",writable?" + channel.isWritable() + ",isopen?" + channel.isOpen());
+        }
+
+        doBeforeRpcHooks(ChannelHelper.getAddressFromChannel(channel), message);
+
+        channel.writeAndFlush(message).addListener((ChannelFutureListener) future -> {
+            if (!future.isSuccess()) {
+                destroyChannel(future.channel());
+            }
+        });
+    }
+
+    public ConcurrentHashMap<Integer, MessageFuture> getFutures() {
+        return futures;
     }
 }

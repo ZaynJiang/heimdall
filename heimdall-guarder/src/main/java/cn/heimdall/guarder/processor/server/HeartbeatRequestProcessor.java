@@ -24,6 +24,6 @@ public class HeartbeatRequestProcessor implements ServerProcessor {
     public void process(ChannelHandlerContext ctx, Message message) throws TimeoutException {
         MessageBody messageBody = message.getMessageBody();
         MessageBody messageResponse = messageDoorway.onRequest(messageBody);
-        remotingServer.sendSyncRequest(ctx.channel(), messageResponse);
+        remotingServer.sendAsyncRequest(ctx.channel(), messageResponse);
     }
 }

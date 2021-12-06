@@ -9,13 +9,13 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ConcurrentMap;
 
-public class HeartbeatResponseProcessor implements ClientProcessor {
+public class RegisterResponseProcessor implements ClientProcessor {
 
     private ConcurrentMap<Integer, MessageFuture> futures;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HeartbeatResponseProcessor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegisterResponseProcessor.class);
 
-    public HeartbeatResponseProcessor(ConcurrentMap<Integer, MessageFuture> futures) {
+    public RegisterResponseProcessor(ConcurrentMap<Integer, MessageFuture> futures) {
         this.futures = futures;
     }
 
@@ -26,7 +26,7 @@ public class HeartbeatResponseProcessor implements ClientProcessor {
             messageFuture.setResultMessage(message.getMessageBody());
         } else {
             if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("HeartbeatResponseProcessor messageFuture is null received response msg [{}] from guarder server.", message.toString());
+                LOGGER.info("2RegisterResponseProcessor messageFuture is null received response msg [{}] from guarder server.", message.toString());
             }
         }
     }

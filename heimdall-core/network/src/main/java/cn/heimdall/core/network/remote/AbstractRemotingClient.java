@@ -74,10 +74,9 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
     }
 
     @Override
-    public Object sendSyncRequest(Channel channel, Object msg) throws TimeoutException {
-        RpcMessage rpcMessage = new RpcMessage((MessageBody) msg);
+    public Object sendSyncRequest(Channel channel, Object msg) throws TimeoutException { ;
         int timeoutMillis = NetworkConfig.getRpcRequestTimeout();
-        return super.sendSync(channel, rpcMessage, timeoutMillis);
+        return super.sendSync(channel, (Message) msg, timeoutMillis);
     }
 
     public ClientChannelManager getClientChannelManager() {
@@ -98,6 +97,8 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
     //获取一个获取PoolKey的函数
     protected abstract Function<String, ClientPoolKey> getPoolKeyFunction();
 
+    protected abstract boolean isRegisterSuccess(MessageBody body);
+
 
     /**
      *  客户端的handler
@@ -110,8 +111,7 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
             if (!(msg instanceof Message)) {
                 return;
             }
-            //TODO
-            //do something
+            processMessage(ctx, (RpcMessage) msg);
         }
 
         @Override

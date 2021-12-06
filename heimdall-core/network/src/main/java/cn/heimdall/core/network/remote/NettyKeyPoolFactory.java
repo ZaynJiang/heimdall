@@ -1,7 +1,8 @@
 
 package cn.heimdall.core.network.remote;
 
-import cn.heimdall.core.cluster.ClusterInfo;
+import cn.heimdall.core.message.MessageBody;
+import cn.heimdall.core.message.RpcMessage;
 import cn.heimdall.core.network.bootstrap.NettyClientBootstrap;
 import cn.heimdall.core.utils.common.NetUtil;
 import cn.heimdall.core.utils.exception.NetworkException;
@@ -38,52 +39,53 @@ public class NettyKeyPoolFactory implements KeyedPooledObjectFactory<ClientPoolK
         }
         Channel tmpChannel = clientBootstrap.getNewChannel(address);
         long start = System.currentTimeMillis();
-        Object response;
+        MessageBody response;
         Channel channelToServer = null;
         if (key.getMessage() == null) {
             throw new NetworkException("register msg is null, role:" + key.getNodeRoles());
         }
         try {
             //发去注册信息
-            response = remotingClient.sendSyncRequest(tmpChannel, key.getMessage());
-            if (!isRegisterSuccess(response)) {
-                remotingClient.onRegisterMsgFail(key.getAddress(), tmpChannel);
-                //客户端启动发送注册信息
-                response = remotingClient.sendSyncRequest(tmpChannel, key.getMessage());
-                if (!isRegisterSuccess(response)) {
-                    //TODO
-                    remotingClient.onRegisterMsgFail(key.getAddress(), tmpChannel);
-                } else {
-                    channelToServer = tmpChannel;
-                    remotingClient.onRegisterMsgSuccess(key.getAddress(), tmpChannel);
-                }
+            response = (MessageBody) remotingClient.sendSyncRequest(tmpChannel, new RpcMessage(key.getMessage()));
+            if (!remotingClient.isRegisterSuccess(response)) {
+                remotingClient.onRegisterMsgFail(key.getAddress(), tmpChannel,  key.getMessage(), response);
+            } else {
+                channelToServer = tmpChannel;
+                remotingClient.onRegisterMsgSuccess(key.getAddress(), tmpChannel,  key.getMessage(), response);
             }
         } catch (Exception e) {
             if (tmpChannel != null) {
                 tmpChannel.close();
             }
-            throw new NetworkException(
-                    "register " + key + " error, errMsg:" + e.getMessage());
+            throw new NetworkException("register " + key + " error, errMsg:" + e.getMessage());
         }
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("register success, cost " + (System.currentTimeMillis() - start), key + " ,role:" + " ,channel:" + channelToServer);
         }
 
-        return new DefaultPooledObject(tmpChannel);
+        return new DefaultPooledObject<>(channelToServer);
 
-    }
-
-    private boolean isRegisterSuccess(Object response) {
-        return false;
     }
 
     @Override
     public void destroyObject(ClientPoolKey clientPoolKey, PooledObject<Channel> pooledObject) throws Exception {
-
+        if (pooledObject != null && pooledObject.getObject() != null) {
+            if (LOGGER.isInfoEnabled()) {
+                LOGGER.info("will destroy channel:" +  pooledObject.getObject());
+            }
+            pooledObject.getObject().disconnect();
+            pooledObject.getObject().close();
+        }
     }
 
     @Override
     public boolean validateObject(ClientPoolKey clientPoolKey, PooledObject<Channel> pooledObject) {
+        if (pooledObject != null && pooledObject.getObject().isActive()) {
+            return true;
+        }
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("channel valid false,channel:" + pooledObject.getObject());
+        }
         return false;
     }
 

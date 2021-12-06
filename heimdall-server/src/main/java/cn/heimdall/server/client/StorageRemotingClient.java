@@ -4,6 +4,7 @@ import cn.heimdall.core.cluster.NodeInfo;
 import cn.heimdall.core.cluster.NodeInfoManager;
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.NetworkManageConfig;
+import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.NodeRole;
 import cn.heimdall.core.network.processor.client.NodeHeartbeatProcessor;
@@ -94,12 +95,17 @@ public class StorageRemotingClient extends AbstractRemotingClient {
     }
 
     @Override
-    public void onRegisterMsgSuccess(String serverAddress, Channel channel) {
+    protected boolean isRegisterSuccess(MessageBody body) {
+        return false;
+    }
+
+    @Override
+    public void onRegisterMsgSuccess(String serverAddress, Channel channel, Object request, Object response){
 
     }
 
     @Override
-    public void onRegisterMsgFail(String serverAddress, Channel channel) {
+    public void onRegisterMsgFail(String serverAddress, Channel channel, Object request, Object response) {
 
     }
 }

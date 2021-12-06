@@ -83,11 +83,11 @@ public class NetworkConfig extends HeimdallConfig{
     }
 
     public int getMaxPoolActive() {
-        return 1;
+        return 20;
     }
 
     public int getMinPoolIdle() {
-        return 0;
+        return 20;
     }
 
     public long getMaxAcquireConnMills() {

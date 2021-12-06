@@ -48,4 +48,12 @@ public class ClientRegisterRequest extends GuarderMessageRequest {
         this.ip = ip;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "ClientRegisterRequest{" +
+                "appName='" + appName + '\'' +
+                ", ip='" + ip + '\'' +
+                '}';
+    }
 }

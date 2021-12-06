@@ -10,15 +10,21 @@ import cn.heimdall.core.config.HeimdallConfig;
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.NetworkManageConfig;
 import cn.heimdall.core.config.constants.ConfigurationKeys;
+import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.NodeRole;
+import cn.heimdall.core.message.ResultCode;
 import cn.heimdall.core.message.body.register.ClientRegisterRequest;
+import cn.heimdall.core.message.body.register.ClientRegisterResponse;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
 import cn.heimdall.core.network.remote.ClientPoolKey;
 import cn.heimdall.core.utils.common.CollectionUtil;
 import cn.heimdall.core.utils.common.NetUtil;
+import cn.heimdall.core.utils.exception.NetworkException;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
 import io.netty.channel.Channel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
@@ -37,6 +43,8 @@ import java.util.stream.Stream;
  * 管理类消息客户端
  */
 public class ManageRemotingClient extends AbstractRemotingClient {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ManageRemotingClient.class);
 
     private static volatile ManageRemotingClient instance;
 
@@ -93,8 +101,8 @@ public class ManageRemotingClient extends AbstractRemotingClient {
     }
 
     private void registerProcessor() {
-        super.registerProcessor(MessageType.TYPE_NODE_REGISTER_REQUEST, new RegisterResponseProcessor(), messageExecutor);
-        super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT_REQUEST, new HeartbeatResponseProcessor(), messageExecutor);
+        super.registerProcessor(MessageType.TYPE_CLIENT_HEARTBEAT_RESPONSE, new HeartbeatResponseProcessor(getFutures()), messageExecutor);
+        super.registerProcessor(MessageType.TYPE_CLIENT_REGISTER_RESPONSE, new RegisterResponseProcessor(getFutures()), messageExecutor);
     }
 
     private static final long KEEP_ALIVE_TIME = Integer.MAX_VALUE;
@@ -140,12 +148,29 @@ public class ManageRemotingClient extends AbstractRemotingClient {
     }
 
     @Override
-    public void onRegisterMsgSuccess(String serverAddress, Channel channel) {
-
+    protected boolean isRegisterSuccess(MessageBody body) {
+        ClientRegisterResponse clientRegisterResponse = (ClientRegisterResponse) body;
+        return clientRegisterResponse.getResultCode() == ResultCode.SUCCESS.getCode();
     }
 
     @Override
-    public void onRegisterMsgFail(String serverAddress, Channel channel) {
+    public void onRegisterMsgSuccess(String serverAddress, Channel channel, Object request, Object response) {
+        MessageBody responseBody = (MessageBody) response;
+        MessageBody requestBody = (MessageBody) request;
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("register client manager success. client version:{}, server version:{},channel:{}", requestBody,
+                    responseBody, channel);
+        }
+        getClientChannelManager().registerChannel(serverAddress, channel);
+    }
 
+    @Override
+    public void onRegisterMsgFail(String serverAddress, Channel channel, Object request, Object response) {
+        MessageBody responseBody = (MessageBody) response;
+        MessageBody requestBody = (MessageBody) request;
+        String errMsg = String.format(
+                "register client manager failed. client version: %s, errorMsg: %s, " + "channel: %s", requestBody,
+                responseBody, channel);
+        throw new NetworkException(errMsg);
     }
 }

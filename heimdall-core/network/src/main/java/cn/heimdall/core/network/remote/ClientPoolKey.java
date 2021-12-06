@@ -1,6 +1,5 @@
 package cn.heimdall.core.network.remote;
 
-import cn.heimdall.core.message.Message;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.NodeRole;
 

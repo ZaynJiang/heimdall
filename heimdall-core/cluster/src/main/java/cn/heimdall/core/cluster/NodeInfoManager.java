@@ -34,7 +34,7 @@ public class NodeInfoManager {
     }
 
     public void init() {
-        nodeInfo.setHost(NetUtil.getLocalHost())
+        nodeInfo.setHost(NetUtil.getLocalIp())
                 //todo 默认值如何放置
                 .setManagePort(CONFIG.getInt(ConfigurationKeys.MANAGE_PORT, 7200))
                 .setTransportPort(CONFIG.getInt(ConfigurationKeys.TRANSPORT_PORT, 7300))

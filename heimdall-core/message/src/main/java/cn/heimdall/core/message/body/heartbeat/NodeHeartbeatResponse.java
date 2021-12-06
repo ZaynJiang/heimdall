@@ -42,4 +42,13 @@ public class NodeHeartbeatResponse extends MessageResponse {
     public MessageType getMessageType() {
         return MessageType.TYPE_NODE_HEARTBEAT_RESPONSE;
     }
+
+    @Override
+    public String toString() {
+        return "NodeHeartbeatResponse{" +
+                "host='" + host + '\'' +
+                ", port='" + port + '\'' +
+                ", addresses=" + addresses +
+                '}';
+    }
 }

@@ -53,6 +53,7 @@ public class ClientChannelManager {
         //objectPoolConfig.setMaxTotal(clientConfig.getMaxPoolActive());
         // objectPoolConfig.setMinIdlePerKey(clientConfig.getMinPoolIdle());
         objectPoolConfig.setMaxWaitMillis(clientConfig.getMaxAcquireConnMills());
+        objectPoolConfig.setMaxTotal(clientConfig.getMaxPoolActive());
         objectPoolConfig.setTestOnBorrow(clientConfig.isPoolTestBorrow());
         objectPoolConfig.setTestOnReturn(clientConfig.isPoolTestReturn());
         objectPoolConfig.setLifo(clientConfig.isPoolLifo());

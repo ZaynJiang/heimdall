@@ -1,12 +1,13 @@
 package cn.heimdall.core.message.body.heartbeat;
 
-import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.NodeRole;
+import cn.heimdall.core.message.body.GuarderMessageRequest;
+import cn.heimdall.core.message.body.MessageResponse;
 
 import java.util.List;
 
-public class ClientHeartbeatRequest extends MessageBody {
+public class ClientHeartbeatRequest extends GuarderMessageRequest {
     private List<NodeRole> nodeRoles;
     private String ip;
     private String appName;
@@ -48,5 +49,21 @@ public class ClientHeartbeatRequest extends MessageBody {
     public ClientHeartbeatRequest setAppName(String appName) {
         this.appName = appName;
         return this;
+    }
+
+
+    @Override
+    public MessageResponse handle() {
+        return inboundHandler.handle(this);
+    }
+
+    @Override
+    public String toString() {
+        return "ClientHeartbeatRequest{" +
+                "nodeRoles=" + nodeRoles +
+                ", ip='" + ip + '\'' +
+                ", appName='" + appName + '\'' +
+                ", port=" + port +
+                '}';
     }
 }

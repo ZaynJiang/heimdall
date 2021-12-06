@@ -26,7 +26,7 @@ public class RegisterRequestProcessor implements ServerProcessor {
         MessageBody messageBody = message.getMessageBody();
         messageDoorway.onRequest(messageBody);
         MessageBody messageResponse = messageDoorway.onRequest(messageBody);
-        remotingServer.sendSyncRequest(ctx.channel(), messageResponse);
+        remotingServer.sendAsyncRequest(ctx.channel(), messageResponse);
     }
 
 }

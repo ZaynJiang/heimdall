@@ -49,4 +49,13 @@ public class NodeRegisterRequest extends GuarderMessageRequest {
     public MessageResponse handle() {
         return inboundHandler.handle(this);
     }
+
+    @Override
+    public String toString() {
+        return "NodeRegisterRequest{" +
+                "nodeRoles=" + nodeRoles +
+                ", ip='" + ip + '\'' +
+                ", host=" + host +
+                '}';
+    }
 }
