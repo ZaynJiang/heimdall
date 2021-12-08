@@ -52,8 +52,8 @@ public class ClientChannelManager {
         GenericKeyedObjectPoolConfig objectPoolConfig = new GenericKeyedObjectPoolConfig();
         //objectPoolConfig.setMaxTotal(clientConfig.getMaxPoolActive());
         // objectPoolConfig.setMinIdlePerKey(clientConfig.getMinPoolIdle());
-        objectPoolConfig.setMaxWaitMillis(clientConfig.getMaxAcquireConnMills());
         objectPoolConfig.setMaxTotal(clientConfig.getMaxPoolActive());
+        objectPoolConfig.setMaxWaitMillis(clientConfig.getMaxAcquireConnMills());
         objectPoolConfig.setTestOnBorrow(clientConfig.isPoolTestBorrow());
         objectPoolConfig.setTestOnReturn(clientConfig.isPoolTestReturn());
         objectPoolConfig.setLifo(clientConfig.isPoolLifo());
@@ -70,12 +70,15 @@ public class ClientChannelManager {
         Channel channelToServer = channels.get(serverAddress);
         if (channelToServer != null) {
             channelToServer = getExistAliveChannel(channelToServer, serverAddress);
+            if (LOGGER.isInfoEnabled()) {
+                LOGGER.info("getExistAliveChannel result is {}, serverAddress is {}", channelToServer, serverAddress);
+            }
             if (channelToServer != null) {
                 return channelToServer;
             }
         }
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("will connect to {}", serverAddress);
+            LOGGER.info("channelToServer is null, will connect to {}", serverAddress);
         }
         Object lockObj = CollectionUtil.computeIfAbsent(channelLocks, serverAddress, key -> new Object());
         synchronized (lockObj) {
@@ -116,9 +119,10 @@ public class ClientChannelManager {
             if (channel.equals(channels.get(serverAddress))) {
                 channels.remove(serverAddress);
             }
-            nettyClientKeyPool.returnObject(poolKeyMap.get(serverAddress), channel);
+            ClientPoolKey key = poolKeyMap.get(serverAddress);
+            nettyClientKeyPool.returnObject(key, channel);
         } catch (Exception exx) {
-            LOGGER.error("return channel to rmPool error:{}", exx.getMessage());
+            LOGGER.error("return channel to rmPool error, serverAddress {}, channel {}", serverAddress, channel, exx);
         }
     }
 

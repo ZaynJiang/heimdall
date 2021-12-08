@@ -5,6 +5,7 @@ import cn.heimdall.core.message.Message;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.NodeRole;
 import cn.heimdall.core.message.RpcMessage;
+import cn.heimdall.core.message.body.PingMessage;
 import cn.heimdall.core.network.bootstrap.NettyClientBootstrap;
 import cn.heimdall.core.utils.common.NetUtil;
 import io.netty.channel.Channel;
@@ -17,6 +18,7 @@ import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.concurrent.EventExecutorGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.plugin2.message.HeartbeatMessage;
 
 import java.net.InetSocketAddress;
 import java.util.Set;
@@ -130,7 +132,7 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
                 return;
             }
             if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("channel inactive: {}", ctx.channel());
+                LOGGER.info("client handler, channel inactive: {}", ctx.channel());
             }
             clientChannelManager.releaseChannel(ctx.channel(), NetUtil.toStringAddress(ctx.channel().remoteAddress()));
             super.channelInactive(ctx);
@@ -142,13 +144,13 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
                 IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
                 if (idleStateEvent.state() == IdleState.READER_IDLE) {
                     if (LOGGER.isInfoEnabled()) {
-                        LOGGER.info("channel {} read idle.", ctx.channel());
+                        LOGGER.info("client handler, channel {} read idle.", ctx.channel());
                     }
                     try {
                         String serverAddress = NetUtil.toStringAddress(ctx.channel().remoteAddress());
                         clientChannelManager.invalidateObject(serverAddress, ctx.channel());
                     } catch (Exception exx) {
-                        LOGGER.error(exx.getMessage());
+                        LOGGER.error("client handler, userEventTriggered error ", exx);
                     } finally {
                         clientChannelManager.releaseChannel(ctx.channel(), ChannelHelper.getAddressFromChannel(ctx.channel()));
                     }
@@ -156,11 +158,12 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
                 if (idleStateEvent == IdleStateEvent.WRITER_IDLE_STATE_EVENT) {
                     try {
                         if (LOGGER.isDebugEnabled()) {
-                            LOGGER.debug("will send ping msg,channel {}", ctx.channel());
+                            LOGGER.debug("client handler, will send ping msg,channel {}", ctx.channel());
                         }
                         //TODO 做一些心跳异步发送
+                        sendAsync(ctx.channel(), new RpcMessage(PingMessage.PING));
                     } catch (Throwable throwable) {
-                        LOGGER.error("send request error: {}", throwable.getMessage(), throwable);
+                        LOGGER.error("client handler, send request error: {}", throwable.getMessage(), throwable);
                     }
                 }
             }

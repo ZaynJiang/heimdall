@@ -4,6 +4,7 @@ import cn.heimdall.core.cluster.NodeInfo;
 import cn.heimdall.core.cluster.NodeInfoManager;
 import cn.heimdall.core.config.NetworkManageConfig;
 import cn.heimdall.core.message.MessageType;
+import cn.heimdall.core.network.processor.server.ServerIdleProcessor;
 import cn.heimdall.core.network.remote.AbstractRemotingServer;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
 import cn.heimdall.guarder.GuarderCoordinator;
@@ -54,6 +55,9 @@ public final class ManageRemotingServer extends AbstractRemotingServer {
             super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT_REQUEST, new HeartbeatRequestProcessor(this, coordinator), messageExecutor);
             super.registerProcessor(MessageType.TYPE_CLIENT_HEARTBEAT_REQUEST, new HeartbeatRequestProcessor(this, coordinator), messageExecutor);
             super.registerProcessor(MessageType.TYPE_CLIENT_REGISTER_REQUEST, new RegisterRequestProcessor(this, coordinator), messageExecutor);
+
+            //注册
+            super.registerProcessor(MessageType.TYPE_PING_MESSAGE, new ServerIdleProcessor(this), messageExecutor);
         }
     }
 

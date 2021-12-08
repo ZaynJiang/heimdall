@@ -1,6 +1,7 @@
 package cn.heimdall.core.message;
 
 
+import cn.heimdall.core.message.body.PingMessage;
 import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatRequest;
 import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatResponse;
 import cn.heimdall.core.message.body.register.ClientRegisterRequest;
@@ -10,6 +11,7 @@ import java.util.function.Predicate;
 
 public enum MessageType {
     //客户端发送应用状态信息
+    TYPE_PING_MESSAGE(100, PingMessage.class),
     TYPE_CLIENT_APP_STATE_REQUEST(101, null),
     TYPE_CLIENT_APP_STATE_RESPONSE(201, null),
     //客户端发送客户端消息树

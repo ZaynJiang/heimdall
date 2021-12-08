@@ -11,6 +11,7 @@ import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
+import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +74,14 @@ public class AbstractRemotingServer extends AbstractRemoting implements Remoting
         super.sendAsync(channel, new RpcMessage((MessageBody) msg));
     }
 
+    private void closeChannelHandlerContext(ChannelHandlerContext ctx) {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("server, closeChannelHandlerContext channel:" + ctx.channel());
+        }
+        ctx.disconnect();
+        ctx.close();
+    }
+
 
     @ChannelHandler.Sharable
     class ServerHandler extends ChannelDuplexHandler {
@@ -107,7 +116,10 @@ public class AbstractRemotingServer extends AbstractRemoting implements Remoting
 
         private void handleDisconnect(ChannelHandlerContext ctx) {
             final String ipAndPort = NetUtil.toStringAddress(ctx.channel().remoteAddress());
-
+            if (LOGGER.isInfoEnabled()) {
+                LOGGER.info(ipAndPort + " to server channel inactive.");
+            }
+           //TODO 可以释放一些资源
         }
 
         @Override
@@ -115,13 +127,28 @@ public class AbstractRemotingServer extends AbstractRemoting implements Remoting
             if (LOGGER.isInfoEnabled()) {
                 LOGGER.info("channel exx:" + cause.getMessage() + ",channel:" + ctx.channel());
             }
-
+            //TODO 释放资源
+            super.exceptionCaught(ctx, cause);
         }
 
         @Override
         public void userEventTriggered(ChannelHandlerContext ctx, Object evt) {
             if (evt instanceof IdleStateEvent) {
-
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("idle:" + evt);
+                }
+                IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
+                if (idleStateEvent.state() == IdleState.READER_IDLE) {
+                    if (LOGGER.isInfoEnabled()) {
+                        LOGGER.info("server, channel:" + ctx.channel() + " read idle.");
+                    }
+                    handleDisconnect(ctx);
+                    try {
+                        closeChannelHandlerContext(ctx);
+                    } catch (Exception e) {
+                        LOGGER.error(e.getMessage());
+                    }
+                }
             }
         }
 

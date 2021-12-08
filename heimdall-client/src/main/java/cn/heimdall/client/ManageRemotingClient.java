@@ -16,6 +16,7 @@ import cn.heimdall.core.message.NodeRole;
 import cn.heimdall.core.message.ResultCode;
 import cn.heimdall.core.message.body.register.ClientRegisterRequest;
 import cn.heimdall.core.message.body.register.ClientRegisterResponse;
+import cn.heimdall.core.network.processor.client.ClientIdleProcessor;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
 import cn.heimdall.core.network.remote.ClientPoolKey;
 import cn.heimdall.core.utils.common.CollectionUtil;
@@ -103,6 +104,7 @@ public class ManageRemotingClient extends AbstractRemotingClient {
     private void registerProcessor() {
         super.registerProcessor(MessageType.TYPE_CLIENT_HEARTBEAT_RESPONSE, new HeartbeatResponseProcessor(getFutures()), messageExecutor);
         super.registerProcessor(MessageType.TYPE_CLIENT_REGISTER_RESPONSE, new RegisterResponseProcessor(getFutures()), messageExecutor);
+        super.registerProcessor(MessageType.TYPE_PING_MESSAGE, new ClientIdleProcessor());
     }
 
     private static final long KEEP_ALIVE_TIME = Integer.MAX_VALUE;
