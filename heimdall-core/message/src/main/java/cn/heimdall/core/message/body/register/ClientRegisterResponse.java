@@ -32,6 +32,6 @@ public class ClientRegisterResponse extends MessageResponse {
     public String toString() {
         return "ClientRegisterResponse{" +
                 "addresses=" + addresses +
-                '}';
+                '}' + super.toString();
     }
 }

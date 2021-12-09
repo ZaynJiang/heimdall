@@ -22,4 +22,12 @@ public abstract class MessageResponse extends MessageBody {
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
+    @Override
+    public String toString() {
+        return "MessageResponse{" +
+                "resultCode=" + resultCode +
+                ", msg='" + msg + '\'' +
+                '}';
+    }
 }

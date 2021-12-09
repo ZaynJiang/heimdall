@@ -75,10 +75,11 @@ public class GuarderCoordinator implements MessageDoorway, GuarderInboundHandler
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("guarder received client register request, appName is {}, ip is {}", request.getAppName(), request.getIp());
         }
-        ClientRegisterResponse nodeHeartbeatResponse = new ClientRegisterResponse();
+        ClientRegisterResponse nodeRegisterResponse = new ClientRegisterResponse();
         Map<NodeRole, Map<InetSocketAddress, Long>> addresses = this.getNodeRoleMap();
-        nodeHeartbeatResponse.setAddresses(addresses);
-        return nodeHeartbeatResponse;
+        nodeRegisterResponse.setAddresses(addresses);
+        nodeRegisterResponse.setMsg("guarder success response");
+        return nodeRegisterResponse;
     }
 
     @Override
@@ -89,6 +90,7 @@ public class GuarderCoordinator implements MessageDoorway, GuarderInboundHandler
         ClientHeartbeatResponse nodeHeartbeatResponse = new ClientHeartbeatResponse();
         Map<NodeRole, Map<InetSocketAddress, Long>> addresses = this.getNodeRoleMap();
         nodeHeartbeatResponse.setAddresses(addresses);
+        nodeHeartbeatResponse.setMsg("guarder success response");
         return nodeHeartbeatResponse;
     }
 

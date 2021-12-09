@@ -53,7 +53,7 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
         timerExecutor.scheduleAtFixedRate(() -> {
             //TODO 连接
             clientChannelManager.reconnect(getAvailableAddress());
-        }, 10 * 1000L, 10 * 1000L, TimeUnit.MILLISECONDS);
+        }, 60 * 1000L, 10 * 1000L, TimeUnit.MILLISECONDS);
         super.init();
         clientBootstrap.start();
     }

@@ -62,7 +62,6 @@ public class NettyKeyPoolFactory implements KeyedPooledObjectFactory<ClientPoolK
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("register success, cost " + (System.currentTimeMillis() - start), key + " ,role:" + " ,channel:" + channelToServer);
         }
-
         return new DefaultPooledObject<>(channelToServer);
 
     }

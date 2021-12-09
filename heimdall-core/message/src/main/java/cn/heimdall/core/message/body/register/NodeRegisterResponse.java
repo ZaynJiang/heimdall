@@ -75,6 +75,6 @@ public class NodeRegisterResponse extends MessageResponse {
                 ", host='" + host + '\'' +
                 ", port='" + port + '\'' +
                 ", addresses=" + addresses +
-                '}';
+                '}' + super.toString();
     }
 }

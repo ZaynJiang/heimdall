@@ -49,6 +49,6 @@ public class ClientHeartbeatResponse  extends MessageResponse {
                 "host='" + host + '\'' +
                 ", port='" + port + '\'' +
                 ", addresses=" + addresses +
-                '}';
+                '}' + super.toString();
     }
 }

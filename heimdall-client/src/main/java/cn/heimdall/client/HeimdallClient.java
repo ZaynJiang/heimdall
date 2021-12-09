@@ -20,7 +20,7 @@ public class HeimdallClient {
         for (int i = 0; i < 1000; i++) {
             //发送消息
             ClientHeartbeatRequest heartbeatRequest = new ClientHeartbeatRequest();
-            Thread.sleep(1000 * 30);
+            Thread.sleep(1000 * 10);
             RpcMessage request = new RpcMessage(heartbeatRequest);
             LOGGER.info("第" + i + "条消息发送开始");
             Object res = manageRemotingClient.sendSyncRequest(request);

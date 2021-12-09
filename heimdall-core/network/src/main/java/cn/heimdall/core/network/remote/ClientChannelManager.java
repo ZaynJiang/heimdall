@@ -70,8 +70,8 @@ public class ClientChannelManager {
         Channel channelToServer = channels.get(serverAddress);
         if (channelToServer != null) {
             channelToServer = getExistAliveChannel(channelToServer, serverAddress);
-            if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("getExistAliveChannel result is {}, serverAddress is {}", channelToServer, serverAddress);
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("getExistAliveChannel result is {}, serverAddress is {}", channelToServer, serverAddress);
             }
             if (channelToServer != null) {
                 return channelToServer;

@@ -79,7 +79,7 @@ public class NetworkConfig extends HeimdallConfig{
     }
 
     public int getChannelMaxAllIdleSeconds() {
-        return 0;
+        return 15;
     }
 
     public int getMaxPoolActive() {
