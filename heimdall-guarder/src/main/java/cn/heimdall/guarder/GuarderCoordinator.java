@@ -4,10 +4,9 @@ import cn.heimdall.core.cluster.ClusterInfo;
 import cn.heimdall.core.cluster.ClusterInfoManager;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageDoorway;
+import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.NodeRole;
-import cn.heimdall.core.message.RpcMessage;
 import cn.heimdall.core.message.body.GuarderMessageRequest;
-import cn.heimdall.core.message.body.MessageRequest;
 import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatRequest;
 import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatResponse;
 import cn.heimdall.core.message.body.heartbeat.NodeHeartbeatRequest;
@@ -17,7 +16,12 @@ import cn.heimdall.core.message.body.register.ClientRegisterResponse;
 import cn.heimdall.core.message.body.register.NodeRegisterRequest;
 import cn.heimdall.core.message.body.register.NodeRegisterResponse;
 import cn.heimdall.core.message.hander.GuarderInboundHandler;
+import cn.heimdall.core.network.coordinator.Coordinator;
+import cn.heimdall.core.network.processor.ServerProcessor;
+import cn.heimdall.core.network.processor.server.ServerIdleProcessor;
 import cn.heimdall.core.utils.spi.Initialize;
+import cn.heimdall.guarder.processor.server.HeartbeatRequestProcessor;
+import cn.heimdall.guarder.processor.server.RegisterRequestProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +29,7 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GuarderCoordinator implements MessageDoorway, GuarderInboundHandler, Initialize {
+public class GuarderCoordinator implements MessageDoorway, GuarderInboundHandler, Coordinator, Initialize {
     private static final Logger LOGGER = LoggerFactory.getLogger(GuarderCoordinator.class);
 
     private ClusterInfoManager clusterInfoManager;
@@ -102,5 +106,14 @@ public class GuarderCoordinator implements MessageDoorway, GuarderInboundHandler
         return addresses;
     }
 
-
+    @Override
+    public Map<MessageType, Class<? extends ServerProcessor>> getServerProcessors() {
+        Map<MessageType, Class<? extends ServerProcessor>> processorClasses = new HashMap<>();
+        processorClasses.put(MessageType.TYPE_NODE_REGISTER_REQUEST, RegisterRequestProcessor.class);
+        processorClasses.put(MessageType.TYPE_NODE_HEARTBEAT_REQUEST, HeartbeatRequestProcessor.class);
+        processorClasses.put(MessageType.TYPE_CLIENT_HEARTBEAT_REQUEST,  HeartbeatRequestProcessor.class);
+        processorClasses.put(MessageType.TYPE_CLIENT_REGISTER_REQUEST, RegisterRequestProcessor.class);
+        processorClasses.put(MessageType.TYPE_PING_MESSAGE, ServerIdleProcessor.class);
+        return processorClasses;
+    }
 }

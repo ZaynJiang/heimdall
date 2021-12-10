@@ -8,15 +8,15 @@ import cn.heimdall.server.server.TransportRemotingServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class MultiNettyServer {
+public final class NettyServer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MultiNettyServer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NettyServer.class);
 
     private final NodeInfo nodeInfo;
 
     private final Configuration configuration;
 
-    public MultiNettyServer(NodeInfo nodeInfo, Configuration configuration) {
+    public NettyServer(NodeInfo nodeInfo, Configuration configuration) {
         this.nodeInfo = nodeInfo;
         this.configuration = configuration;
     }

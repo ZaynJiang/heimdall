@@ -23,7 +23,7 @@ public class Starter {
         final NodeInfo nodeInfo = nodeInfoManager.getNodeInfo();
 
         //初始化netty server 并启动
-        MultiNettyServer server = new MultiNettyServer(nodeInfo, configuration);
+        NettyServer server = new NettyServer(nodeInfo, configuration);
         server.multiNettyServerStart();
     }
 }
