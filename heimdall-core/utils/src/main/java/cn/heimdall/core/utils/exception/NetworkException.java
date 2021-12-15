@@ -8,7 +8,6 @@ public class NetworkException extends RuntimeException{
 
     private final ErrorCode errcode;
 
-
     public NetworkException() {
         this(ErrorCode.UnKnown);
     }

@@ -1,7 +1,7 @@
 package cn.heimdall.core.message.body.register;
 
 import cn.heimdall.core.message.MessageType;
-import cn.heimdall.core.message.NodeRole;
+import cn.heimdall.core.utils.enums.NodeRole;
 import cn.heimdall.core.message.body.GuarderMessageRequest;
 import cn.heimdall.core.message.body.MessageResponse;
 

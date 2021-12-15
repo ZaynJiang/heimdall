@@ -3,6 +3,7 @@ package cn.heimdall.core.utils.spi;
 
 import cn.heimdall.core.utils.annotation.LoadLevel;
 import cn.heimdall.core.utils.common.CollectionUtil;
+import cn.heimdall.core.utils.common.StringUtil;
 import cn.heimdall.core.utils.constants.CharsetConstants;
 import cn.heimdall.core.utils.enums.Scope;
 import cn.heimdall.core.utils.exception.SpiNotFoundException;
@@ -33,6 +34,11 @@ public class EnhancedServiceLoader {
     public static <S> List<S> loadAll(Class<S> service) {
         return InnerEnhancedServiceLoader.getServiceLoader(service).loadAll(findClassLoader());
     }
+
+    public static <S> S load(Class<S> service, String activateName) throws SpiNotFoundException {
+        return InnerEnhancedServiceLoader.getServiceLoader(service).load(activateName, findClassLoader());
+    }
+
     private static ClassLoader findClassLoader() {
         return EnhancedServiceLoader.class.getClassLoader();
     }
@@ -64,6 +70,35 @@ public class EnhancedServiceLoader {
             }
             return (InnerEnhancedServiceLoader<S>) CollectionUtil.computeIfAbsent(SERVICE_LOADERS, type,
                     key -> new InnerEnhancedServiceLoader<>(type));
+        }
+
+        private S load(String activateName, ClassLoader loader)
+                throws SpiNotFoundException {
+            return loadExtension(activateName, loader, null, null);
+        }
+
+        private S loadExtension(String activateName, ClassLoader loader, Class[] argTypes,
+                                Object[] args) {
+            if (StringUtil.isEmpty(activateName)) {
+                throw new IllegalArgumentException("the name of service provider for [" + type.getName() + "] name is null");
+            }
+            try {
+                loadAllExtensionClass(loader);
+                ExtensionDefinition cachedExtensionDefinition = getCachedExtensionDefinition(activateName);
+                return getExtensionInstance(cachedExtensionDefinition, loader, argTypes, args);
+            } catch (Throwable e) {
+                if (e instanceof SpiNotFoundException) {
+                    throw (SpiNotFoundException)e;
+                } else {
+                    throw new SpiNotFoundException(
+                            "not found service provider for : " + type.getName() + " caused by " + e.getCause());
+                }
+            }
+        }
+
+        private ExtensionDefinition getCachedExtensionDefinition(String activateName) {
+            List<ExtensionDefinition> definitions = nameToDefinitionsMap.get(activateName);
+            return CollectionUtil.getLast(definitions);
         }
 
         private List<Class> getAllExtensionClass(ClassLoader loader) {

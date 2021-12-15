@@ -6,7 +6,7 @@ import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.NetworkManageConfig;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageType;
-import cn.heimdall.core.message.NodeRole;
+import cn.heimdall.core.utils.enums.NodeRole;
 import cn.heimdall.core.network.processor.client.NodeHeartbeatProcessor;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
 import cn.heimdall.core.network.remote.ClientPoolKey;

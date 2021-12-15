@@ -5,7 +5,6 @@ import cn.heimdall.core.cluster.ClusterInfoManager;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageDoorway;
 import cn.heimdall.core.message.MessageType;
-import cn.heimdall.core.message.NodeRole;
 import cn.heimdall.core.message.body.GuarderMessageRequest;
 import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatRequest;
 import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatResponse;
@@ -19,6 +18,8 @@ import cn.heimdall.core.message.hander.GuarderInboundHandler;
 import cn.heimdall.core.network.coordinator.Coordinator;
 import cn.heimdall.core.network.processor.ServerProcessor;
 import cn.heimdall.core.network.processor.server.ServerIdleProcessor;
+import cn.heimdall.core.utils.annotation.LoadLevel;
+import cn.heimdall.core.utils.enums.NodeRole;
 import cn.heimdall.core.utils.spi.Initialize;
 import cn.heimdall.guarder.processor.server.HeartbeatRequestProcessor;
 import cn.heimdall.guarder.processor.server.RegisterRequestProcessor;
@@ -29,6 +30,7 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 
+@LoadLevel(name = "guarder")
 public class GuarderCoordinator implements MessageDoorway, GuarderInboundHandler, Coordinator, Initialize {
     private static final Logger LOGGER = LoggerFactory.getLogger(GuarderCoordinator.class);
 

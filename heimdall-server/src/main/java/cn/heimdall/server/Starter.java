@@ -6,7 +6,13 @@ import cn.heimdall.core.config.Configuration;
 import cn.heimdall.core.config.ConfigurationCache;
 import cn.heimdall.core.config.ConfigurationFactory;
 import cn.heimdall.core.config.constants.ConfigurationKeys;
+import cn.heimdall.core.utils.enums.NodeRole;
+import cn.heimdall.core.network.coordinator.Coordinator;
 import cn.heimdall.core.utils.common.ArgsUtils;
+import cn.heimdall.core.utils.spi.EnhancedServiceLoader;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Starter {
     public static void main(String[] args) {
@@ -22,8 +28,14 @@ public class Starter {
         nodeInfoManager.init();
         final NodeInfo nodeInfo = nodeInfoManager.getNodeInfo();
 
+        //获取角色对应的协调器对象
+        Set<Coordinator> coordinators = nodeInfo.getNodeRoles().stream().map(coordinator ->
+                EnhancedServiceLoader.load(Coordinator.class, coordinator.name())).collect(Collectors.toSet());
+
         //初始化netty server 并启动
-        NettyServer server = new NettyServer(nodeInfo, configuration);
+        NettyServer server = new NettyServer(coordinators, configuration);
+
+
         server.multiNettyServerStart();
     }
 }

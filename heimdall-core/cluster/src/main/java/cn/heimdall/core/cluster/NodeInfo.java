@@ -1,6 +1,6 @@
 package cn.heimdall.core.cluster;
 
-import cn.heimdall.core.message.NodeRole;
+import cn.heimdall.core.utils.enums.NodeRole;
 
 import java.util.List;
 

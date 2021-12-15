@@ -12,7 +12,7 @@ import cn.heimdall.core.config.NetworkManageConfig;
 import cn.heimdall.core.config.constants.ConfigurationKeys;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageType;
-import cn.heimdall.core.message.NodeRole;
+import cn.heimdall.core.utils.enums.NodeRole;
 import cn.heimdall.core.message.ResultCode;
 import cn.heimdall.core.message.body.register.ClientRegisterRequest;
 import cn.heimdall.core.message.body.register.ClientRegisterResponse;

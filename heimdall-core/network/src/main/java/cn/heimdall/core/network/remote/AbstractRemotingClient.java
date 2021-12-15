@@ -3,7 +3,7 @@ package cn.heimdall.core.network.remote;
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.message.Message;
 import cn.heimdall.core.message.MessageBody;
-import cn.heimdall.core.message.NodeRole;
+import cn.heimdall.core.utils.enums.NodeRole;
 import cn.heimdall.core.message.RpcMessage;
 import cn.heimdall.core.message.body.PingMessage;
 import cn.heimdall.core.network.bootstrap.NettyClientBootstrap;
@@ -18,7 +18,6 @@ import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.concurrent.EventExecutorGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.plugin2.message.HeartbeatMessage;
 
 import java.net.InetSocketAddress;
 import java.util.Set;

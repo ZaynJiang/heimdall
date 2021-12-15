@@ -1,6 +1,6 @@
 package cn.heimdall.client;
 
-import cn.heimdall.core.message.NodeRole;
+import cn.heimdall.core.utils.enums.NodeRole;
 
 import java.util.Arrays;
 import java.util.List;

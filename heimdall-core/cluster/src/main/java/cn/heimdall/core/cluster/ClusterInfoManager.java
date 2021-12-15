@@ -3,7 +3,7 @@ package cn.heimdall.core.cluster;
 import cn.heimdall.core.config.Configuration;
 import cn.heimdall.core.config.ConfigurationFactory;
 import cn.heimdall.core.config.constants.ConfigurationKeys;
-import cn.heimdall.core.message.NodeRole;
+import cn.heimdall.core.utils.enums.NodeRole;
 import cn.heimdall.core.message.body.heartbeat.NodeHeartbeatRequest;
 import cn.heimdall.core.message.body.heartbeat.NodeHeartbeatResponse;
 import cn.heimdall.core.message.body.register.NodeRegisterRequest;

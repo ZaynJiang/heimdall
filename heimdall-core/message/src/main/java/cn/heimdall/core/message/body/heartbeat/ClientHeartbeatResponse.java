@@ -1,7 +1,7 @@
 package cn.heimdall.core.message.body.heartbeat;
 
 import cn.heimdall.core.message.MessageType;
-import cn.heimdall.core.message.NodeRole;
+import cn.heimdall.core.utils.enums.NodeRole;
 import cn.heimdall.core.message.body.MessageResponse;
 
 import java.net.InetSocketAddress;

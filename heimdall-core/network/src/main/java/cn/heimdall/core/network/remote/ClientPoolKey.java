@@ -1,7 +1,7 @@
 package cn.heimdall.core.network.remote;
 
 import cn.heimdall.core.message.MessageBody;
-import cn.heimdall.core.message.NodeRole;
+import cn.heimdall.core.utils.enums.NodeRole;
 
 import java.util.List;
 import java.util.stream.Collectors;
