@@ -19,6 +19,7 @@ import cn.heimdall.core.network.coordinator.Coordinator;
 import cn.heimdall.core.network.processor.ServerProcessor;
 import cn.heimdall.core.network.processor.server.ServerIdleProcessor;
 import cn.heimdall.core.utils.annotation.LoadLevel;
+import cn.heimdall.core.utils.enums.NettyServerType;
 import cn.heimdall.core.utils.enums.NodeRole;
 import cn.heimdall.core.utils.spi.Initialize;
 import cn.heimdall.guarder.processor.server.HeartbeatRequestProcessor;
@@ -117,5 +118,10 @@ public class GuarderCoordinator implements MessageDoorway, GuarderInboundHandler
         processorClasses.put(MessageType.TYPE_CLIENT_REGISTER_REQUEST, RegisterRequestProcessor.class);
         processorClasses.put(MessageType.TYPE_PING_MESSAGE, ServerIdleProcessor.class);
         return processorClasses;
+    }
+
+    @Override
+    public NettyServerType getNettyServerType() {
+        return NettyServerType.MANAGE;
     }
 }

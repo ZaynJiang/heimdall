@@ -68,7 +68,7 @@ public final class ManageRemotingServer extends AbstractRemotingServer {
                     final ThreadPoolExecutor workingThreads = new ThreadPoolExecutor(networkManageConfig.getMinServerPoolSize(),
                             networkManageConfig.getMaxServerPoolSize(), networkManageConfig.getKeepAliveTime(), TimeUnit.SECONDS,
                             new LinkedBlockingQueue<>(networkManageConfig.getMaxTaskQueueSize()),
-                            new NamedThreadFactory("ManageServerHandlerThread", networkManageConfig.getMaxServerPoolSize()), new ThreadPoolExecutor.CallerRunsPolicy());
+                            new NamedThreadFactory("ManageRemotingServer", networkManageConfig.getMaxServerPoolSize()), new ThreadPoolExecutor.CallerRunsPolicy());
                     INSTANCE = new ManageRemotingServer(workingThreads, networkManageConfig);
                 }
             }

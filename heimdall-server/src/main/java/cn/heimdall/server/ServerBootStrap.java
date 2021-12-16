@@ -24,6 +24,7 @@ import java.security.cert.CertificateException;
 import java.util.concurrent.ExecutionException;
 
 
+@Deprecated
 public class ServerBootStrap {
     public static void main(String[] args) throws InterruptedException, ExecutionException, CertificateException, SSLException {
         ServerBootstrap serverBootstrap = new ServerBootstrap();

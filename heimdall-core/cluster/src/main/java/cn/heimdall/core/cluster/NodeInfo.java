@@ -14,6 +14,8 @@ public class NodeInfo {
 
     private boolean compute;
 
+    private boolean action;
+
     private String nodeName;
 
     private String host;
@@ -95,6 +97,15 @@ public class NodeInfo {
 
     public NodeInfo setGuarder(boolean guarder) {
         this.guarder = guarder;
+        return this;
+    }
+
+    public boolean isAction() {
+        return action;
+    }
+
+    public NodeInfo setAction(boolean action) {
+        this.action = action;
         return this;
     }
 

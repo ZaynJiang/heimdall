@@ -2,12 +2,18 @@ package cn.heimdall.server;
 
 import cn.heimdall.core.config.Configuration;
 import cn.heimdall.core.network.coordinator.Coordinator;
+import cn.heimdall.core.network.remote.AbstractRemotingServer;
+import cn.heimdall.core.utils.common.CollectionUtil;
+import cn.heimdall.server.server.ActionRemotingServer;
 import cn.heimdall.server.server.ManageRemotingServer;
+import cn.heimdall.server.server.RemotingServerFactory;
 import cn.heimdall.server.server.TransportRemotingServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public final class NettyServer {
 
@@ -23,35 +29,21 @@ public final class NettyServer {
     }
 
 
-
     public void multiNettyServerStart() {
-        ManageRemotingServer manageServer = null;
-        TransportRemotingServer transportServer = null;
+        List<AbstractRemotingServer> servers = null;
         try {
-            coordinators.stream().forEach(coordinator -> {
-
-            });
-      /*      //如果是guarder，则需要启动管理类服务
-            if (nodeInfo.isGuarder()) {
-                //启动管理类server
-                manageServer = ManageRemotingServer.getInstance();
-                manageServer.setListenPort(configuration.getInt(ConfigurationKeys.MANAGE_PORT, 7200));
-                manageServer.init();
-            }
-            //如果是存储器和计算者,则需要启动业务数据处理服务
-            if (nodeInfo.isStorage() || nodeInfo.isCompute()) {
-                transportServer = TransportRemotingServer.getInstance();
-                transportServer.setListenPort(configuration.getInt(ConfigurationKeys.TRANSPORT_PORT, 7300));
-                transportServer.init();
-            }*/
-        } catch (Throwable e){
+            servers = coordinators.stream().
+                    map(coordinator -> {
+                        AbstractRemotingServer remotingServer = RemotingServerFactory.makeRemotingServer(coordinator.getNettyServerType(), configuration);
+                        //进行注册处理器操作
+                        return remotingServer;
+                    })
+                    .collect(Collectors.toList());
+        } catch (Throwable e) {
             LOGGER.error("multiNettyServerStart error, ", e);
         } finally {
-            if (manageServer != null) {
-                manageServer.getServerBootstrap().closeFutureSync();
-            }
-            if (transportServer != null) {
-                transportServer.getServerBootstrap().closeFutureSync();
+            if (!CollectionUtil.isEmpty(servers)) {
+                servers.stream().forEach(server -> server.getServerBootstrap().closeFutureSync());
             }
         }
 

@@ -75,7 +75,7 @@ public final class TransportRemotingServer extends AbstractRemotingServer {
                     final ThreadPoolExecutor workingThreads = new ThreadPoolExecutor(networkTransportConfig.getMinServerPoolSize(),
                             networkTransportConfig.getMaxServerPoolSize(), networkTransportConfig.getKeepAliveTime(), TimeUnit.SECONDS,
                             new LinkedBlockingQueue<>(networkTransportConfig.getMaxTaskQueueSize()),
-                            new NamedThreadFactory("ServerHandlerThread", networkTransportConfig.getMaxServerPoolSize()),
+                            new NamedThreadFactory("TransportRemotingServer", networkTransportConfig.getMaxServerPoolSize()),
                             new ThreadPoolExecutor.CallerRunsPolicy());
                     INSTANCE = new TransportRemotingServer(workingThreads, networkTransportConfig);
                 }
