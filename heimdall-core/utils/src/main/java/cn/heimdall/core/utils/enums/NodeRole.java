@@ -1,10 +1,12 @@
 package cn.heimdall.core.utils.enums;
 
+import cn.heimdall.core.utils.constants.LoadLevelConstants;
+
 public enum NodeRole {
     CLIENT(0, "client"),
-    COMPUTE(1, "compute"),
-    STORAGE(2, "storage"),
-    GUARDER(3, "guarder");
+    COMPUTE(1, LoadLevelConstants.COMPUTE_COORDINATOR),
+    STORAGE(2, LoadLevelConstants.STORAGE_COORDINATOR),
+    GUARDER(3, LoadLevelConstants.GUARDER_COORDINATOR);
     private String name;
     private int value;
 

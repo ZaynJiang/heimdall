@@ -48,7 +48,7 @@ public class EnhancedServiceLoader {
     private static class InnerEnhancedServiceLoader<S> {
         private static final Logger LOGGER = LoggerFactory.getLogger(InnerEnhancedServiceLoader.class);
         private static final String SERVICES_DIRECTORY = "META-INF/services/";
-        private static final String SEATA_DIRECTORY = "META-INF/heimdall/";
+        private static final String HEIMDALL_DIRECTORY = "META-INF/heimdall/";
         private final ConcurrentMap<ExtensionDefinition, Holder<Object>> definitionToInstanceMap =
                 new ConcurrentHashMap<>();
         private final Holder<List<ExtensionDefinition>> definitionsHolder = new Holder<>();
@@ -203,7 +203,7 @@ public class EnhancedServiceLoader {
             List<ExtensionDefinition> extensionDefinitions = new ArrayList<>();
             try {
                 loadFile(SERVICES_DIRECTORY, loader, extensionDefinitions);
-                loadFile(SEATA_DIRECTORY, loader, extensionDefinitions);
+                loadFile(HEIMDALL_DIRECTORY, loader, extensionDefinitions);
             } catch (IOException e) {
                 throw new SpiNotFoundException(e);
             }

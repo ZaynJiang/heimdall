@@ -4,10 +4,7 @@ import cn.heimdall.core.config.Configuration;
 import cn.heimdall.core.network.coordinator.Coordinator;
 import cn.heimdall.core.network.remote.AbstractRemotingServer;
 import cn.heimdall.core.utils.common.CollectionUtil;
-import cn.heimdall.server.server.ActionRemotingServer;
-import cn.heimdall.server.server.ManageRemotingServer;
 import cn.heimdall.server.server.RemotingServerFactory;
-import cn.heimdall.server.server.TransportRemotingServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +32,7 @@ public final class NettyServer {
             servers = coordinators.stream().
                     map(coordinator -> {
                         AbstractRemotingServer remotingServer = RemotingServerFactory.makeRemotingServer(coordinator.getNettyServerType(), configuration);
-                        //进行注册处理器操作
+                        coordinator.doRegisterProcessor(remotingServer);
                         return remotingServer;
                     })
                     .collect(Collectors.toList());

@@ -2,10 +2,7 @@ package cn.heimdall.core.config;
 
 import cn.heimdall.core.config.constants.ConfigurationKeys;
 
-/**
- * 传输类配置
- */
-public class NetworkTransportConfig extends NetworkConfig{
+public class NetworkActionConfig extends NetworkConfig{
     public int getMinServerPoolSize() {
         return 50;
     }
@@ -14,15 +11,19 @@ public class NetworkTransportConfig extends NetworkConfig{
         return 500;
     }
 
-    public long getKeepAliveTime() {
+    public int getKeepAliveTime() {
         return 500;
     }
 
+    public int getServerShutdownWaitTime() {
+        return CONFIG.getInt(ConfigurationKeys.SHUTDOWN_WAIT, 3);
+    }
+
     public int getMaxTaskQueueSize() {
-        return 10000;
+        return 20000;
     }
 
     public int getPort() {
-        return CONFIG.getInt(ConfigurationKeys.TRANSPORT_PORT, 7300);
+        return CONFIG.getInt(ConfigurationKeys.HTTP_PORT, 7400);
     }
 }

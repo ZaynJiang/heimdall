@@ -7,6 +7,8 @@ import cn.heimdall.core.cluster.NodeInfo;
 import cn.heimdall.core.cluster.NodeInfoManager;
 import cn.heimdall.core.config.NetworkTransportConfig;
 import cn.heimdall.core.message.MessageType;
+import cn.heimdall.core.network.coordinator.Coordinator;
+import cn.heimdall.core.network.processor.ServerProcessor;
 import cn.heimdall.core.network.remote.AbstractRemotingServer;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
 import cn.heimdall.storage.core.processor.server.StoreAppStateProcessor;
@@ -35,20 +37,23 @@ public final class TransportRemotingServer extends AbstractRemotingServer {
 
     @Override
     public void init() {
+        if (!initialized.compareAndSet(false, true)) {
+            LOGGER.warn("TransportRemotingServer has bean init");
+            return;
+        }
         nodeInfo = NodeInfoManager.getInstance().getNodeInfo();
         // registry processor
-        registerProcessor();
-        if (initialized.compareAndSet(false, true)) {
-            super.init();
-        }
+        super.init();
     }
 
     public TransportRemotingServer(ThreadPoolExecutor executor, NetworkTransportConfig transportConfig) {
         super(executor, transportConfig);
     }
 
-    private void registerProcessor() {
-        //如果是compute
+    @Override
+    public void doRegisterProcessor(MessageType messageType, ServerProcessor serverProcessor) {
+        super.registerProcessor(messageType, serverProcessor);
+    /*    //如果是compute
         if (nodeInfo.isCompute()) {
             ComputeCoordinator computeCoordinator = new ComputeCoordinator(this);
             //应用状态上报server-processor
@@ -63,7 +68,7 @@ public final class TransportRemotingServer extends AbstractRemotingServer {
             //消息树上报processor
             super.registerProcessor(MessageType.TYPE_STORE_METRIC_REQUEST, new StoreMetricProcessor());
             super.registerProcessor(MessageType.TYPE_STORE_TRANCE_LOG_REQUEST, new StoreTraceLogProcessor());
-        }
+        }*/
 
     }
 
@@ -78,6 +83,8 @@ public final class TransportRemotingServer extends AbstractRemotingServer {
                             new NamedThreadFactory("TransportRemotingServer", networkTransportConfig.getMaxServerPoolSize()),
                             new ThreadPoolExecutor.CallerRunsPolicy());
                     INSTANCE = new TransportRemotingServer(workingThreads, networkTransportConfig);
+                    INSTANCE.setListenPort(networkTransportConfig.getPort());
+                    INSTANCE.init();
                 }
             }
         }

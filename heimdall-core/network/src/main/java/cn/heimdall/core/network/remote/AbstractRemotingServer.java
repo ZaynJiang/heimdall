@@ -3,8 +3,10 @@ package cn.heimdall.core.network.remote;
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.message.Message;
 import cn.heimdall.core.message.MessageBody;
+import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.RpcMessage;
 import cn.heimdall.core.network.bootstrap.NettyServerBootstrap;
+import cn.heimdall.core.network.processor.ServerProcessor;
 import cn.heimdall.core.utils.common.NetUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
@@ -19,7 +21,7 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
-public class AbstractRemotingServer extends AbstractRemoting implements RemotingServer{
+public abstract class AbstractRemotingServer extends AbstractRemoting implements RemotingServer{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRemotingServer.class);
 
@@ -31,6 +33,8 @@ public class AbstractRemotingServer extends AbstractRemoting implements Remoting
         //注入一个handle
         serverBootstrap.setChannelHandlers(new ServerHandler());
     }
+
+    public abstract void doRegisterProcessor(MessageType messageType, ServerProcessor serverProcessor);
 
     public void setListenPort(int listenPort) {
         serverBootstrap.setListenPort(listenPort);

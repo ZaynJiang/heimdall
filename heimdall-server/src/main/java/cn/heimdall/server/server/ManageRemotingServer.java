@@ -3,15 +3,14 @@ package cn.heimdall.server.server;
 import cn.heimdall.core.cluster.NodeInfo;
 import cn.heimdall.core.cluster.NodeInfoManager;
 import cn.heimdall.core.config.NetworkManageConfig;
+import cn.heimdall.core.config.constants.ConfigurationKeys;
 import cn.heimdall.core.message.MessageType;
-import cn.heimdall.core.network.processor.server.ServerIdleProcessor;
+import cn.heimdall.core.network.processor.ServerProcessor;
 import cn.heimdall.core.network.remote.AbstractRemotingServer;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
-import cn.heimdall.guarder.GuarderCoordinator;
-import cn.heimdall.guarder.processor.server.HeartbeatRequestProcessor;
-import cn.heimdall.guarder.processor.server.RegisterRequestProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -35,29 +34,18 @@ public final class ManageRemotingServer extends AbstractRemotingServer {
     }
 
     @Override
-    public void init() {
-        nodeInfo = NodeInfoManager.getInstance().getNodeInfo();
-        // registry processor
-        registerProcessor();
-        if (initialized.compareAndSet(false, true)) {
-            super.init();
-        }
+    public void doRegisterProcessor(MessageType messageType, ServerProcessor serverProcessor) {
+        registerProcessor(messageType, serverProcessor);
     }
 
-
-    private void registerProcessor() {
-        //如果是guarder
-        if (nodeInfo.isGuarder()) {
-            final GuarderCoordinator coordinator = new GuarderCoordinator();
-            coordinator.init();
-            super.registerProcessor(MessageType.TYPE_NODE_REGISTER_REQUEST, new RegisterRequestProcessor(this, coordinator), messageExecutor);
-            super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT_REQUEST, new HeartbeatRequestProcessor(this, coordinator), messageExecutor);
-            super.registerProcessor(MessageType.TYPE_CLIENT_HEARTBEAT_REQUEST, new HeartbeatRequestProcessor(this, coordinator), messageExecutor);
-            super.registerProcessor(MessageType.TYPE_CLIENT_REGISTER_REQUEST, new RegisterRequestProcessor(this, coordinator), messageExecutor);
-
-            //注册
-            super.registerProcessor(MessageType.TYPE_PING_MESSAGE, new ServerIdleProcessor(this), messageExecutor);
+    @Override
+    public void init() {
+        if (!initialized.compareAndSet(false, true)) {
+            LOGGER.warn("manageRemotingServer has bean init");
+            return;
         }
+        nodeInfo = NodeInfoManager.getInstance().getNodeInfo();
+        super.init();
     }
 
     public static ManageRemotingServer getInstance() {
@@ -70,6 +58,8 @@ public final class ManageRemotingServer extends AbstractRemotingServer {
                             new LinkedBlockingQueue<>(networkManageConfig.getMaxTaskQueueSize()),
                             new NamedThreadFactory("ManageRemotingServer", networkManageConfig.getMaxServerPoolSize()), new ThreadPoolExecutor.CallerRunsPolicy());
                     INSTANCE = new ManageRemotingServer(workingThreads, networkManageConfig);
+                    INSTANCE.setListenPort(networkManageConfig.getPort());
+                    INSTANCE.init();
                 }
             }
         }

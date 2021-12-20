@@ -29,8 +29,8 @@ public class Starter {
         final NodeInfo nodeInfo = nodeInfoManager.getNodeInfo();
 
         //获取角色对应的协调器对象
-        Set<Coordinator> coordinators = nodeInfo.getNodeRoles().stream().map(coordinator ->
-                EnhancedServiceLoader.load(Coordinator.class, coordinator.name())).collect(Collectors.toSet());
+        Set<Coordinator> coordinators = nodeInfo.getNodeRoles().stream().map(nodeRole ->
+                EnhancedServiceLoader.load(Coordinator.class, nodeRole.getName())).collect(Collectors.toSet());
 
         //初始化netty server 并启动
         NettyServer server = new NettyServer(coordinators, configuration);

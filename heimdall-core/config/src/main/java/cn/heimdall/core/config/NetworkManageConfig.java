@@ -28,4 +28,9 @@ public class NetworkManageConfig extends NetworkConfig {
     public int getMaxTaskQueueSize() {
       return 20000;
     }
+
+    public int getPort(){
+        return CONFIG.getInt(ConfigurationKeys.MANAGE_PORT, 7200);
+
+    }
 }

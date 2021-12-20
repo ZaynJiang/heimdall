@@ -1,7 +1,10 @@
 package cn.heimdall.server.server;
 
+import cn.heimdall.core.config.NetworkActionConfig;
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.NetworkTransportConfig;
+import cn.heimdall.core.message.MessageType;
+import cn.heimdall.core.network.processor.ServerProcessor;
 import cn.heimdall.core.network.remote.AbstractRemotingServer;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
 import org.slf4j.Logger;
@@ -28,7 +31,16 @@ public class ActionRemotingServer extends AbstractRemotingServer {
     }
 
     @Override
+    public void doRegisterProcessor(MessageType messageType, ServerProcessor serverProcessor) {
+        //TODO
+    }
+
+    @Override
     public void init() {
+        if (!initialized.compareAndSet(false, true)) {
+            LOGGER.warn("actionRemotingServer has bean init");
+            return;
+        }
         super.init();
     }
 
@@ -36,13 +48,15 @@ public class ActionRemotingServer extends AbstractRemotingServer {
         if (INSTANCE == null) {
             synchronized (TransportRemotingServer.class) {
                 if (INSTANCE == null) {
-                    final NetworkTransportConfig networkTransportConfig = new NetworkTransportConfig();
+                    final NetworkActionConfig networkTransportConfig = new NetworkActionConfig();
                     final ThreadPoolExecutor workingThreads = new ThreadPoolExecutor(networkTransportConfig.getMinServerPoolSize(),
                             networkTransportConfig.getMaxServerPoolSize(), networkTransportConfig.getKeepAliveTime(), TimeUnit.SECONDS,
                             new LinkedBlockingQueue<>(networkTransportConfig.getMaxTaskQueueSize()),
                             new NamedThreadFactory("ActionRemotingServer", networkTransportConfig.getMaxServerPoolSize()),
                             new ThreadPoolExecutor.CallerRunsPolicy());
                     INSTANCE = new ActionRemotingServer(workingThreads, networkTransportConfig);
+                    INSTANCE.setListenPort(networkTransportConfig.getPort());
+                    INSTANCE.init();
                 }
             }
         }
