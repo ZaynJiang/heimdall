@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 
 public abstract class AbstractMessageAnalyzer implements MessageTypeAware, Initialize {
     protected final ExecutorService taskExecutor = Executors.newFixedThreadPool(MessageConstants.MESSAGE_ANALYZER_THREAD_COUNT);
-    //多个分析器（span、event、tree、heartbeat等）
+    //多个分析器（span、event、tree、appState等）
     protected Map<String, List<MessageTask>> analyzerTasks;
 
     public AbstractMessageAnalyzer() {
@@ -36,4 +36,6 @@ public abstract class AbstractMessageAnalyzer implements MessageTypeAware, Initi
             messageTask.offerQueue(messageBody);
         }
     }
+
+    public abstract void flush();
 }

@@ -10,10 +10,13 @@ import cn.heimdall.compute.metric.SpanMetric;
 import cn.heimdall.compute.metric.SpanMetricInvoker;
 import cn.heimdall.core.message.trace.SpanLog;
 import cn.heimdall.core.message.trace.TraceLog;
+import cn.heimdall.core.utils.annotation.LoadLevel;
 import cn.heimdall.core.utils.common.CollectionUtil;
+import cn.heimdall.core.utils.constants.LoadLevelConstants;
 
 import java.util.List;
 
+@LoadLevel(name = LoadLevelConstants.SPAN_COMPUTE)
 public class SpanLogCompute extends AbstractMetricCompute {
 
     public SpanLogCompute() {

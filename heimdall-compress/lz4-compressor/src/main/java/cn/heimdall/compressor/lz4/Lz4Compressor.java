@@ -1,4 +1,4 @@
-package io.seata.compressor.lz4;
+package cn.heimdall.compressor.lz4;
 
 
 import cn.heimdall.core.message.compress.Compressor;

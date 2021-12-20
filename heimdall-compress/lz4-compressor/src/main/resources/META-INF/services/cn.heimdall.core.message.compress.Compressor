@@ -1,1 +1,1 @@
-io.seata.compressor.lz4.Lz4Compressor
+cn.heimdall.compressor.lz4.Lz4Compressor

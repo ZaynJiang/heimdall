@@ -31,4 +31,8 @@ public class AppStateAnalyzer extends AbstractMessageAnalyzer{
         return MessageType.TYPE_CLIENT_APP_STATE_REQUEST;
     }
 
+    @Override
+    public void flush() {
+
+    }
 }
