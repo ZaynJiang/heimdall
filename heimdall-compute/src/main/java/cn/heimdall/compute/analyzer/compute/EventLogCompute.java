@@ -32,7 +32,7 @@ public class EventLogCompute extends AbstractMetricCompute {
     @Override
     protected void doInvokeMetric(TraceLog tracelog) {
         Metric metric = getMetricInvoker(wrapMetricKey(tracelog));
-        EventMetric eventMetric = (EventMetric) metric;
+        EventMet ric eventMetric = (EventMetric) metric;
         EventLog eventLog = (EventLog) tracelog;
         eventMetric.addCount(1);
         if (eventLog.isErrorTag()) {

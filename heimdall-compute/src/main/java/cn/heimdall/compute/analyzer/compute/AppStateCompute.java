@@ -7,6 +7,6 @@ public class AppStateCompute extends AbstractCompute {
     @Override
     public void compute(MessageBody messageBody) {
         AppStateRequest appStateRequest = (AppStateRequest) messageBody;
-        //todo
+
     }
 }
