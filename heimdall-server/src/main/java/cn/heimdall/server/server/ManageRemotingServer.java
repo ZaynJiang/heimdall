@@ -3,7 +3,6 @@ package cn.heimdall.server.server;
 import cn.heimdall.core.cluster.NodeInfo;
 import cn.heimdall.core.cluster.NodeInfoManager;
 import cn.heimdall.core.config.NetworkManageConfig;
-import cn.heimdall.core.config.constants.ConfigurationKeys;
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.network.processor.ServerProcessor;
 import cn.heimdall.core.network.remote.AbstractRemotingServer;

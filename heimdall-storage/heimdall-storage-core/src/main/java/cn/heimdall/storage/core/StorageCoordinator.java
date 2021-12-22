@@ -1,6 +1,5 @@
 package cn.heimdall.storage.core;
 
-import cn.heimdall.core.config.constants.ConfigurationKeys;
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.body.origin.AppStateRequest;
 import cn.heimdall.core.message.body.origin.AppStateResponse;

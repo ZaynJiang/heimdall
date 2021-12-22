@@ -1,6 +1,6 @@
-package cn.heimdall.core.config.constants;
+package cn.heimdall.core.utils.constants;
 
-public interface MessageConstants {
+public interface MetricConstants {
     //分析队列大小
     int ANALYZER_QUEUE_OVER_FLOW_COUNT = 1000;
     //指标计算:跨度窗口区间
@@ -25,4 +25,8 @@ public interface MessageConstants {
 
     int TRACE_LOG_ANALYZER_TREAD_COUNT = 20;
     int TRACE_LOG_ANALYZER_QUEUE_SIZE = 3000;
+
+
+    int METRIC_SAMPLE_COUNT = 2;
+    int METRIC_SAMPLE_INTERVAL = 60 * 1000;
 }

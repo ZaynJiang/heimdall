@@ -3,7 +3,7 @@ package cn.heimdall.core.config.file;
 import cn.heimdall.core.config.AbstractConfiguration;
 import cn.heimdall.core.config.ConfigFuture;
 import cn.heimdall.core.config.ConfigurationChangeListener;
-import cn.heimdall.core.config.constants.ConfigurationKeys;
+import cn.heimdall.core.utils.constants.ConfigurationKeys;
 import cn.heimdall.core.utils.common.CollectionUtil;
 import cn.heimdall.core.utils.common.StringUtil;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;

@@ -9,7 +9,7 @@ import cn.heimdall.core.config.ConfigurationFactory;
 import cn.heimdall.core.config.HeimdallConfig;
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.NetworkManageConfig;
-import cn.heimdall.core.config.constants.ConfigurationKeys;
+import cn.heimdall.core.utils.constants.ConfigurationKeys;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.utils.enums.NodeRole;

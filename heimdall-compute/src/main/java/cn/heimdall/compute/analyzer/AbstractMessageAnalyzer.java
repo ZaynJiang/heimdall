@@ -1,6 +1,6 @@
 package cn.heimdall.compute.analyzer;
 
-import cn.heimdall.core.config.constants.MessageConstants;
+import cn.heimdall.core.utils.constants.MetricConstants;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageTypeAware;
 import cn.heimdall.core.message.body.origin.ClientMessageRequest;
@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 
 
 public abstract class AbstractMessageAnalyzer implements MessageTypeAware, Initialize {
-    protected final ExecutorService taskExecutor = Executors.newFixedThreadPool(MessageConstants.MESSAGE_ANALYZER_THREAD_COUNT);
+    protected final ExecutorService taskExecutor = Executors.newFixedThreadPool(MetricConstants.MESSAGE_ANALYZER_THREAD_COUNT);
     //多个分析器（span、event、tree、appState等）
     protected Map<String, List<MessageTask>> analyzerTasks;
 

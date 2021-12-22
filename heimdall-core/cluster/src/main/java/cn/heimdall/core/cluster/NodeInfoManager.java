@@ -2,7 +2,7 @@ package cn.heimdall.core.cluster;
 
 import cn.heimdall.core.config.Configuration;
 import cn.heimdall.core.config.ConfigurationFactory;
-import cn.heimdall.core.config.constants.ConfigurationKeys;
+import cn.heimdall.core.utils.constants.ConfigurationKeys;
 import cn.heimdall.core.utils.enums.NodeRole;
 import cn.heimdall.core.utils.common.NetUtil;
 import cn.heimdall.core.utils.exception.ParamException;

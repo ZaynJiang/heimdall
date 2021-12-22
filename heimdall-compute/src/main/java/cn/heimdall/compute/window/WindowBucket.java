@@ -1,8 +1,8 @@
 package cn.heimdall.compute.window;
 
 
-import cn.heimdall.core.config.constants.MessageConstants;
-import cn.heimdall.compute.metric.MetricConstant;
+import cn.heimdall.core.utils.constants.MetricConstants;
+import cn.heimdall.compute.metric.EnumMetric;
 
 import java.util.concurrent.atomic.LongAdder;
 
@@ -15,16 +15,16 @@ public class WindowBucket {
     private volatile long minRt;
 
     public WindowBucket() {
-        MetricConstant[] events = MetricConstant.values();
+        EnumMetric[] events = EnumMetric.values();
         this.counters = new LongAdder[events.length];
-        for (MetricConstant event : events) {
+        for (EnumMetric event : events) {
             counters[event.ordinal()] = new LongAdder();
         }
         initMinRt();
     }
 
     public WindowBucket reset(WindowBucket bucket) {
-        for (MetricConstant event : MetricConstant.values()) {
+        for (EnumMetric event : EnumMetric.values()) {
             counters[event.ordinal()].reset();
             counters[event.ordinal()].add(bucket.get(event));
         }
@@ -33,7 +33,7 @@ public class WindowBucket {
     }
 
     private void initMinRt() {
-        this.minRt = MessageConstants.DEFAULT_STATISTIC_MAX_RT;
+        this.minRt = MetricConstants.DEFAULT_STATISTIC_MAX_RT;
     }
 
     /**
@@ -41,28 +41,28 @@ public class WindowBucket {
      * @return
      */
     public WindowBucket reset() {
-        for (MetricConstant event : MetricConstant.values()) {
+        for (EnumMetric event : EnumMetric.values()) {
             counters[event.ordinal()].reset();
         }
         initMinRt();
         return this;
     }
 
-    public long get(MetricConstant event) {
+    public long get(EnumMetric event) {
         return counters[event.ordinal()].sum();
     }
 
-    public WindowBucket add(MetricConstant event, long n) {
+    public WindowBucket add(EnumMetric event, long n) {
         counters[event.ordinal()].add(n);
         return this;
     }
 
     public long exception() {
-        return get(MetricConstant.EXCEPTION);
+        return get(EnumMetric.EXCEPTION);
     }
 
     public long rt() {
-        return get(MetricConstant.RT);
+        return get(EnumMetric.RT);
     }
 
     public long minRt() {
@@ -70,19 +70,19 @@ public class WindowBucket {
     }
 
     public long success() {
-        return get(MetricConstant.SUCCESS);
+        return get(EnumMetric.SUCCESS);
     }
 
     public void addException(int n) {
-        add(MetricConstant.EXCEPTION, n);
+        add(EnumMetric.EXCEPTION, n);
     }
 
     public void addSuccess(int n) {
-        add(MetricConstant.SUCCESS, n);
+        add(EnumMetric.SUCCESS, n);
     }
 
     public void addRT(long rt) {
-        add(MetricConstant.RT, rt);
+        add(EnumMetric.RT, rt);
         //线程不安全，但无关紧要
         if (rt < minRt) {
             minRt = rt;

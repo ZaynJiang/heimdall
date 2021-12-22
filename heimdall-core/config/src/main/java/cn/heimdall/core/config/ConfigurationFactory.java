@@ -1,6 +1,6 @@
 package cn.heimdall.core.config;
 
-import cn.heimdall.core.config.constants.ConfigurationKeys;
+import cn.heimdall.core.utils.constants.ConfigurationKeys;
 import cn.heimdall.core.config.file.FileConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

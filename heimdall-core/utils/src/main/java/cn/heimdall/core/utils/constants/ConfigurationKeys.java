@@ -1,4 +1,4 @@
-package cn.heimdall.core.config.constants;
+package cn.heimdall.core.utils.constants;
 
 /**
  *

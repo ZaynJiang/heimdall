@@ -1,6 +1,6 @@
 package cn.heimdall.core.config;
 
-import cn.heimdall.core.config.constants.ConfigurationKeys;
+import cn.heimdall.core.utils.constants.ConfigurationKeys;
 import io.netty.util.NettyRuntime;
 
 /**

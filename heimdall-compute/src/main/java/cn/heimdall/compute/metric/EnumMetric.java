@@ -1,6 +1,6 @@
 package cn.heimdall.compute.metric;
 
-public enum MetricConstant {
+public enum EnumMetric {
     EXCEPTION,
     SUCCESS,
     RT

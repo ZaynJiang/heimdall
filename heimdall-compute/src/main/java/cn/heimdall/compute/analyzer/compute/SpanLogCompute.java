@@ -2,11 +2,10 @@ package cn.heimdall.compute.analyzer.compute;
 
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.body.origin.MessageTreeRequest;
-import cn.heimdall.core.config.constants.MessageConstants;
+import cn.heimdall.core.utils.constants.MetricConstants;
 import cn.heimdall.compute.metric.DefaultMetricKey;
 import cn.heimdall.compute.metric.Metric;
 import cn.heimdall.compute.metric.MetricKey;
-import cn.heimdall.compute.metric.SpanMetric;
 import cn.heimdall.compute.metric.SpanMetricInvoker;
 import cn.heimdall.core.message.trace.SpanLog;
 import cn.heimdall.core.message.trace.TraceLog;
@@ -46,8 +45,8 @@ public class SpanLogCompute extends AbstractMetricCompute {
 
     @Override
     protected Metric newMetric() {
-        return new SpanMetricInvoker(MessageConstants.METRIC_SPAN_WINDOW_INTERVAL,
-                MessageConstants.METRIC_SPAN_WINDOW_COUNT);
+        return new SpanMetricInvoker(MetricConstants.METRIC_SPAN_WINDOW_INTERVAL,
+                MetricConstants.METRIC_SPAN_WINDOW_COUNT);
     }
 
     @Override
