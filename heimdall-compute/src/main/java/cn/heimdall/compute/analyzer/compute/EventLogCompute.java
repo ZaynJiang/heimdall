@@ -1,5 +1,6 @@
 package cn.heimdall.compute.analyzer.compute;
 
+import cn.heimdall.compute.metric.MetricWhatPulse;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.body.origin.MessageTreeRequest;
 import cn.heimdall.core.utils.constants.MetricConstants;
@@ -31,7 +32,7 @@ public class EventLogCompute extends AbstractMetricCompute {
 
     @Override
     protected void doInvokeMetric(TraceLog tracelog) {
-        Metric metric = getMetricInvoker(wrapMetricKey(tracelog));
+        MetricWhatPulse metric = getMetricInvoker(wrapMetricKey(tracelog));
         EventMet ric eventMetric = (EventMetric) metric;
         EventLog eventLog = (EventLog) tracelog;
         eventMetric.addCount(1);
@@ -42,9 +43,8 @@ public class EventLogCompute extends AbstractMetricCompute {
 
 
     @Override
-    protected Metric newMetric() {
-        return new SpanMetricInvoker(MetricConstants.METRIC_EVENT_WINDOW_INTERVAL,
-                MetricConstants.METRIC_EVENT_WINDOW_COUNT);
+    protected MetricWhatPulse newMetric() {
+        return new MetricWhatPulse();
     }
 
     @Override

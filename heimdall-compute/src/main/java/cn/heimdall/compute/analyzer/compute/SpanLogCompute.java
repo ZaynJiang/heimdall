@@ -1,5 +1,6 @@
 package cn.heimdall.compute.analyzer.compute;
 
+import cn.heimdall.compute.metric.MetricWhatPulse;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.body.origin.MessageTreeRequest;
 import cn.heimdall.core.utils.constants.MetricConstants;
@@ -44,9 +45,8 @@ public class SpanLogCompute extends AbstractMetricCompute {
     }
 
     @Override
-    protected Metric newMetric() {
-        return new SpanMetricInvoker(MetricConstants.METRIC_SPAN_WINDOW_INTERVAL,
-                MetricConstants.METRIC_SPAN_WINDOW_COUNT);
+    protected MetricWhatPulse newMetric() {
+        return new MetricWhatPulse();
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.LongAdder;
 public class MetricWhatPulse implements WhatPulse{
 
     //分钟级别的统计器
-    private transient Metric rollingCounterInMinute = new ArrayMetric(MetricConstants.METRIC_SAMPLE_COUNT, MetricConstants.METRIC_SAMPLE_INTERVAL);
+    private transient Metric rollingCounterInMinute = new ArrayMetric(MetricConstants.METRIC_SPAN_WINDOW_COUNT, MetricConstants.METRIC_SPAN_WINDOW_INTERVAL);
     private MetricKey metricKey;
     private LongAdder curThreadNum = new LongAdder();
     private long lastFetchTime = -1;
@@ -41,7 +41,8 @@ public class MetricWhatPulse implements WhatPulse{
 
     @Override
     public void reset() {
-        rollingCounterInMinute = new ArrayMetric(MetricConstants.METRIC_SAMPLE_COUNT, MetricConstants.METRIC_SAMPLE_INTERVAL);
+        rollingCounterInMinute = new ArrayMetric(MetricConstants.METRIC_SPAN_WINDOW_COUNT,
+                MetricConstants.METRIC_SPAN_WINDOW_INTERVAL);
     }
 
 

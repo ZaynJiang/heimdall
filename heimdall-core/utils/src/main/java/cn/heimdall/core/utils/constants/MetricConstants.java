@@ -4,7 +4,7 @@ public interface MetricConstants {
     //分析队列大小
     int ANALYZER_QUEUE_OVER_FLOW_COUNT = 1000;
     //指标计算:跨度窗口区间
-    int METRIC_SPAN_WINDOW_INTERVAL = 1000;
+    int METRIC_SPAN_WINDOW_INTERVAL = 60 * 1000;
     //指标计算:跨度窗口个数
     int METRIC_SPAN_WINDOW_COUNT = 2;
     //指标计算:event窗口区间
@@ -17,7 +17,6 @@ public interface MetricConstants {
      */
     int DEFAULT_STATISTIC_MAX_RT = 5000;
 
-
     // 消息分析器线程数
     int MESSAGE_ANALYZER_THREAD_COUNT = 20;
     int MESSAGE_ANALYZER_QUEUE_SIZE = 3000;
@@ -26,7 +25,4 @@ public interface MetricConstants {
     int TRACE_LOG_ANALYZER_TREAD_COUNT = 20;
     int TRACE_LOG_ANALYZER_QUEUE_SIZE = 3000;
 
-
-    int METRIC_SAMPLE_COUNT = 2;
-    int METRIC_SAMPLE_INTERVAL = 60 * 1000;
 }
