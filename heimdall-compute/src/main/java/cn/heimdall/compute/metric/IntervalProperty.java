@@ -3,7 +3,7 @@ package cn.heimdall.compute.metric;
 import cn.heimdall.core.utils.constants.MetricConstants;
 
 public class IntervalProperty {
-
+/*
     public static volatile int INTERVAL = MetricConstants.METRIC_SPAN_WINDOW_INTERVAL;
 
     public static void register2Property(SentinelProperty<Integer> property) {
@@ -22,6 +22,6 @@ public class IntervalProperty {
             INTERVAL = newInterval;
             ClusterBuilderSlot.resetClusterNodes();
         }
-    }
+    }*/
 
 }

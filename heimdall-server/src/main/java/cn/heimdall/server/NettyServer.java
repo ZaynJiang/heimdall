@@ -4,7 +4,7 @@ import cn.heimdall.core.config.Configuration;
 import cn.heimdall.core.network.coordinator.Coordinator;
 import cn.heimdall.core.network.remote.AbstractRemotingServer;
 import cn.heimdall.core.utils.common.CollectionUtil;
-import cn.heimdall.server.server.RemotingServerFactory;
+import cn.heimdall.core.network.remote.RemotingInstanceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,12 +30,7 @@ public final class NettyServer {
         List<AbstractRemotingServer> servers = null;
         try {
             servers = coordinators.stream().
-                    map(coordinator -> {
-                        AbstractRemotingServer remotingServer = RemotingServerFactory.makeRemotingServer(coordinator.getNettyServerType(), configuration);
-                        coordinator.doRegisterProcessor(remotingServer);
-                        return remotingServer;
-                    })
-                    .collect(Collectors.toList());
+                    map(Coordinator::generateServerRemoteInstance).collect(Collectors.toList());
         } catch (Throwable e) {
             LOGGER.error("multiNettyServerStart error, ", e);
         } finally {

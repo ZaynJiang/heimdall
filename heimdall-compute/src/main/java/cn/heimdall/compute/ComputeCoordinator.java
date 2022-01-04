@@ -1,6 +1,8 @@
 package cn.heimdall.compute;
 
 import cn.heimdall.compute.analyzer.AbstractMessageAnalyzer;
+import cn.heimdall.compute.processor.client.StoreAppStateResponseProcessor;
+import cn.heimdall.compute.processor.client.StoreMetricResponseProcessor;
 import cn.heimdall.compute.processor.server.AppStateProcessor;
 import cn.heimdall.compute.processor.server.MessageTreeProcessor;
 import cn.heimdall.core.message.MessageBody;
@@ -13,8 +15,13 @@ import cn.heimdall.core.message.body.origin.AppStateResponse;
 import cn.heimdall.core.message.body.origin.MessageTreeRequest;
 import cn.heimdall.core.message.body.origin.MessageTreeResponse;
 import cn.heimdall.core.message.hander.ComputeInboundHandler;
+import cn.heimdall.core.network.client.GuarderRemotingClient;
+import cn.heimdall.core.network.client.StorageRemotingClient;
 import cn.heimdall.core.network.coordinator.Coordinator;
+import cn.heimdall.core.network.processor.client.NodeHeartbeatResponseProcessor;
+import cn.heimdall.core.network.processor.client.NodeRegisterResponseProcessor;
 import cn.heimdall.core.network.remote.AbstractRemotingServer;
+import cn.heimdall.core.network.remote.RemotingInstanceFactory;
 import cn.heimdall.core.utils.annotation.LoadLevel;
 import cn.heimdall.core.utils.constants.LoadLevelConstants;
 import cn.heimdall.core.utils.enums.NettyServerType;
@@ -96,8 +103,24 @@ public final class ComputeCoordinator implements MessageDoorway, Coordinator, Co
     }
 
     @Override
-    public void doRegisterProcessor(AbstractRemotingServer remotingServer) {
+    public AbstractRemotingServer generateServerRemoteInstance() {
+        AbstractRemotingServer remotingServer = RemotingInstanceFactory.generateRemotingServer(getNettyServerType());
         remotingServer.doRegisterProcessor(MessageType.TYPE_CLIENT_APP_STATE_REQUEST, new AppStateProcessor(remotingServer, this));
         remotingServer.doRegisterProcessor(MessageType.TYPE_CLIENT_MESSAGE_TREE_REQUEST, new MessageTreeProcessor(remotingServer, this));
+        return remotingServer;
     }
+
+    @Override
+    public void initClientRemoteInstance() {
+        //init guarder client
+        GuarderRemotingClient guarder = GuarderRemotingClient.getInstance();
+        guarder.doRegisterProcessor(MessageType.TYPE_NODE_HEARTBEAT_REQUEST,  new NodeHeartbeatResponseProcessor());
+        guarder.doRegisterProcessor(MessageType.TYPE_NODE_REGISTER_REQUEST, new NodeRegisterResponseProcessor());
+        //init storage client
+        StorageRemotingClient storage = StorageRemotingClient.getInstance();
+        storage.doRegisterProcessor(MessageType.TYPE_STORE_TRANCE_LOG_REQUEST, new StoreAppStateResponseProcessor());
+        storage.doRegisterProcessor(MessageType.TYPE_STORE_METRIC_REQUEST, new StoreMetricResponseProcessor());
+        storage.doRegisterProcessor(MessageType.TYPE_STORE_APP_STATE_REQUEST, new StoreAppStateResponseProcessor());
+    }
+
 }

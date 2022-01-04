@@ -4,8 +4,8 @@ package cn.heimdall.core.message;
 import cn.heimdall.core.message.body.PingMessage;
 import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatRequest;
 import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatResponse;
-import cn.heimdall.core.message.body.register.ClientRegisterRequest;
-import cn.heimdall.core.message.body.register.ClientRegisterResponse;
+import cn.heimdall.core.message.body.register.AppRegisterRequest;
+import cn.heimdall.core.message.body.register.AppRegisterResponse;
 
 import java.util.function.Predicate;
 
@@ -18,8 +18,8 @@ public enum MessageType {
     TYPE_CLIENT_MESSAGE_TREE_REQUEST(102, null),
     TYPE_CLIENT_MESSAGE_TREE_RESPONSE(202, null),
     //客户端注册数据（发给guarder的）
-    TYPE_CLIENT_REGISTER_REQUEST(103, ClientRegisterRequest.class),
-    TYPE_CLIENT_REGISTER_RESPONSE(203, ClientRegisterResponse.class),
+    TYPE_CLIENT_REGISTER_REQUEST(103, AppRegisterRequest.class),
+    TYPE_CLIENT_REGISTER_RESPONSE(203, AppRegisterResponse.class),
     //客户端心跳数据（发给guarder的）
     TYPE_CLIENT_HEARTBEAT_REQUEST(104, ClientHeartbeatRequest.class),
     TYPE_CLIENT_HEARTBEAT_RESPONSE(204, ClientHeartbeatResponse.class),

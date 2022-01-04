@@ -15,6 +15,11 @@ public class NodeRegisterRequest extends GuarderMessageRequest {
     private String ip;
     private int host;
 
+    public NodeRegisterRequest(List<NodeRole> nodeRoles, String ip) {
+        this.nodeRoles = nodeRoles;
+        this.ip = ip;
+    }
+
     public List<NodeRole> getNodeRoles() {
         return nodeRoles;
     }

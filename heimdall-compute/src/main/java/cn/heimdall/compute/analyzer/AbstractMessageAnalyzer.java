@@ -12,7 +12,9 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
+/**
+ * 两类消息分析器抽象类
+ */
 public abstract class AbstractMessageAnalyzer implements MessageTypeAware, Initialize {
     protected final ExecutorService taskExecutor = Executors.newFixedThreadPool(MetricConstants.MESSAGE_ANALYZER_THREAD_COUNT);
     //多个分析器（span、event、tree、appState等）

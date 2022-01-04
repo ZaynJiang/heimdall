@@ -1,4 +1,4 @@
-package cn.heimdall.server.client;
+package cn.heimdall.core.network.client;
 
 import cn.heimdall.core.cluster.NodeInfo;
 import cn.heimdall.core.cluster.NodeInfoManager;
@@ -6,8 +6,7 @@ import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.NetworkManageConfig;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageType;
-import cn.heimdall.core.utils.enums.NodeRole;
-import cn.heimdall.core.network.processor.client.NodeHeartbeatProcessor;
+import cn.heimdall.core.network.processor.ClientProcessor;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
 import cn.heimdall.core.network.remote.ClientPoolKey;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
@@ -21,15 +20,15 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 /**
- * 请求到guarder的client
+ * 数据类消息客户端
  */
-public class GuarderRemotingClient extends AbstractRemotingClient {
+public class ComputeRemotingClient extends AbstractRemotingClient {
 
-    private static volatile GuarderRemotingClient instance;
+    private static volatile ComputeRemotingClient instance;
 
     private NodeInfo nodeInfo;
 
-    public GuarderRemotingClient(NetworkConfig networkConfig, ThreadPoolExecutor executor) {
+    public ComputeRemotingClient(NetworkConfig networkConfig, ThreadPoolExecutor executor) {
         //TODO
         super(networkConfig, executor, null);
     }
@@ -38,7 +37,11 @@ public class GuarderRemotingClient extends AbstractRemotingClient {
     public void init() {
         nodeInfo = NodeInfoManager.getInstance().getNodeInfo();
         super.init();
-        this.registerProcessor();
+    }
+
+    @Override
+    public void doRegisterProcessor(MessageType messageType, ClientProcessor clientProcessor) {
+        super.registerProcessor(messageType, clientProcessor, messageExecutor);
     }
 
     @Override
@@ -51,24 +54,13 @@ public class GuarderRemotingClient extends AbstractRemotingClient {
         return 0;
     }
 
-    @Override
-    protected NodeRole getRemoteRole() {
-        return null;
-    }
-
-    private void registerProcessor() {
-        NodeHeartbeatProcessor nodeHeartbeatProcessor = new NodeHeartbeatProcessor();
-        super.registerProcessor(MessageType.TYPE_NODE_REGISTER_REQUEST, nodeHeartbeatProcessor, messageExecutor);
-        super.registerProcessor(MessageType.TYPE_NODE_HEARTBEAT_REQUEST, nodeHeartbeatProcessor, messageExecutor);
-    }
-
     private static final long KEEP_ALIVE_TIME = Integer.MAX_VALUE;
 
     private static final int MAX_QUEUE_SIZE = 20000;
 
-    public static GuarderRemotingClient getInstance() {
+    public static ComputeRemotingClient getInstance() {
         if (instance == null) {
-            synchronized (GuarderRemotingClient.class) {
+            synchronized (ComputeRemotingClient.class) {
                 if (instance == null) {
                     NetworkManageConfig networkManageConfig = new NetworkManageConfig();
                     //发送消息线程池
@@ -77,7 +69,7 @@ public class GuarderRemotingClient extends AbstractRemotingClient {
                             KEEP_ALIVE_TIME, TimeUnit.SECONDS, new LinkedBlockingQueue<>(MAX_QUEUE_SIZE),
                             new NamedThreadFactory("manage:", true),
                             new ThreadPoolExecutor.CallerRunsPolicy());
-                    instance = new GuarderRemotingClient(networkManageConfig,  messageExecutor);
+                    instance = new ComputeRemotingClient(networkManageConfig,  messageExecutor);
                 }
             }
         }
@@ -100,7 +92,7 @@ public class GuarderRemotingClient extends AbstractRemotingClient {
     }
 
     @Override
-    public void onRegisterMsgSuccess(String serverAddress, Channel channel, Object request, Object response) {
+    public void onRegisterMsgSuccess(String serverAddress, Channel channel, Object request, Object response){
 
     }
 

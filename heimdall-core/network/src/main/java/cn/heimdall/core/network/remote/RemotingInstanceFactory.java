@@ -1,12 +1,14 @@
-package cn.heimdall.server.server;
+package cn.heimdall.core.network.remote;
 
 
-import cn.heimdall.core.network.remote.AbstractRemotingServer;
+import cn.heimdall.core.network.server.ActionRemotingServer;
+import cn.heimdall.core.network.server.ManageRemotingServer;
+import cn.heimdall.core.network.server.TransportRemotingServer;
 import cn.heimdall.core.utils.enums.NettyServerType;
 
-public class RemotingServerFactory {
+public class RemotingInstanceFactory {
 
-    public static AbstractRemotingServer makeRemotingServer(NettyServerType nettyServerType) {
+    public static AbstractRemotingServer generateRemotingServer(NettyServerType nettyServerType) {
         switch (nettyServerType) {
             case ACTION:
                 AbstractRemotingServer actionServer = ActionRemotingServer.getInstance();
@@ -20,4 +22,5 @@ public class RemotingServerFactory {
         }
         return null;
     }
+
 }

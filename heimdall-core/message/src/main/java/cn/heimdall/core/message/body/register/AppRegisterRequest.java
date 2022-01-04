@@ -8,16 +8,16 @@ import cn.heimdall.core.message.body.MessageResponse;
 /**
  * 客户端注册请求body
  */
-public class ClientRegisterRequest extends GuarderMessageRequest {
+public class AppRegisterRequest extends GuarderMessageRequest {
     private String appName;
     private String ip;
 
-    public ClientRegisterRequest(String appName, String ip) {
+    public AppRegisterRequest(String appName, String ip) {
         this.appName = appName;
         this.ip = ip;
     }
 
-    public ClientRegisterRequest(){
+    public AppRegisterRequest(){
 
     }
 
@@ -35,7 +35,7 @@ public class ClientRegisterRequest extends GuarderMessageRequest {
         return appName;
     }
 
-    public ClientRegisterRequest setAppName(String appName) {
+    public AppRegisterRequest setAppName(String appName) {
         this.appName = appName;
         return this;
     }
@@ -44,7 +44,7 @@ public class ClientRegisterRequest extends GuarderMessageRequest {
         return ip;
     }
 
-    public ClientRegisterRequest setIp(String ip) {
+    public AppRegisterRequest setIp(String ip) {
         this.ip = ip;
         return this;
     }

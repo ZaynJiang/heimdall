@@ -1,4 +1,4 @@
-package cn.heimdall.server.server;
+package cn.heimdall.core.network.server;
 
 import cn.heimdall.core.cluster.NodeInfo;
 import cn.heimdall.core.cluster.NodeInfoManager;

@@ -5,5 +5,6 @@ import cn.heimdall.core.utils.enums.NettyServerType;
 
 public interface Coordinator {
     NettyServerType getNettyServerType();
-    void doRegisterProcessor(AbstractRemotingServer remotingServer);
+    AbstractRemotingServer generateServerRemoteInstance();
+    void initClientRemoteInstance();
 }

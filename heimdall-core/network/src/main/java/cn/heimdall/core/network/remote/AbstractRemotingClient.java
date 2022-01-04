@@ -3,6 +3,9 @@ package cn.heimdall.core.network.remote;
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.message.Message;
 import cn.heimdall.core.message.MessageBody;
+import cn.heimdall.core.message.MessageType;
+import cn.heimdall.core.network.processor.ClientProcessor;
+import cn.heimdall.core.network.processor.ServerProcessor;
 import cn.heimdall.core.utils.enums.NodeRole;
 import cn.heimdall.core.message.RpcMessage;
 import cn.heimdall.core.message.body.PingMessage;
@@ -57,12 +60,12 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
         clientBootstrap.start();
     }
 
+    public abstract void doRegisterProcessor(MessageType messageType, ClientProcessor clientProcessor);
+
     protected abstract Set<InetSocketAddress> getAvailableAddress();
 
 
     protected abstract long getResourceExpireTime();
-
-    protected abstract NodeRole getRemoteRole();
 
     public abstract String loadBalance();
 

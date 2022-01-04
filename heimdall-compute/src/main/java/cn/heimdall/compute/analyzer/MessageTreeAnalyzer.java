@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
+/**
+ * 消息树消息分析器
+ */
 public class MessageTreeAnalyzer extends AbstractMessageAnalyzer{
 
     public MessageTreeAnalyzer() {

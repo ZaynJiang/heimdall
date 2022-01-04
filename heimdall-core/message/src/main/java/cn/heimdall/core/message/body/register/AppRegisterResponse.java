@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 客户端注册返回body
  */
-public class ClientRegisterResponse extends MessageResponse {
+public class AppRegisterResponse extends MessageResponse {
 
     private Map<NodeRole, Map<InetSocketAddress, Long>> addresses;
 
@@ -23,7 +23,7 @@ public class ClientRegisterResponse extends MessageResponse {
         return addresses;
     }
 
-    public ClientRegisterResponse setAddresses(Map<NodeRole, Map<InetSocketAddress, Long>> addresses) {
+    public AppRegisterResponse setAddresses(Map<NodeRole, Map<InetSocketAddress, Long>> addresses) {
         this.addresses = addresses;
         return this;
     }

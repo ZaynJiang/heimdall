@@ -4,8 +4,8 @@ import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatRequest;
 import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatResponse;
 import cn.heimdall.core.message.body.heartbeat.NodeHeartbeatRequest;
 import cn.heimdall.core.message.body.heartbeat.NodeHeartbeatResponse;
-import cn.heimdall.core.message.body.register.ClientRegisterRequest;
-import cn.heimdall.core.message.body.register.ClientRegisterResponse;
+import cn.heimdall.core.message.body.register.AppRegisterRequest;
+import cn.heimdall.core.message.body.register.AppRegisterResponse;
 import cn.heimdall.core.message.body.register.NodeRegisterRequest;
 import cn.heimdall.core.message.body.register.NodeRegisterResponse;
 
@@ -29,7 +29,7 @@ public interface GuarderInboundHandler {
      * @param request
      * @return
      */
-    ClientRegisterResponse handle(ClientRegisterRequest request);
+    AppRegisterResponse handle(AppRegisterRequest request);
 
     /**
      * 客户端心跳数据

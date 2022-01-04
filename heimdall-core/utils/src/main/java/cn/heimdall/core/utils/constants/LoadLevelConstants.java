@@ -6,4 +6,5 @@ public interface LoadLevelConstants {
     String COMPUTE_COORDINATOR = "compute_coordinator";
     String EVENT_COMPUTE = "event_compute";
     String SPAN_COMPUTE = "span_compute";
+    String APP_STATE_COMPUTE = "app_state_compute";
 }

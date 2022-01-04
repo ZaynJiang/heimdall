@@ -1,8 +1,7 @@
-package cn.heimdall.server.server;
+package cn.heimdall.core.network.server;
 
 import cn.heimdall.core.config.NetworkActionConfig;
 import cn.heimdall.core.config.NetworkConfig;
-import cn.heimdall.core.config.NetworkTransportConfig;
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.network.processor.ServerProcessor;
 import cn.heimdall.core.network.remote.AbstractRemotingServer;

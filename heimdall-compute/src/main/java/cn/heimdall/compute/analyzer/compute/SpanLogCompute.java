@@ -1,13 +1,10 @@
 package cn.heimdall.compute.analyzer.compute;
 
+import cn.heimdall.compute.metric.DefaultMetricKey;
+import cn.heimdall.compute.metric.MetricKey;
 import cn.heimdall.compute.metric.MetricWhatPulse;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.body.origin.MessageTreeRequest;
-import cn.heimdall.core.utils.constants.MetricConstants;
-import cn.heimdall.compute.metric.DefaultMetricKey;
-import cn.heimdall.compute.metric.Metric;
-import cn.heimdall.compute.metric.MetricKey;
-import cn.heimdall.compute.metric.SpanMetricInvoker;
 import cn.heimdall.core.message.trace.SpanLog;
 import cn.heimdall.core.message.trace.TraceLog;
 import cn.heimdall.core.utils.annotation.LoadLevel;
@@ -35,10 +32,10 @@ public class SpanLogCompute extends AbstractMetricCompute {
     @Override
     protected void doInvokeMetric(TraceLog tracelog) {
         MetricKey metricKey = wrapMetricKey(tracelog);
-        SpanMetric spanMetric = (SpanMetric) getMetricInvoker(metricKey);
+        MetricWhatPulse spanMetric = getMetricInvoker(metricKey);
         SpanLog spanLog = (SpanLog) tracelog;
         spanMetric.addRT(spanLog.getCostInMillis());
-        spanMetric.addCount(1);
+        spanMetric.addSuccess(1);
         if (spanLog.isErrorTag()) {
             spanMetric.addException(1);
         }

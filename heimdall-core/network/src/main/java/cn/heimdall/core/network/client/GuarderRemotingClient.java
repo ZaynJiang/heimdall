@@ -1,26 +1,26 @@
-package cn.heimdall.client;
+package cn.heimdall.core.network.client;
 
-import cn.heimdall.client.processor.HeartbeatResponseProcessor;
-import cn.heimdall.client.processor.RegisterResponseProcessor;
 import cn.heimdall.core.cluster.ClusterInfo;
 import cn.heimdall.core.cluster.ClusterInfoManager;
+import cn.heimdall.core.cluster.NodeInfo;
+import cn.heimdall.core.cluster.NodeInfoManager;
 import cn.heimdall.core.config.Configuration;
 import cn.heimdall.core.config.ConfigurationFactory;
 import cn.heimdall.core.config.HeimdallConfig;
 import cn.heimdall.core.config.NetworkConfig;
 import cn.heimdall.core.config.NetworkManageConfig;
-import cn.heimdall.core.utils.constants.ConfigurationKeys;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageType;
-import cn.heimdall.core.utils.enums.NodeRole;
 import cn.heimdall.core.message.ResultCode;
-import cn.heimdall.core.message.body.register.ClientRegisterRequest;
-import cn.heimdall.core.message.body.register.ClientRegisterResponse;
-import cn.heimdall.core.network.processor.client.ClientIdleProcessor;
+import cn.heimdall.core.message.body.register.AppRegisterResponse;
+import cn.heimdall.core.message.body.register.NodeRegisterRequest;
+import cn.heimdall.core.network.processor.ClientProcessor;
 import cn.heimdall.core.network.remote.AbstractRemotingClient;
 import cn.heimdall.core.network.remote.ClientPoolKey;
 import cn.heimdall.core.utils.common.CollectionUtil;
 import cn.heimdall.core.utils.common.NetUtil;
+import cn.heimdall.core.utils.constants.ConfigurationKeys;
+import cn.heimdall.core.utils.enums.NodeRole;
 import cn.heimdall.core.utils.exception.NetworkException;
 import cn.heimdall.core.utils.thread.NamedThreadFactory;
 import io.netty.channel.Channel;
@@ -43,36 +43,33 @@ import java.util.stream.Stream;
 /**
  * 管理类消息客户端
  */
-public class ManageRemotingClient extends AbstractRemotingClient {
+public class GuarderRemotingClient extends AbstractRemotingClient {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ManageRemotingClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GuarderRemotingClient.class);
 
-    private static volatile ManageRemotingClient instance;
+    private static volatile GuarderRemotingClient instance;
 
     private final AtomicBoolean initialized = new AtomicBoolean(false);
     //自身的角色
     private List<NodeRole> selfRoles;
-    //该客户端远程请求的角色（管理类是向guarder请求）
-    private NodeRole remoteRole = NodeRole.GUARDER;
     private ClusterInfo clusterInfo;
+    private NodeInfo nodeInfo;
     private Configuration configuration;
     private Set<InetSocketAddress> seekAddresses;
-    private ClientInfo clientInfo;
 
-    public ManageRemotingClient(NetworkConfig networkConfig, ThreadPoolExecutor executor) {
+    public GuarderRemotingClient(NetworkConfig networkConfig, ThreadPoolExecutor executor) {
         //TODO
         super(networkConfig, executor, null);
     }
 
     @Override
     public void init() {
-        this.selfRoles = ClientInfoManager.getInstance().getNodeRoles();
         this.clusterInfo = ClusterInfoManager.getInstance().getClusterInfo();
+        this.nodeInfo = NodeInfoManager.getInstance().getNodeInfo();
+        this.selfRoles = nodeInfo.getNodeRoles();
         this.configuration = ConfigurationFactory.getInstance();
-        this.clientInfo = ClientInfoManager.getInstance().getClientInfo();
         if (initialized.compareAndSet(false, true)) {
             super.init();
-            this.registerProcessor();
             String[] ips = this.configuration.getConfigFromSys(ConfigurationKeys.GUARDER_SEED_HOSTS).split(",");
             this.seekAddresses = Stream.of(ips).
                     map(ip -> NetUtil.toInetSocketAddress(ip)).collect(Collectors.toSet());
@@ -91,29 +88,24 @@ public class ManageRemotingClient extends AbstractRemotingClient {
     }
 
     @Override
+    public void doRegisterProcessor(MessageType messageType, ClientProcessor clientProcessor) {
+        super.registerProcessor(messageType, clientProcessor, null);
+    }
+
+    @Override
     protected long getResourceExpireTime() {
         //TODO 目前5分钟之内的心跳都算有效
         return 5 * 1000L;
     }
 
-    @Override
-    protected NodeRole getRemoteRole() {
-        return this.remoteRole;
-    }
-
-    private void registerProcessor() {
-        super.registerProcessor(MessageType.TYPE_CLIENT_HEARTBEAT_RESPONSE, new HeartbeatResponseProcessor(getFutures()), messageExecutor);
-        super.registerProcessor(MessageType.TYPE_CLIENT_REGISTER_RESPONSE, new RegisterResponseProcessor(getFutures()), messageExecutor);
-        super.registerProcessor(MessageType.TYPE_PING_MESSAGE, new ClientIdleProcessor());
-    }
 
     private static final long KEEP_ALIVE_TIME = Integer.MAX_VALUE;
 
     private static final int MAX_QUEUE_SIZE = 20000;
 
-    public static ManageRemotingClient getInstance() {
+    public static GuarderRemotingClient getInstance() {
         if (instance == null) {
-            synchronized (ManageRemotingClient.class) {
+            synchronized (GuarderRemotingClient.class) {
                 if (instance == null) {
                     NetworkManageConfig networkManageConfig = new NetworkManageConfig();
                     //发送消息线程池
@@ -122,7 +114,7 @@ public class ManageRemotingClient extends AbstractRemotingClient {
                             KEEP_ALIVE_TIME, TimeUnit.SECONDS, new LinkedBlockingQueue<>(MAX_QUEUE_SIZE),
                             new NamedThreadFactory("app-manage-remoting-client:", true),
                             new ThreadPoolExecutor.CallerRunsPolicy());
-                    instance = new ManageRemotingClient(networkManageConfig, messageExecutor);
+                    instance = new GuarderRemotingClient(networkManageConfig, messageExecutor);
                     instance.init();
                 }
             }
@@ -146,13 +138,13 @@ public class ManageRemotingClient extends AbstractRemotingClient {
 
     @Override
     protected Function<String, ClientPoolKey> getPoolKeyFunction() {
-        return addressIp -> new ClientPoolKey(selfRoles, addressIp, new ClientRegisterRequest(clientInfo.getAppName(), clientInfo.getHost()));
+        return addressIp -> new ClientPoolKey(selfRoles, addressIp, new NodeRegisterRequest(selfRoles, addressIp));
     }
 
     @Override
     protected boolean isRegisterSuccess(MessageBody body) {
-        ClientRegisterResponse clientRegisterResponse = (ClientRegisterResponse) body;
-        return clientRegisterResponse.getResultCode() == ResultCode.SUCCESS.getCode();
+        AppRegisterResponse appRegisterResponse = (AppRegisterResponse) body;
+        return appRegisterResponse.getResultCode() == ResultCode.SUCCESS.getCode();
     }
 
     @Override

@@ -9,7 +9,7 @@ import io.netty.channel.ChannelHandlerContext;
 /**
  * 客户端发起guarder心跳后，更新自身的值
  */
-public class NodeHeartbeatProcessor implements ClientProcessor {
+public class NodeHeartbeatResponseProcessor implements ClientProcessor {
     @Override
     public void process(ChannelHandlerContext ctx, Message message) throws Exception {
         NodeHeartbeatResponse heartbeatResponse = (NodeHeartbeatResponse) message.getMessageBody();
