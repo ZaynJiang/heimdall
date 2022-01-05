@@ -24,7 +24,7 @@ public class AppStateAnalyzer extends AbstractMessageAnalyzer{
         //FIXME 优化
         analyzerTasks = new HashMap<>(1);
         List<MessageTask> tasks = new ArrayList<>(MetricConstants.MESSAGE_TREE_ANALYZER_LIST_SIZE);
-        analyzerTasks.put("heartComputes", tasks);
+        analyzerTasks.put("appStateTask", tasks);
         for (int i = 0; i < MetricConstants.MESSAGE_TREE_ANALYZER_LIST_SIZE; i++) {
             tasks.add(new MetricComputeTask(MetricConstants.MESSAGE_ANALYZER_QUEUE_SIZE,
                     EnhancedServiceLoader.load(Compute.class, LoadLevelConstants.APP_STATE_COMPUTE)));

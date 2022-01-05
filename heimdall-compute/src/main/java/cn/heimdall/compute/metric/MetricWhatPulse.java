@@ -1,5 +1,7 @@
 package cn.heimdall.compute.metric;
 
+import cn.heimdall.core.message.metric.MetricKey;
+import cn.heimdall.core.message.metric.MetricNode;
 import cn.heimdall.core.utils.common.CurrentTimeFactory;
 import cn.heimdall.core.utils.constants.MetricConstants;
 
@@ -12,12 +14,15 @@ import java.util.concurrent.atomic.LongAdder;
  * 基于一个key的指标统计器
  */
 public class MetricWhatPulse implements WhatPulse{
-
     //分钟级别的统计器
     private transient Metric rollingCounterInMinute = new ArrayMetric(MetricConstants.METRIC_SPAN_WINDOW_COUNT, MetricConstants.METRIC_SPAN_WINDOW_INTERVAL);
     private MetricKey metricKey;
     private LongAdder curThreadNum = new LongAdder();
     private long lastFetchTime = -1;
+
+    public MetricWhatPulse(MetricKey metricKey) {
+        this.metricKey = metricKey;
+    }
 
     @Override
     public Map<Long, MetricNode> metrics() {
@@ -95,6 +100,11 @@ public class MetricWhatPulse implements WhatPulse{
         rollingCounterInMinute.addRT(n);
     }
 
+    public MetricKey getMetricKey() {
+        return metricKey;
+    }
 
-
+    public void setMetricKey(MetricKey metricKey) {
+        this.metricKey = metricKey;
+    }
 }

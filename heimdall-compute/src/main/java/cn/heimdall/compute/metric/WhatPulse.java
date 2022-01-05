@@ -1,5 +1,7 @@
 package cn.heimdall.compute.metric;
 
+import cn.heimdall.core.message.metric.MetricNode;
+
 import java.util.Map;
 
 public interface WhatPulse {

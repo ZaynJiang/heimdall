@@ -1,6 +1,7 @@
 package cn.heimdall.compute.metric;
 
 import cn.heimdall.compute.window.WindowBucket;
+import cn.heimdall.core.message.metric.MetricNode;
 
 import java.util.List;
 

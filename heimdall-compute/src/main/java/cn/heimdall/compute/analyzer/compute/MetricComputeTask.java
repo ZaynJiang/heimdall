@@ -1,5 +1,7 @@
 package cn.heimdall.compute.analyzer.compute;
 
+import cn.heimdall.core.message.metric.MetricKey;
+import cn.heimdall.compute.metric.MetricWhatPulse;
 import cn.heimdall.core.utils.constants.MetricConstants;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.body.origin.MessageTreeRequest;
@@ -8,6 +10,9 @@ import cn.heimdall.core.message.task.MessageQueue;
 import cn.heimdall.core.message.task.MessageTask;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MetricComputeTask implements MessageTask {
 
@@ -18,6 +23,8 @@ public class MetricComputeTask implements MessageTask {
     private int queueOverflow;
 
     private final Logger log = LogManager.getLogger(getClass());
+
+    private static volatile Map<MetricKey, MetricWhatPulse> metricWhatPulseMap = new ConcurrentHashMap<>();
 
     public MetricComputeTask(int queueSize, Compute compute) {
         this.messageQueue = new DefaultMessageQueue(queueSize);

@@ -1,8 +1,8 @@
 package cn.heimdall.compute.analyzer.compute;
 
-import cn.heimdall.compute.metric.DefaultMetricKey;
-import cn.heimdall.compute.metric.MetricKey;
+import cn.heimdall.core.message.metric.MetricKey;
 import cn.heimdall.compute.metric.MetricWhatPulse;
+import cn.heimdall.compute.metric.SpanMetricKey;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.body.origin.MessageTreeRequest;
 import cn.heimdall.core.message.trace.SpanLog;
@@ -42,14 +42,9 @@ public class SpanLogCompute extends AbstractMetricCompute {
     }
 
     @Override
-    protected MetricWhatPulse newMetric() {
-        return new MetricWhatPulse();
-    }
-
-    @Override
     protected MetricKey wrapMetricKey(TraceLog tracelog) {
         SpanLog spanLog = (SpanLog) tracelog;
-        return new DefaultMetricKey(spanLog.getDomain(), spanLog.getIpAddress(),
+        return new SpanMetricKey(spanLog.getDomain(), spanLog.getIpAddress(),
                 spanLog.getType(), spanLog.getName());
     }
 

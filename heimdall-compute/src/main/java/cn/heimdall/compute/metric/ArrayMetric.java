@@ -4,6 +4,7 @@ import cn.heimdall.compute.window.AbstractWindowManager;
 import cn.heimdall.compute.window.BucketWindowManager;
 import cn.heimdall.compute.window.TimeWindow;
 import cn.heimdall.compute.window.WindowBucket;
+import cn.heimdall.core.message.metric.MetricNode;
 import cn.heimdall.core.utils.constants.MetricConstants;
 
 import java.util.ArrayList;

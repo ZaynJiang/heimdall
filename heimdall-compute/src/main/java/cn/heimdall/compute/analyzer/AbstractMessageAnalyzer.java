@@ -26,7 +26,7 @@ public abstract class AbstractMessageAnalyzer implements MessageTypeAware, Initi
     }
 
     public void distribute(MessageBody messageBody) {
-        ClientMessageRequest clientMessage = (ClientMessageRequest)messageBody;
+        ClientMessageRequest clientMessage = (ClientMessageRequest) messageBody;
         //遍历多个分析器
         for (Map.Entry<String, List<MessageTask>> entry : analyzerTasks.entrySet()) {
             //获取domain相关的任务

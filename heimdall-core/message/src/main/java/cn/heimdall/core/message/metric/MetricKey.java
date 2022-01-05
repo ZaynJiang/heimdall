@@ -1,4 +1,4 @@
-package cn.heimdall.compute.metric;
+package cn.heimdall.core.message.metric;
 
 public abstract class MetricKey {
     @Override
