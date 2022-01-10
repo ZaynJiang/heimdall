@@ -1,8 +1,10 @@
 package cn.heimdall.core.message.body.store;
 
 import cn.heimdall.core.message.MessageType;
+import cn.heimdall.core.message.RpcMessage;
 import cn.heimdall.core.message.body.MessageResponse;
-import cn.heimdall.core.message.trace.TraceLog;
+import cn.heimdall.core.message.trace.EventLog;
+import cn.heimdall.core.message.trace.SpanLog;
 
 import java.util.List;
 
@@ -11,17 +13,40 @@ import java.util.List;
  */
 public class StoreTraceRequest extends AbstractStoreRequest {
 
-    private List<TraceLog> eventLogs;
+    private List<SpanLog> spanLogs;
+    private List<EventLog> eventLogs;
 
-    private List<TraceLog> spanLogs;
+    public List<SpanLog> getSpanLogs() {
+        return spanLogs;
+    }
+
+    public void setSpanLogs(List<SpanLog> spanLogs) {
+        this.spanLogs = spanLogs;
+    }
+
+    public List<EventLog> getEventLogs() {
+        return eventLogs;
+    }
+
+    public void setEventLogs(List<EventLog> eventLogs) {
+        this.eventLogs = eventLogs;
+    }
 
     @Override
     public MessageType getMessageType() {
-        return null;
+        return MessageType.TYPE_STORE_TRANCE_LOG_REQUEST;
     }
 
     @Override
     public MessageResponse handle() {
         return null;
     }
+
+    public static RpcMessage getRpcMessage(List<SpanLog> spanLogs, List<EventLog> eventLogs) {
+        StoreTraceRequest request = new StoreTraceRequest();
+        request.setEventLogs(eventLogs);
+        request.setSpanLogs(spanLogs);
+        return new RpcMessage(request);
+    }
+
 }

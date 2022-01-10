@@ -1,11 +1,11 @@
 package cn.heimdall.compute.analyzer;
 
 import cn.heimdall.compute.analyzer.compute.Compute;
-import cn.heimdall.compute.analyzer.compute.MetricComputeTask;
+import cn.heimdall.compute.analyzer.task.MetricComputeTask;
 import cn.heimdall.core.utils.constants.MetricConstants;
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.task.MessageTask;
-import cn.heimdall.core.message.task.TraceLogDumperTask;
+import cn.heimdall.compute.analyzer.task.TraceLogDumperTask;
 import cn.heimdall.core.utils.constants.LoadLevelConstants;
 import cn.heimdall.core.utils.spi.EnhancedServiceLoader;
 

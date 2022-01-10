@@ -55,4 +55,7 @@ public interface ConfigurationKeys {
 
     //停止等待
     String SHUTDOWN_WAIT = TRANSPORT_PREFIX + "shutdown.wait";
+
+
+    String METRIC_UPLOADER_PERIOD = "metric.uploader.period";
 }

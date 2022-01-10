@@ -1,12 +1,9 @@
 package cn.heimdall.compute.analyzer;
 
-import cn.heimdall.compute.analyzer.compute.Compute;
-import cn.heimdall.compute.analyzer.compute.MetricComputeTask;
+import cn.heimdall.compute.analyzer.task.AppStateDumperTask;
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.task.MessageTask;
-import cn.heimdall.core.utils.constants.LoadLevelConstants;
 import cn.heimdall.core.utils.constants.MetricConstants;
-import cn.heimdall.core.utils.spi.EnhancedServiceLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,8 +23,7 @@ public class AppStateAnalyzer extends AbstractMessageAnalyzer{
         List<MessageTask> tasks = new ArrayList<>(MetricConstants.MESSAGE_TREE_ANALYZER_LIST_SIZE);
         analyzerTasks.put("appStateTask", tasks);
         for (int i = 0; i < MetricConstants.MESSAGE_TREE_ANALYZER_LIST_SIZE; i++) {
-            tasks.add(new MetricComputeTask(MetricConstants.MESSAGE_ANALYZER_QUEUE_SIZE,
-                    EnhancedServiceLoader.load(Compute.class, LoadLevelConstants.APP_STATE_COMPUTE)));
+            tasks.add(new AppStateDumperTask(MetricConstants.MESSAGE_ANALYZER_QUEUE_SIZE));
         }
     }
 

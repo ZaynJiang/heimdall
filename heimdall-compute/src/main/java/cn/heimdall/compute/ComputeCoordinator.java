@@ -5,6 +5,9 @@ import cn.heimdall.compute.processor.client.StoreAppStateResponseProcessor;
 import cn.heimdall.compute.processor.client.StoreMetricResponseProcessor;
 import cn.heimdall.compute.processor.server.AppStateProcessor;
 import cn.heimdall.compute.processor.server.MessageTreeProcessor;
+import cn.heimdall.compute.schedule.MetricTimerListener;
+import cn.heimdall.core.config.Configuration;
+import cn.heimdall.core.config.ConfigurationFactory;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageDoorway;
 import cn.heimdall.core.message.MessageType;
@@ -23,6 +26,7 @@ import cn.heimdall.core.network.processor.client.NodeRegisterResponseProcessor;
 import cn.heimdall.core.network.remote.AbstractRemotingServer;
 import cn.heimdall.core.network.remote.RemotingInstanceFactory;
 import cn.heimdall.core.utils.annotation.LoadLevel;
+import cn.heimdall.core.utils.constants.ConfigurationKeys;
 import cn.heimdall.core.utils.constants.LoadLevelConstants;
 import cn.heimdall.core.utils.enums.NettyServerType;
 import cn.heimdall.core.utils.event.EventBus;
@@ -36,6 +40,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -58,12 +63,18 @@ public final class ComputeCoordinator implements MessageDoorway, Coordinator, Co
     private ScheduledThreadPoolExecutor appStateUploader = new ScheduledThreadPoolExecutor(1,
             new NamedThreadFactory("appStateUploader", 1));
 
+    protected static final Configuration CONFIG = ConfigurationFactory.getInstance();
+
+    protected static final long METRIC_UPLOADER_PERIOD = CONFIG.getLong(ConfigurationKeys.METRIC_UPLOADER_PERIOD, 1000L);
+
     @Override
     public void init() {
         List<AbstractMessageAnalyzer> allAnalyzers = EnhancedServiceLoader.loadAll(AbstractMessageAnalyzer.class);
         analyzerMap = allAnalyzers.stream().collect(Collectors.
                 toMap(AbstractMessageAnalyzer::getMessageType, a -> a, (k1, k2) -> k1));
-
+        MetricTimerListener metricTimerListener = new MetricTimerListener(StorageRemotingClient.getInstance());
+        //开启metric上报至storage
+        metricUploader.scheduleAtFixedRate(metricTimerListener, 0, METRIC_UPLOADER_PERIOD, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -114,7 +125,7 @@ public final class ComputeCoordinator implements MessageDoorway, Coordinator, Co
     public void initClientRemoteInstance() {
         //init guarder client
         GuarderRemotingClient guarder = GuarderRemotingClient.getInstance();
-        guarder.doRegisterProcessor(MessageType.TYPE_NODE_HEARTBEAT_REQUEST,  new NodeHeartbeatResponseProcessor());
+        guarder.doRegisterProcessor(MessageType.TYPE_NODE_HEARTBEAT_REQUEST, new NodeHeartbeatResponseProcessor());
         guarder.doRegisterProcessor(MessageType.TYPE_NODE_REGISTER_REQUEST, new NodeRegisterResponseProcessor());
         //init storage client
         StorageRemotingClient storage = StorageRemotingClient.getInstance();

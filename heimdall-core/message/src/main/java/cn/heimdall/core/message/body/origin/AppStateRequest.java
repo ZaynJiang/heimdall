@@ -11,6 +11,30 @@ public class AppStateRequest extends ClientMessageRequest {
     private String sysJson;
     private String threadJson;
 
+    public String getGcJson() {
+        return gcJson;
+    }
+
+    public void setGcJson(String gcJson) {
+        this.gcJson = gcJson;
+    }
+
+    public String getSysJson() {
+        return sysJson;
+    }
+
+    public void setSysJson(String sysJson) {
+        this.sysJson = sysJson;
+    }
+
+    public String getThreadJson() {
+        return threadJson;
+    }
+
+    public void setThreadJson(String threadJson) {
+        this.threadJson = threadJson;
+    }
+
     @Override
     public MessageType getMessageType() {
         return MessageType.TYPE_CLIENT_APP_STATE_REQUEST;
