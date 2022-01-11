@@ -15,16 +15,21 @@ import java.util.concurrent.Executors;
 /**
  * 两类消息分析器抽象类
  */
-public abstract class AbstractMessageAnalyzer implements MessageTypeAware, Initialize {
+public abstract class AbstractMessageAnalyzer implements MessageTypeAware, MessageAnalyzer {
     protected final ExecutorService taskExecutor = Executors.newFixedThreadPool(MetricConstants.MESSAGE_ANALYZER_THREAD_COUNT);
     //多个分析器（span、event、tree、appState等）
     protected Map<String, List<MessageTask>> analyzerTasks;
 
     public AbstractMessageAnalyzer() {
+    }
+
+    @Override
+    public void init() {
         analyzerTasks.forEach((name, messageTasks) ->
                 messageTasks.stream().forEach(taskExecutor::submit));
     }
 
+    @Override
     public void distribute(MessageBody messageBody) {
         ClientMessageRequest clientMessage = (ClientMessageRequest) messageBody;
         //遍历多个分析器

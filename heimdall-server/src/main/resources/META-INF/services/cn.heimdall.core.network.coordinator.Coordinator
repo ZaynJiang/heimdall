@@ -1,1 +1,4 @@
 cn.heimdall.guarder.GuarderCoordinator
+cn.heimdall.compute.ComputeCoordinator
+cn.heimdall.action.ActionCoordinator
+cn.heimdall.storage.core.StorageCoordinator
