@@ -2,9 +2,9 @@ package cn.heimdall.core.cluster;
 
 import cn.heimdall.core.config.Configuration;
 import cn.heimdall.core.config.ConfigurationFactory;
+import cn.heimdall.core.utils.common.NetUtil;
 import cn.heimdall.core.utils.constants.ConfigurationKeys;
 import cn.heimdall.core.utils.enums.NodeRole;
-import cn.heimdall.core.utils.common.NetUtil;
 import cn.heimdall.core.utils.exception.ParamException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +54,10 @@ public class NodeInfoManager {
         if (ConfigurationFactory.getInstance().getBoolean(ConfigurationKeys.NODE_GUARDER, true)) {
             nodeRoles.add(NodeRole.GUARDER);
             nodeInfo.setGuarder(true);
+        }
+        if (ConfigurationFactory.getInstance().getBoolean(ConfigurationKeys.NODE_ACTION, true)) {
+            nodeRoles.add(NodeRole.ACTION);
+            nodeInfo.setAction(true);
         }
         if (nodeRoles.size() == 0) {
             throw new ParamException("node roles is null");

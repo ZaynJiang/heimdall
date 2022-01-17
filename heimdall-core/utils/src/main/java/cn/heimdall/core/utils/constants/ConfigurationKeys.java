@@ -36,6 +36,7 @@ public interface ConfigurationKeys {
     String NODE_GUARDER = NODE_PREFIX + "guarder";
     String NODE_COMPUTE = NODE_PREFIX + "compute";
     String NODE_STORAGE = NODE_PREFIX + "storage";
+    String NODE_ACTION = NODE_PREFIX + "action";
 
     // guarder
     String GUARDER_PREFIX = "guarder.";
@@ -51,6 +52,9 @@ public interface ConfigurationKeys {
     // storage
     String STORAGE_PREFIX = "storage.";
     String STORAGE_HOSTS = STORAGE_PREFIX + "hosts";
+
+    //action
+    String ACTION_PREFIX = "action.";
 
 
     //停止等待

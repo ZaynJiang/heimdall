@@ -6,7 +6,8 @@ public enum NodeRole {
     CLIENT(0, "client"),
     COMPUTE(1, LoadLevelConstants.COMPUTE_COORDINATOR),
     STORAGE(2, LoadLevelConstants.STORAGE_COORDINATOR),
-    GUARDER(3, LoadLevelConstants.GUARDER_COORDINATOR);
+    GUARDER(3, LoadLevelConstants.GUARDER_COORDINATOR),
+    ACTION(4, LoadLevelConstants.ACTION_COORDINATOR);
     private String name;
     private int value;
 

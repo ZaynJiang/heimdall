@@ -5,6 +5,7 @@ node:
   guarder: true
   compute: true
   storage: true
+  action: true
 store:
   type: lucene
 path:

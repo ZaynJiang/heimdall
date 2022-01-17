@@ -23,6 +23,11 @@
         </dependency>
         <dependency>
             <groupId>cn.heimdall</groupId>
+            <artifactId>heimdall-action</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.heimdall</groupId>
             <artifactId>heimdall-storage-lucene</artifactId>
             <version>${project.version}</version>
         </dependency>

@@ -30,20 +30,23 @@ public enum MessageType {
     TYPE_NODE_HEARTBEAT_REQUEST(106, null),
     TYPE_NODE_HEARTBEAT_RESPONSE(206, null),
     //计算节点发送存储traceLog
-    TYPE_STORE_TRANCE_LOG_REQUEST(107,null),
-    TYPE_STORE_TRANCE_LOG_RESPONSE(207,null),
+    TYPE_STORE_TRANCE_LOG_REQUEST(107, null),
+    TYPE_STORE_TRANCE_LOG_RESPONSE(207, null),
     //计算节点发送存储metricLog
-    TYPE_STORE_METRIC_REQUEST(108,null),
-    TYPE_STORE_METRIC_RESPONSE(208,null),
+    TYPE_STORE_METRIC_REQUEST(108, null),
+    TYPE_STORE_METRIC_RESPONSE(208, null),
     //计算节点发送存储应用状态信息
-    TYPE_STORE_APP_STATE_REQUEST(109,null),
-    TYPE_STORE_APP_STATE_RESPONSE(209,null);
+    TYPE_STORE_APP_STATE_REQUEST(109, null),
+    TYPE_STORE_APP_STATE_RESPONSE(209, null),
+
+    TYPE_QUERY_METRIC_REQUEST(130, null),
+    TYPE_QUERY_METRIC_RESPONSE(131, null);
 
     private short typeCode;
     private Class messageBodyClass;
 
     MessageType(int typeCode, Class messageBodyClass) {
-        this.typeCode = (short)typeCode;
+        this.typeCode = (short) typeCode;
         this.messageBodyClass = messageBodyClass;
     }
 
