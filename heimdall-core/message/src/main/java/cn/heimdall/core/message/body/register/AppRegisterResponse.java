@@ -16,7 +16,7 @@ public class AppRegisterResponse extends MessageResponse {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_CLIENT_REGISTER_RESPONSE;
+        return MessageType.CLIENT_REGISTER_RESPONSE;
     }
 
     public Map<NodeRole, Map<InetSocketAddress, Long>> getAddresses() {

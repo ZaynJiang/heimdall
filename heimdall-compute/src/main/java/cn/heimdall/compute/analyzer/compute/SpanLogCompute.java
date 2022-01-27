@@ -13,7 +13,7 @@ import cn.heimdall.core.utils.constants.LoadLevelConstants;
 
 import java.util.List;
 
-@LoadLevel(name = LoadLevelConstants.SPAN_COMPUTE)
+@LoadLevel(name = LoadLevelConstants.COMPUTE_SPAN)
 public class SpanLogCompute extends AbstractMetricCompute {
 
     public SpanLogCompute() {

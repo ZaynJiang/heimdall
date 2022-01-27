@@ -11,14 +11,9 @@ import io.netty.channel.ChannelHandlerContext;
 import java.util.concurrent.TimeoutException;
 
 
-public class RegisterRequestProcessor implements ServerProcessor {
-
-    private final RemotingServer remotingServer;
-    private final MessageDoorway messageDoorway;
-
-    public RegisterRequestProcessor(RemotingServer remotingServer, MessageDoorway messageDoorway) {
-        this.messageDoorway = messageDoorway;
-        this.remotingServer = remotingServer;
+public class RegisterRequestProcessor extends ServerProcessor {
+    public RegisterRequestProcessor(MessageDoorway messageDoorway, RemotingServer remotingServer) {
+        super(messageDoorway, remotingServer);
     }
 
     @Override

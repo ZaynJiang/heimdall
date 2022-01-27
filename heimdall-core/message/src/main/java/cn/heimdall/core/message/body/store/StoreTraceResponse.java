@@ -9,6 +9,6 @@ import cn.heimdall.core.message.MessageType;
 public class StoreTraceResponse extends MessageBody {
     @Override
     public MessageType getMessageType() {
-        return null;
+        return MessageType.STORE_TRANCE_LOG_RESPONSE;
     }
 }

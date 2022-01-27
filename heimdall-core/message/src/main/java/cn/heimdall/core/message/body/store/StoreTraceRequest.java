@@ -34,7 +34,7 @@ public class StoreTraceRequest extends AbstractStoreRequest {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_STORE_TRANCE_LOG_REQUEST;
+        return MessageType.STORE_TRANCE_LOG_REQUEST;
     }
 
     @Override

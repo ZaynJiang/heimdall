@@ -121,7 +121,7 @@ public class MessageTreeRequest extends ClientMessageRequest {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_CLIENT_MESSAGE_TREE_REQUEST;
+        return MessageType.MESSAGE_TREE_REQUEST;
     }
 
     @Override

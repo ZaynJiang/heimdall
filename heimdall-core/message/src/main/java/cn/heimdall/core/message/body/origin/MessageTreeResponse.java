@@ -6,6 +6,6 @@ import cn.heimdall.core.message.body.MessageResponse;
 public class MessageTreeResponse extends MessageResponse {
     @Override
     public MessageType getMessageType() {
-        return null;
+        return MessageType.MESSAGE_TREE_RESPONSE;
     }
 }

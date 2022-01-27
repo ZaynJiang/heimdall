@@ -4,10 +4,10 @@ import cn.heimdall.core.utils.constants.LoadLevelConstants;
 
 public enum NodeRole {
     CLIENT(0, "client"),
-    COMPUTE(1, LoadLevelConstants.COMPUTE_COORDINATOR),
-    STORAGE(2, LoadLevelConstants.STORAGE_COORDINATOR),
-    GUARDER(3, LoadLevelConstants.GUARDER_COORDINATOR),
-    ACTION(4, LoadLevelConstants.ACTION_COORDINATOR);
+    COMPUTE(1, LoadLevelConstants.COORDINATOR_COMPUTE),
+    STORAGE(2, LoadLevelConstants.COORDINATOR_STORAGE),
+    GUARDER(3, LoadLevelConstants.COORDINATOR_GUARDER),
+    ACTION(4, LoadLevelConstants.COORDINATOR_ACTION);
     private String name;
     private int value;
 

@@ -67,7 +67,7 @@ public class StoreAppStateRequest extends AbstractStoreRequest {
 
     @Override
     public MessageType getMessageType() {
-        return null;
+        return MessageType.STORE_APP_STATE_REQUEST;
     }
 
     @Override

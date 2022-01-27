@@ -1,12 +1,11 @@
-package cn.heimdall.storage.core.processor.server;
+package cn.heimdall.action.processor;
 
 import cn.heimdall.core.message.MessageDoorway;
 import cn.heimdall.core.network.processor.ServerProcessor;
 import cn.heimdall.core.network.remote.RemotingServer;
 
-public class StoreTraceLogProcessor extends ServerProcessor {
-
-    public StoreTraceLogProcessor(MessageDoorway messageDoorway, RemotingServer remotingServer) {
+public class QueryProcessor extends ServerProcessor {
+    public QueryProcessor(MessageDoorway messageDoorway, RemotingServer remotingServer) {
         super(messageDoorway, remotingServer);
     }
 }

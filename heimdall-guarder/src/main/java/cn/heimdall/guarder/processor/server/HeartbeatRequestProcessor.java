@@ -10,14 +10,9 @@ import io.netty.channel.ChannelHandlerContext;
 
 import java.util.concurrent.TimeoutException;
 
-public class HeartbeatRequestProcessor implements ServerProcessor {
-
-    private final RemotingServer remotingServer;
-    private final MessageDoorway messageDoorway;
-
-    public HeartbeatRequestProcessor(RemotingServer remotingServer, MessageDoorway messageDoorway) {
-        this.remotingServer = remotingServer;
-        this.messageDoorway = messageDoorway;
+public class HeartbeatRequestProcessor extends ServerProcessor {
+    public HeartbeatRequestProcessor(MessageDoorway messageDoorway, RemotingServer remotingServer) {
+        super(messageDoorway, remotingServer);
     }
 
     @Override

@@ -40,7 +40,7 @@ public class NodeHeartbeatResponse extends MessageResponse {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_NODE_HEARTBEAT_RESPONSE;
+        return MessageType.NODE_HEARTBEAT_RESPONSE;
     }
 
     @Override

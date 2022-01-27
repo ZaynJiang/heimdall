@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
 /**
  * 处理计算请求协调器
  */
-@LoadLevel(name = LoadLevelConstants.COMPUTE_COORDINATOR)
+@LoadLevel(name = LoadLevelConstants.COORDINATOR_COMPUTE)
 public final class ComputeCoordinator implements MessageDoorway, Coordinator, ComputeInboundHandler, Initialize {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputeCoordinator.class);
@@ -116,8 +116,8 @@ public final class ComputeCoordinator implements MessageDoorway, Coordinator, Co
     @Override
     public AbstractRemotingServer generateServerRemoteInstance() {
         AbstractRemotingServer remotingServer = RemotingInstanceFactory.generateRemotingServer(getNettyServerType());
-        remotingServer.doRegisterProcessor(MessageType.TYPE_CLIENT_APP_STATE_REQUEST, new AppStateProcessor(remotingServer, this));
-        remotingServer.doRegisterProcessor(MessageType.TYPE_CLIENT_MESSAGE_TREE_REQUEST, new MessageTreeProcessor(remotingServer, this));
+        remotingServer.doRegisterProcessor(MessageType.APP_STATE_REQUEST, new AppStateProcessor(this, remotingServer));
+        remotingServer.doRegisterProcessor(MessageType.MESSAGE_TREE_REQUEST, new MessageTreeProcessor(this, remotingServer));
         return remotingServer;
     }
 
@@ -125,13 +125,13 @@ public final class ComputeCoordinator implements MessageDoorway, Coordinator, Co
     public void initClientRemoteInstance() {
         //init guarder client
         GuarderRemotingClient guarder = GuarderRemotingClient.getInstance();
-        guarder.doRegisterProcessor(MessageType.TYPE_NODE_HEARTBEAT_REQUEST, new NodeHeartbeatResponseProcessor());
-        guarder.doRegisterProcessor(MessageType.TYPE_NODE_REGISTER_REQUEST, new NodeRegisterResponseProcessor());
+        guarder.doRegisterProcessor(MessageType.NODE_HEARTBEAT_REQUEST, new NodeHeartbeatResponseProcessor());
+        guarder.doRegisterProcessor(MessageType.NODE_REGISTER_REQUEST, new NodeRegisterResponseProcessor());
         //init storage client
         StorageRemotingClient storage = StorageRemotingClient.getInstance();
-        storage.doRegisterProcessor(MessageType.TYPE_STORE_TRANCE_LOG_REQUEST, new StoreAppStateResponseProcessor());
-        storage.doRegisterProcessor(MessageType.TYPE_STORE_METRIC_REQUEST, new StoreMetricResponseProcessor());
-        storage.doRegisterProcessor(MessageType.TYPE_STORE_APP_STATE_REQUEST, new StoreAppStateResponseProcessor());
+        storage.doRegisterProcessor(MessageType.STORE_TRANCE_LOG_REQUEST, new StoreAppStateResponseProcessor());
+        storage.doRegisterProcessor(MessageType.STORE_METRIC_REQUEST, new StoreMetricResponseProcessor());
+        storage.doRegisterProcessor(MessageType.STORE_APP_STATE_REQUEST, new StoreAppStateResponseProcessor());
     }
 
 }

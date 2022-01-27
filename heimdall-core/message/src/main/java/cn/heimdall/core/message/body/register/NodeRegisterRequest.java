@@ -47,7 +47,7 @@ public class NodeRegisterRequest extends GuarderMessageRequest {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_NODE_REGISTER_REQUEST;
+        return MessageType.NODE_REGISTER_REQUEST;
     }
 
     @Override

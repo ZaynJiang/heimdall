@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 应用状态消息分析器
  */
-@LoadLevel(name = LoadLevelConstants.APP_STATE_MESSAGE_ANALYZER)
+@LoadLevel(name = LoadLevelConstants.ANALYZER_APP_STATE_MESSAGE)
 public class AppStateAnalyzer extends AbstractMessageAnalyzer{
 
     public AppStateAnalyzer(){
@@ -37,7 +37,7 @@ public class AppStateAnalyzer extends AbstractMessageAnalyzer{
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_CLIENT_APP_STATE_REQUEST;
+        return MessageType.APP_STATE_REQUEST;
     }
 
     @Override

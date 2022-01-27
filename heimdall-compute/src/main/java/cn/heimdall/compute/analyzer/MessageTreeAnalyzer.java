@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * 消息树消息分析器
  */
-@LoadLevel(name = LoadLevelConstants.APP_MESSAGE_TREE_ANALYZER)
+@LoadLevel(name = LoadLevelConstants.ANALYZER_APP_MESSAGE_TREE)
 public class MessageTreeAnalyzer extends AbstractMessageAnalyzer{
 
     public MessageTreeAnalyzer() {
@@ -50,6 +50,6 @@ public class MessageTreeAnalyzer extends AbstractMessageAnalyzer{
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_CLIENT_MESSAGE_TREE_REQUEST;
+        return MessageType.MESSAGE_TREE_REQUEST;
     }
 }

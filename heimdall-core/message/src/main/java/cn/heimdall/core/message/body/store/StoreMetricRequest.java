@@ -15,7 +15,7 @@ public class StoreMetricRequest extends AbstractStoreRequest {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_STORE_METRIC_REQUEST;
+        return MessageType.STORE_METRIC_REQUEST;
     }
 
     @Override

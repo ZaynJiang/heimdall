@@ -6,6 +6,6 @@ import cn.heimdall.core.message.MessageType;
 public class StoreAppStateResponse extends MessageBody {
     @Override
     public MessageType getMessageType() {
-        return null;
+        return MessageType.STORE_APP_STATE_RESPONSE;
     }
 }

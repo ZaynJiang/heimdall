@@ -1,11 +1,19 @@
 package cn.heimdall.storage.core;
 
+import cn.heimdall.core.cluster.ClusterInfo;
+import cn.heimdall.core.cluster.ClusterInfoManager;
+import cn.heimdall.core.config.Configuration;
+import cn.heimdall.core.config.ConfigurationFactory;
+import cn.heimdall.core.message.MessageBody;
+import cn.heimdall.core.message.MessageDoorway;
 import cn.heimdall.core.message.MessageType;
-import cn.heimdall.core.message.body.origin.AppStateRequest;
-import cn.heimdall.core.message.body.origin.AppStateResponse;
-import cn.heimdall.core.message.body.origin.MessageTreeRequest;
-import cn.heimdall.core.message.body.origin.MessageTreeResponse;
-import cn.heimdall.core.message.hander.ComputeInboundHandler;
+import cn.heimdall.core.message.body.store.StoreAppStateRequest;
+import cn.heimdall.core.message.body.store.StoreAppStateResponse;
+import cn.heimdall.core.message.body.store.StoreMetricRequest;
+import cn.heimdall.core.message.body.store.StoreMetricResponse;
+import cn.heimdall.core.message.body.store.StoreTraceRequest;
+import cn.heimdall.core.message.body.store.StoreTraceResponse;
+import cn.heimdall.core.message.hander.StoreInboundHandler;
 import cn.heimdall.core.network.client.GuarderRemotingClient;
 import cn.heimdall.core.network.coordinator.Coordinator;
 import cn.heimdall.core.network.processor.client.NodeHeartbeatResponseProcessor;
@@ -15,20 +23,27 @@ import cn.heimdall.core.network.remote.RemotingInstanceFactory;
 import cn.heimdall.core.utils.annotation.LoadLevel;
 import cn.heimdall.core.utils.constants.LoadLevelConstants;
 import cn.heimdall.core.utils.enums.NettyServerType;
+import cn.heimdall.core.utils.spi.EnhancedServiceLoader;
+import cn.heimdall.core.utils.spi.Initialize;
 import cn.heimdall.storage.core.processor.server.StoreAppStateProcessor;
 import cn.heimdall.storage.core.processor.server.StoreMetricProcessor;
 import cn.heimdall.storage.core.processor.server.StoreTraceLogProcessor;
 
-@LoadLevel(name = LoadLevelConstants.STORAGE_COORDINATOR)
-public class StorageCoordinator implements ComputeInboundHandler, Coordinator {
-    @Override
-    public AppStateResponse handle(AppStateRequest request) {
-        return null;
-    }
+@LoadLevel(name = LoadLevelConstants.COORDINATOR_STORAGE)
+public class StorageCoordinator implements StoreInboundHandler, Coordinator, MessageDoorway, Initialize {
+
+    private StoreManager storeManager;
+
+    private Configuration configuration;
+
+    private ClusterInfo clusterInfo;
 
     @Override
-    public MessageTreeResponse handle(MessageTreeRequest request) {
-        return null;
+    public void init() {
+        clusterInfo = ClusterInfoManager.getInstance().getClusterInfo();
+        configuration = ConfigurationFactory.getInstance();
+        storeManager =  EnhancedServiceLoader.load(StoreManager.class,
+                configuration.getConfig(clusterInfo.getStoreManagerType(), LoadLevelConstants.STORE_MANAGER_LUCENE));
     }
 
     @Override
@@ -39,9 +54,9 @@ public class StorageCoordinator implements ComputeInboundHandler, Coordinator {
     @Override
     public AbstractRemotingServer generateServerRemoteInstance() {
         AbstractRemotingServer remotingServer = RemotingInstanceFactory.generateRemotingServer(getNettyServerType());
-        remotingServer.doRegisterProcessor(MessageType.TYPE_STORE_APP_STATE_REQUEST, new StoreAppStateProcessor(remotingServer));
-        remotingServer.doRegisterProcessor(MessageType.TYPE_STORE_METRIC_REQUEST, new StoreMetricProcessor());
-        remotingServer.doRegisterProcessor(MessageType.TYPE_STORE_TRANCE_LOG_REQUEST, new StoreTraceLogProcessor());
+        remotingServer.doRegisterProcessor(MessageType.STORE_APP_STATE_REQUEST, new StoreAppStateProcessor(this, remotingServer));
+        remotingServer.doRegisterProcessor(MessageType.STORE_METRIC_REQUEST, new StoreMetricProcessor(this, remotingServer));
+        remotingServer.doRegisterProcessor(MessageType.STORE_TRANCE_LOG_REQUEST, new StoreTraceLogProcessor(this, remotingServer));
         return remotingServer;
     }
 
@@ -49,8 +64,36 @@ public class StorageCoordinator implements ComputeInboundHandler, Coordinator {
     public void initClientRemoteInstance() {
         //init guarder client
         GuarderRemotingClient guarder = GuarderRemotingClient.getInstance();
-        guarder.doRegisterProcessor(MessageType.TYPE_NODE_HEARTBEAT_REQUEST,  new NodeHeartbeatResponseProcessor());
-        guarder.doRegisterProcessor(MessageType.TYPE_NODE_REGISTER_REQUEST, new NodeRegisterResponseProcessor());
+        guarder.doRegisterProcessor(MessageType.NODE_HEARTBEAT_REQUEST,  new NodeHeartbeatResponseProcessor());
+        guarder.doRegisterProcessor(MessageType.NODE_REGISTER_REQUEST, new NodeRegisterResponseProcessor());
+    }
+
+    @Override
+    public MessageBody onRequest(MessageBody request) {
+        return null;
+    }
+
+    @Override
+    public void onResponse(MessageBody response) {
+
+    }
+
+    @Override
+    public StoreMetricResponse handle(StoreMetricRequest request) {
+        MessageBody messageBody = storeManager.store(request);
+        return (StoreMetricResponse) messageBody;
+    }
+
+    @Override
+    public StoreTraceResponse handle(StoreTraceRequest request) {
+        MessageBody messageBody = storeManager.store(request);
+        return (StoreTraceResponse) messageBody;
+    }
+
+    @Override
+    public StoreAppStateResponse handle(StoreAppStateRequest request) {
+        MessageBody messageBody = storeManager.store(request);
+        return (StoreAppStateResponse) messageBody;
     }
 
 }

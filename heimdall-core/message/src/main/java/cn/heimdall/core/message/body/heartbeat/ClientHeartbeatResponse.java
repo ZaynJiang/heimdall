@@ -40,7 +40,7 @@ public class ClientHeartbeatResponse  extends MessageResponse {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_CLIENT_HEARTBEAT_RESPONSE;
+        return MessageType.CLIENT_HEARTBEAT_RESPONSE;
     }
 
     @Override

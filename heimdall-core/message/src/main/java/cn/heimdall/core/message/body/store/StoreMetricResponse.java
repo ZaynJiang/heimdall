@@ -6,6 +6,6 @@ import cn.heimdall.core.message.MessageType;
 public class StoreMetricResponse extends MessageBody {
     @Override
     public MessageType getMessageType() {
-        return null;
+        return MessageType.STORE_METRIC_RESPONSE;
     }
 }

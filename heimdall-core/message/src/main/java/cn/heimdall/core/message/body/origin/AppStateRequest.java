@@ -37,7 +37,7 @@ public class AppStateRequest extends ClientMessageRequest {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_CLIENT_APP_STATE_REQUEST;
+        return MessageType.APP_STATE_REQUEST;
     }
 
     @Override

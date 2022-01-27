@@ -37,7 +37,7 @@ public class NodeHeartbeatRequest extends MessageBody {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_NODE_HEARTBEAT_REQUEST;
+        return MessageType.NODE_HEARTBEAT_REQUEST;
     }
 
     @Override

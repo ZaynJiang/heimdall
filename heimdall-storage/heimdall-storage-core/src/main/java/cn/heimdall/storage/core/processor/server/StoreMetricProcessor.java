@@ -1,13 +1,13 @@
 package cn.heimdall.storage.core.processor.server;
 
-import cn.heimdall.core.message.Message;
+import cn.heimdall.core.message.MessageDoorway;
 import cn.heimdall.core.network.processor.ServerProcessor;
-import io.netty.channel.ChannelHandlerContext;
+import cn.heimdall.core.network.remote.RemotingServer;
 
-public class StoreMetricProcessor implements ServerProcessor {
+public class StoreMetricProcessor extends ServerProcessor {
 
-    @Override
-    public void process(ChannelHandlerContext ctx, Message message) throws Exception {
-
+    public StoreMetricProcessor(MessageDoorway messageDoorway, RemotingServer remotingServer) {
+        super(messageDoorway, remotingServer);
     }
+
 }

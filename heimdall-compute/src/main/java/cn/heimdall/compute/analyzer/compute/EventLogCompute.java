@@ -14,7 +14,7 @@ import cn.heimdall.core.utils.constants.LoadLevelConstants;
 
 import java.util.List;
 
-@LoadLevel(name = LoadLevelConstants.EVENT_COMPUTE)
+@LoadLevel(name = LoadLevelConstants.COMPUTE_EVENT)
 public class EventLogCompute extends AbstractMetricCompute {
 
     @Override

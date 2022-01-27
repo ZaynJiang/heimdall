@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@LoadLevel(name = LoadLevelConstants.GUARDER_COORDINATOR)
+@LoadLevel(name = LoadLevelConstants.COORDINATOR_GUARDER)
 public class GuarderCoordinator implements MessageDoorway, GuarderInboundHandler, Coordinator, Initialize {
     private static final Logger LOGGER = LoggerFactory.getLogger(GuarderCoordinator.class);
 
@@ -120,11 +120,11 @@ public class GuarderCoordinator implements MessageDoorway, GuarderInboundHandler
     @Override
     public AbstractRemotingServer generateServerRemoteInstance() {
         AbstractRemotingServer remotingServer = RemotingInstanceFactory.generateRemotingServer(getNettyServerType());
-        remotingServer.doRegisterProcessor(MessageType.TYPE_NODE_REGISTER_REQUEST, new RegisterRequestProcessor(remotingServer, this));
-        remotingServer.doRegisterProcessor(MessageType.TYPE_NODE_HEARTBEAT_REQUEST, new HeartbeatRequestProcessor(remotingServer, this));
-        remotingServer.doRegisterProcessor(MessageType.TYPE_CLIENT_REGISTER_REQUEST, new RegisterRequestProcessor(remotingServer, this));
-        remotingServer.doRegisterProcessor(MessageType.TYPE_CLIENT_HEARTBEAT_REQUEST, new HeartbeatRequestProcessor(remotingServer, this));
-        remotingServer.doRegisterProcessor(MessageType.TYPE_PING_MESSAGE, new ServerIdleProcessor(remotingServer));
+        remotingServer.doRegisterProcessor(MessageType.NODE_REGISTER_REQUEST, new RegisterRequestProcessor(this, remotingServer));
+        remotingServer.doRegisterProcessor(MessageType.NODE_HEARTBEAT_REQUEST, new HeartbeatRequestProcessor(this, remotingServer));
+        remotingServer.doRegisterProcessor(MessageType.CLIENT_REGISTER_REQUEST, new RegisterRequestProcessor(this, remotingServer));
+        remotingServer.doRegisterProcessor(MessageType.CLIENT_HEARTBEAT_REQUEST, new HeartbeatRequestProcessor(this, remotingServer));
+        remotingServer.doRegisterProcessor(MessageType.TYPE_PING_MESSAGE, new ServerIdleProcessor(this, remotingServer));
         return remotingServer;
     }
 

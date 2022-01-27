@@ -103,8 +103,8 @@ public class GuarderRemotingClient extends AbstractRemotingClient {
     }
 
     private void registerProcessor() {
-        super.registerProcessor(MessageType.TYPE_CLIENT_HEARTBEAT_RESPONSE, new HeartbeatResponseProcessor(getFutures()), messageExecutor);
-        super.registerProcessor(MessageType.TYPE_CLIENT_REGISTER_RESPONSE, new RegisterResponseProcessor(getFutures()), messageExecutor);
+        super.registerProcessor(MessageType.CLIENT_HEARTBEAT_RESPONSE, new HeartbeatResponseProcessor(getFutures()), messageExecutor);
+        super.registerProcessor(MessageType.CLIENT_REGISTER_RESPONSE, new RegisterResponseProcessor(getFutures()), messageExecutor);
         super.registerProcessor(MessageType.TYPE_PING_MESSAGE, new ClientIdleProcessor());
     }
 

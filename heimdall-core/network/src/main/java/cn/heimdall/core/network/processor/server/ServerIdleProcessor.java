@@ -1,6 +1,7 @@
 package cn.heimdall.core.network.processor.server;
 
 import cn.heimdall.core.message.Message;
+import cn.heimdall.core.message.MessageDoorway;
 import cn.heimdall.core.message.body.PingMessage;
 import cn.heimdall.core.network.processor.ServerProcessor;
 import cn.heimdall.core.network.remote.RemotingServer;
@@ -8,14 +9,12 @@ import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ServerIdleProcessor implements ServerProcessor {
+public class ServerIdleProcessor extends ServerProcessor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerIdleProcessor.class);
 
-    private RemotingServer remotingServer;
-
-    public ServerIdleProcessor(RemotingServer remotingServer) {
-        this.remotingServer = remotingServer;
+    public ServerIdleProcessor(MessageDoorway messageDoorway, RemotingServer remotingServer) {
+        super(messageDoorway, remotingServer);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class AppRegisterRequest extends GuarderMessageRequest {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_CLIENT_REGISTER_REQUEST;
+        return MessageType.CLIENT_REGISTER_REQUEST;
     }
 
     @Override
