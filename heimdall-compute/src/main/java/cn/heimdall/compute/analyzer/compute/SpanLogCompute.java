@@ -2,7 +2,7 @@ package cn.heimdall.compute.analyzer.compute;
 
 import cn.heimdall.core.message.metric.MetricKey;
 import cn.heimdall.compute.metric.MetricWhatPulse;
-import cn.heimdall.compute.metric.SpanMetricKey;
+import cn.heimdall.core.message.metric.SpanMetricKey;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.body.origin.MessageTreeRequest;
 import cn.heimdall.core.message.trace.SpanLog;

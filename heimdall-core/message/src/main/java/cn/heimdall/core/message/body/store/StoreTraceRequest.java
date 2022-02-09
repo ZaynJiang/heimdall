@@ -12,7 +12,7 @@ import java.util.List;
  * 存储tracelog请求body
  */
 public class StoreTraceRequest extends AbstractStoreRequest {
-
+    private String traceId;
     private List<SpanLog> spanLogs;
     private List<EventLog> eventLogs;
 
@@ -30,6 +30,14 @@ public class StoreTraceRequest extends AbstractStoreRequest {
 
     public void setEventLogs(List<EventLog> eventLogs) {
         this.eventLogs = eventLogs;
+    }
+
+    public String getTraceId() {
+        return traceId;
+    }
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
     }
 
     @Override

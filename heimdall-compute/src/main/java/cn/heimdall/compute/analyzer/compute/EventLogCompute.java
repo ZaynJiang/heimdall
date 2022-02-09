@@ -1,6 +1,6 @@
 package cn.heimdall.compute.analyzer.compute;
 
-import cn.heimdall.compute.metric.EventMetricKey;
+import cn.heimdall.core.message.metric.EventMetricKey;
 import cn.heimdall.core.message.metric.MetricKey;
 import cn.heimdall.compute.metric.MetricWhatPulse;
 import cn.heimdall.core.message.MessageBody;

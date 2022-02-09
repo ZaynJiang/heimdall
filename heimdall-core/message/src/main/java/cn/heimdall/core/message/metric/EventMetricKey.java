@@ -1,31 +1,26 @@
-package cn.heimdall.compute.metric;
+package cn.heimdall.core.message.metric;
 
-import cn.heimdall.core.message.metric.MetricKey;
+import cn.heimdall.core.utils.enums.MetricType;
 
 import java.util.Objects;
 
-public class SpanMetricKey extends MetricKey {
-    private String domain;
-    private String ip;
-    private String type;
-    private String name;
+public class EventMetricKey extends MetricKey {
 
-    public SpanMetricKey() {
+    public EventMetricKey(String domain, String ip, String type, String name) {
+        super(domain, ip, type, name);
     }
 
-    public SpanMetricKey(String domain, String ip, String type, String name) {
-        this.domain = domain;
-        this.ip = ip;
-        this.type = type;
-        this.name = name;
+    @Override
+    public MetricType getMetricType() {
+        return MetricType.MetricTypeEvent;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof SpanMetricKey)) {
+        if (obj == null || !(obj instanceof EventMetricKey)) {
             return false;
         }
-        SpanMetricKey newObj = (SpanMetricKey) obj;
+        EventMetricKey newObj = (EventMetricKey) obj;
         return Objects.equals(newObj.getMetricKey(), this.getMetricKey());
     }
 
@@ -36,7 +31,7 @@ public class SpanMetricKey extends MetricKey {
 
     @Override
     public String toString() {
-        return "SpanMetricKey{" +
+        return "EventMetricKey{" +
                 "domain=" + domain +
                 ", ip=" + ip +
                 ", type=" + type +
@@ -48,4 +43,5 @@ public class SpanMetricKey extends MetricKey {
     public String getMetricKey() {
         return domain + ":" + ip + ":" + type + ":" + name;
     }
+
 }

@@ -13,6 +13,10 @@ public class StoreMetricRequest extends AbstractStoreRequest {
         this.metricNode = metricNode;
     }
 
+    public MetricNode getMetricNode() {
+        return metricNode;
+    }
+
     @Override
     public MessageType getMessageType() {
         return MessageType.STORE_METRIC_REQUEST;

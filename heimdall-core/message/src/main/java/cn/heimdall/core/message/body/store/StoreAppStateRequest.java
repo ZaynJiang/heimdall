@@ -13,13 +13,8 @@ public class StoreAppStateRequest extends AbstractStoreRequest {
     private String gcJson;
     private String sysJson;
     private String threadJson;
-    private String appName;
     private String ip;
     private Long timeStamp;
-
-    public String getAppName() {
-        return appName;
-    }
 
     public String getGcJson() {
         return gcJson;
@@ -45,9 +40,6 @@ public class StoreAppStateRequest extends AbstractStoreRequest {
         this.threadJson = threadJson;
     }
 
-    public void setAppName(String appName) {
-        this.appName = appName;
-    }
 
     public String getIp() {
         return ip;

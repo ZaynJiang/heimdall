@@ -15,7 +15,7 @@ public abstract class AbstractStoreRequest extends MessageRequest {
     /**
      * 应用名
      */
-    private String domain;
+    private String appName;
 
     /**
      * 应用ip
@@ -30,14 +30,6 @@ public abstract class AbstractStoreRequest extends MessageRequest {
         this.computeIp = computeIp;
     }
 
-    public String getDomain() {
-        return domain;
-    }
-
-    public void setDomain(String domain) {
-        this.domain = domain;
-    }
-
     public String getAddressIp() {
         return addressIp;
     }
@@ -46,4 +38,11 @@ public abstract class AbstractStoreRequest extends MessageRequest {
         this.addressIp = addressIp;
     }
 
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
 }

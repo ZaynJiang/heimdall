@@ -11,4 +11,8 @@ public interface LoadLevelConstants {
     String ANALYZER_APP_STATE_MESSAGE = "analyzer_app_state_message";
     String ANALYZER_APP_MESSAGE_TREE = "analyzer_app_message_tree";
     String STORE_MANAGER_LUCENE = "store_manager_lucene";
+
+    String STORE_DATA_TYPE_APP_STATE = "store_data_type_app_state";
+    String STORE_DATA_TYPE_METRIC = "store_data_type_metric";
+    String STORE_DATA_TYPE_TRACE = "store_data_type_trace";
 }
