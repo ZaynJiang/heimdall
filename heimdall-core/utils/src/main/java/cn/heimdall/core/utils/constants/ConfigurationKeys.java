@@ -52,6 +52,7 @@ public interface ConfigurationKeys {
     // storage
     String STORAGE_PREFIX = "storage.";
     String STORAGE_HOSTS = STORAGE_PREFIX + "hosts";
+    String STORAGE_TYPE = STORAGE_PREFIX + "type";
 
     //action
     String ACTION_PREFIX = "action.";

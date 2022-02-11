@@ -8,7 +8,7 @@ import cn.heimdall.core.message.body.store.StoreTraceRequest;
 import cn.heimdall.core.message.body.store.StoreTraceResponse;
 
 public interface StoreInboundHandler {
-    StoreMetricResponse handle(StoreMetricRequest request) throws Exception;
+    StoreMetricResponse handle(StoreMetricRequest request);
     StoreTraceResponse handle(StoreTraceRequest request);
     StoreAppStateResponse handle(StoreAppStateRequest request);
 }

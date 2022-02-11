@@ -1,7 +1,7 @@
 package cn.heimdall.core.cluster;
 
-import cn.heimdall.core.utils.enums.NodeRole;
 import cn.heimdall.core.utils.common.CurrentTimeFactory;
+import cn.heimdall.core.utils.enums.NodeRole;
 
 import java.net.InetSocketAddress;
 import java.util.Collections;
@@ -20,14 +20,11 @@ public class ClusterInfo {
     private Map<InetSocketAddress, Long> computeNodes;
     private Map<InetSocketAddress, Long> storageNodes;
 
-    private String storeManagerType;
-
     public ClusterInfo() {
     }
 
-    public ClusterInfo(String clusterName, String storeManagerType) {
+    public ClusterInfo(String clusterName) {
         this.clusterName = clusterName;
-        this.storeManagerType = storeManagerType;
         guarderNodes = new ConcurrentHashMap<>();
         computeNodes = new ConcurrentHashMap<>();
         storageNodes = new ConcurrentHashMap<>();
@@ -79,14 +76,6 @@ public class ClusterInfo {
 
     public String getClusterName() {
         return clusterName;
-    }
-
-    public String getStoreManagerType() {
-        return storeManagerType;
-    }
-
-    public void setStoreManagerType(String storeManagerType) {
-        this.storeManagerType = storeManagerType;
     }
 
     public Map<InetSocketAddress, Long> getGuarderNodes() {

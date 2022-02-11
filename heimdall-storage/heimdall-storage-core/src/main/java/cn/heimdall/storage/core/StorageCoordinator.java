@@ -29,6 +29,8 @@ import cn.heimdall.storage.core.processor.server.StoreAppStateProcessor;
 import cn.heimdall.storage.core.processor.server.StoreMetricProcessor;
 import cn.heimdall.storage.core.processor.server.StoreTraceLogProcessor;
 
+import static cn.heimdall.core.utils.constants.ConfigurationKeys.STORAGE_TYPE;
+
 @LoadLevel(name = LoadLevelConstants.COORDINATOR_STORAGE)
 public class StorageCoordinator implements StoreInboundHandler, Coordinator, MessageDoorway, Initialize {
 
@@ -43,7 +45,7 @@ public class StorageCoordinator implements StoreInboundHandler, Coordinator, Mes
         clusterInfo = ClusterInfoManager.getInstance().getClusterInfo();
         configuration = ConfigurationFactory.getInstance();
         storeManager =  EnhancedServiceLoader.load(StoreManager.class,
-                configuration.getConfig(clusterInfo.getStoreManagerType(), LoadLevelConstants.STORE_MANAGER_LUCENE));
+                configuration.getConfig(STORAGE_TYPE, LoadLevelConstants.STORE_MANAGER_LUCENE));
     }
 
     @Override
@@ -80,20 +82,17 @@ public class StorageCoordinator implements StoreInboundHandler, Coordinator, Mes
 
     @Override
     public StoreMetricResponse handle(StoreMetricRequest request) {
-        MessageBody messageBody = storeManager.store(request);
-        return (StoreMetricResponse) messageBody;
+        return storeManager.handle(request);
     }
 
     @Override
     public StoreTraceResponse handle(StoreTraceRequest request) {
-        MessageBody messageBody = storeManager.store(request);
-        return (StoreTraceResponse) messageBody;
+        return storeManager.handle(request);
     }
 
     @Override
     public StoreAppStateResponse handle(StoreAppStateRequest request) {
-        MessageBody messageBody = storeManager.store(request);
-        return (StoreAppStateResponse) messageBody;
+        return storeManager.handle(request);
     }
 
 }

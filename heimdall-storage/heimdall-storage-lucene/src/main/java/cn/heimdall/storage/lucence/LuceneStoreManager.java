@@ -28,8 +28,8 @@ public class LuceneStoreManager implements StoreManager, Initialize {
 
     @Override
     public void init() {
-        List<AbstractIndex> allAnalyzers = EnhancedServiceLoader.loadAll(AbstractIndex.class);
-        abstractIndexMap = allAnalyzers.stream().collect(Collectors.
+        List<AbstractIndex> indices = EnhancedServiceLoader.loadAll(AbstractIndex.class);
+        abstractIndexMap = indices.stream().collect(Collectors.
                 toMap(AbstractIndex::getStoreDataType, a -> a, (k1, k2) -> k1));
     }
 
