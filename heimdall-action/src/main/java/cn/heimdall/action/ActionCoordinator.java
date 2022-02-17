@@ -22,7 +22,7 @@ import cn.heimdall.core.utils.enums.NettyServerType;
 import cn.heimdall.core.utils.spi.Initialize;
 
 /**
- * 处理查询类请求协调器
+ * 处理和修改配置和查询的协调器
  */
 @LoadLevel(name = LoadLevelConstants.COORDINATOR_ACTION)
 public class ActionCoordinator implements MessageDoorway, Coordinator, ActionInboundHandler, Initialize {

@@ -31,7 +31,7 @@ public class ActionRemotingServer extends AbstractRemotingServer {
 
     @Override
     public void doRegisterProcessor(MessageType messageType, ServerProcessor serverProcessor) {
-        //TODO
+        super.registerProcessor(messageType, serverProcessor);
     }
 
     @Override
