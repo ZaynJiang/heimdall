@@ -1,10 +1,12 @@
-package cn.heimdall.core.message.body.action;
+package cn.heimdall.core.message.body.store.search;
 
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.body.ActionMessageRequest;
 import cn.heimdall.core.message.body.MessageResponse;
+import cn.heimdall.core.message.body.store.AbstractStoreRequest;
+import cn.heimdall.core.message.hander.StoreInboundHandler;
 
-public class QueryMetricRequest extends ActionMessageRequest {
+public class SearchTraceRequest extends AbstractStoreRequest {
     @Override
     public MessageResponse handle() {
         return inboundHandler.handle(this);
@@ -12,6 +14,6 @@ public class QueryMetricRequest extends ActionMessageRequest {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.ACTION_QUERY_METRIC_REQUEST;
+        return MessageType.ACTION_QUERY_TRANCE_LOG_REQUEST;
     }
 }

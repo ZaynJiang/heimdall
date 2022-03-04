@@ -7,11 +7,11 @@ import cn.heimdall.core.message.body.MessageResponse;
 public class QueryAppStateRequest extends ActionMessageRequest {
     @Override
     public MessageResponse handle() {
-        return null;
+        return inboundHandler.handle(this);
     }
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_QUERY_METRIC_REQUEST;
+        return MessageType.ACTION_QUERY_METRIC_REQUEST;
     }
 }

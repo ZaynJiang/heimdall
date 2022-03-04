@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="HMDd3VgaN3B1fi6phxCU" name="第 1 页">
-        <mxGraphModel dx="1195" dy="429" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1027" dy="291" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -88,28 +88,28 @@
                         <Array as="points"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="52" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="52" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="290" y="490" width="420" height="320" as="geometry"/>
                 </mxCell>
-                <mxCell id="53" value="manage net" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="53" value="manage net" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="320" y="720" width="96" height="70" as="geometry"/>
                 </mxCell>
-                <mxCell id="54" value="data net" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="54" value="data net" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="580" y="720" width="96" height="70" as="geometry"/>
                 </mxCell>
-                <mxCell id="55" value="&lt;span&gt;http net&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="55" value="&lt;span&gt;http net&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="452" y="720" width="96" height="70" as="geometry"/>
                 </mxCell>
-                <mxCell id="60" value="guarder" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="440" y="584.5" width="140" height="35" as="geometry"/>
+                <mxCell id="60" value="guarder" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="414" y="580" width="200" height="49.5" as="geometry"/>
                 </mxCell>
-                <mxCell id="61" value="compute" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="61" value="compute" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="310" y="500" width="180" height="65" as="geometry"/>
                 </mxCell>
-                <mxCell id="62" value="storage" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="62" value="storage" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="320" y="635" width="370" height="55" as="geometry"/>
                 </mxCell>
-                <mxCell id="63" value="action" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="63" value="action" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="510" y="500" width="178" height="65" as="geometry"/>
                 </mxCell>
             </root>

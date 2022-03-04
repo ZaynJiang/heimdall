@@ -7,6 +7,12 @@ import cn.heimdall.core.message.body.store.StoreMetricRequest;
 import cn.heimdall.core.message.body.store.StoreMetricResponse;
 import cn.heimdall.core.message.body.store.StoreTraceRequest;
 import cn.heimdall.core.message.body.store.StoreTraceResponse;
+import cn.heimdall.core.message.body.store.search.SearchAppStateRequest;
+import cn.heimdall.core.message.body.store.search.SearchAppStateResponse;
+import cn.heimdall.core.message.body.store.search.SearchMetricRequest;
+import cn.heimdall.core.message.body.store.search.SearchMetricResponse;
+import cn.heimdall.core.message.body.store.search.SearchTraceRequest;
+import cn.heimdall.core.message.body.store.search.SearchTraceResponse;
 import cn.heimdall.core.utils.annotation.LoadLevel;
 import cn.heimdall.core.utils.constants.LoadLevelConstants;
 import cn.heimdall.core.utils.enums.StoreDataType;
@@ -69,6 +75,21 @@ public class LuceneStoreManager implements StoreManager, Initialize {
             log.error("StoreAppStateRequest handle error", e);
         }
         //TODO 返回特定的错误码
+        return null;
+    }
+
+    @Override
+    public SearchAppStateResponse handle(SearchAppStateRequest request) {
+        return null;
+    }
+
+    @Override
+    public SearchTraceResponse handle(SearchTraceRequest request) {
+        return null;
+    }
+
+    @Override
+    public SearchMetricResponse handle(SearchMetricRequest request) {
         return null;
     }
 

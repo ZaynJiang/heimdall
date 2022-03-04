@@ -1,11 +1,11 @@
 package cn.heimdall.core.message.body.store;
 
-import cn.heimdall.core.message.body.MessageRequest;
+import cn.heimdall.core.message.body.StoreMessageRequest;
 
 /**
  *  发送给存储器的消息
  */
-public abstract class AbstractStoreRequest extends MessageRequest {
+public abstract class AbstractStoreRequest extends StoreMessageRequest {
 
     /**
      *  计算处理器ip

@@ -6,6 +6,6 @@ import cn.heimdall.core.message.body.MessageResponse;
 public class QueryAppStateResponse extends MessageResponse {
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_QUERY_APP_STATE_RESPONSE;
+        return MessageType.ACTION_TYPE_QUERY_APP_STATE_RESPONSE;
     }
 }

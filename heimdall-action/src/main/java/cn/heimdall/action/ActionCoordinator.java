@@ -36,9 +36,9 @@ public class ActionCoordinator implements MessageDoorway, Coordinator, ActionInb
     public AbstractRemotingServer generateServerRemoteInstance() {
         AbstractRemotingServer remotingServer = RemotingInstanceFactory.generateRemotingServer(getNettyServerType());
         QueryProcessor queryProcessor = new QueryProcessor(this, remotingServer);
-        remotingServer.doRegisterProcessor(MessageType.TYPE_QUERY_METRIC_REQUEST, queryProcessor);
-        remotingServer.doRegisterProcessor(MessageType.TYPE_QUERY_TRANCE_LOG_REQUEST, queryProcessor);
-        remotingServer.doRegisterProcessor(MessageType.TYPE_QUERY_APP_STATE_REQUEST, queryProcessor);
+        remotingServer.doRegisterProcessor(MessageType.ACTION_QUERY_METRIC_REQUEST, queryProcessor);
+        remotingServer.doRegisterProcessor(MessageType.ACTION_QUERY_TRANCE_LOG_REQUEST, queryProcessor);
+        remotingServer.doRegisterProcessor(MessageType.ACTION_QUERY_APP_STATE_REQUEST, queryProcessor);
         return remotingServer;
     }
 

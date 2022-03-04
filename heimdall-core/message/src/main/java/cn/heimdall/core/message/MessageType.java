@@ -49,6 +49,8 @@ public enum MessageType {
     //节点心跳消息
     NODE_HEARTBEAT_REQUEST(106, NodeHeartbeatRequest.class),
     NODE_HEARTBEAT_RESPONSE(206, NodeHeartbeatResponse.class),
+
+    //存储节点
     //计算节点发送存储traceLog
     STORE_TRANCE_LOG_REQUEST(107, StoreTraceRequest.class),
     STORE_TRANCE_LOG_RESPONSE(207, StoreTraceResponse.class),
@@ -59,13 +61,21 @@ public enum MessageType {
     STORE_APP_STATE_REQUEST(109, StoreAppStateRequest.class),
     STORE_APP_STATE_RESPONSE(209, StoreAppStateResponse.class),
 
-    //查询相关接口
-    TYPE_QUERY_METRIC_REQUEST(130, QueryAppStateRequest.class),
-    TYPE_QUERY_METRIC_RESPONSE(231, QueryMetricResponse.class),
-    TYPE_QUERY_APP_STATE_REQUEST(140, QueryAppStateRequest.class),
-    TYPE_QUERY_APP_STATE_RESPONSE(241, QueryAppStateResponse.class),
-    TYPE_QUERY_TRANCE_LOG_REQUEST(150, QueryTraceRequest.class),
-    TYPE_QUERY_TRANCE_LOG_RESPONSE(251, QueryTraceResponse.class);
+    //查询存储信息
+    STORE_SEARCH_METRIC_REQUEST(110, QueryAppStateRequest.class),
+    STORE_SEARCH_METRIC_RESPONSE(210, QueryAppStateRequest.class),
+    STORE_SEARCH_TRACE_LOG_REQUEST(111, QueryAppStateRequest.class),
+    STORE_SEARCH_TRACE_LOG_RESPONSE(211, QueryAppStateRequest.class),
+    STORE_SEARCH_APP_STATE_REQUEST(112, QueryAppStateRequest.class),
+    STORE_SEARCH_APP_STATE_RESPONSE(212, QueryAppStateRequest.class),
+
+    //查询协调信息相关接口
+    ACTION_QUERY_METRIC_REQUEST(113, QueryAppStateRequest.class),
+    ACTION_QUERY_METRIC_RESPONSE(213, QueryMetricResponse.class),
+    ACTION_QUERY_APP_STATE_REQUEST(114, QueryAppStateRequest.class),
+    ACTION_TYPE_QUERY_APP_STATE_RESPONSE(214, QueryAppStateResponse.class),
+    ACTION_QUERY_TRANCE_LOG_REQUEST(115, QueryTraceRequest.class),
+    ACTION_QUERY_TRANCE_LOG_RESPONSE(215, QueryTraceResponse.class);
 
     private short typeCode;
     private Class messageBodyClass;

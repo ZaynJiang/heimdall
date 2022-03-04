@@ -6,6 +6,6 @@ import cn.heimdall.core.message.body.MessageResponse;
 public class QueryTraceResponse extends MessageResponse {
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_QUERY_TRANCE_LOG_RESPONSE;
+        return MessageType.ACTION_QUERY_TRANCE_LOG_RESPONSE;
     }
 }

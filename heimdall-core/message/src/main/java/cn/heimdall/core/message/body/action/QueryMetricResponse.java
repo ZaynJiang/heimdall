@@ -6,6 +6,6 @@ import cn.heimdall.core.message.body.MessageResponse;
 public class QueryMetricResponse extends MessageResponse {
     @Override
     public MessageType getMessageType() {
-        return MessageType.TYPE_QUERY_METRIC_RESPONSE;
+        return MessageType.ACTION_QUERY_METRIC_RESPONSE;
     }
 }

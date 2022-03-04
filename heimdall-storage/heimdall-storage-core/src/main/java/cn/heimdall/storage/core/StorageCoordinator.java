@@ -13,6 +13,12 @@ import cn.heimdall.core.message.body.store.StoreMetricRequest;
 import cn.heimdall.core.message.body.store.StoreMetricResponse;
 import cn.heimdall.core.message.body.store.StoreTraceRequest;
 import cn.heimdall.core.message.body.store.StoreTraceResponse;
+import cn.heimdall.core.message.body.store.search.SearchAppStateRequest;
+import cn.heimdall.core.message.body.store.search.SearchAppStateResponse;
+import cn.heimdall.core.message.body.store.search.SearchMetricRequest;
+import cn.heimdall.core.message.body.store.search.SearchMetricResponse;
+import cn.heimdall.core.message.body.store.search.SearchTraceRequest;
+import cn.heimdall.core.message.body.store.search.SearchTraceResponse;
 import cn.heimdall.core.message.hander.StoreInboundHandler;
 import cn.heimdall.core.network.client.GuarderRemotingClient;
 import cn.heimdall.core.network.coordinator.Coordinator;
@@ -26,6 +32,7 @@ import cn.heimdall.core.utils.enums.NettyServerType;
 import cn.heimdall.core.utils.spi.EnhancedServiceLoader;
 import cn.heimdall.core.utils.spi.Initialize;
 import cn.heimdall.storage.core.processor.server.StoreAppStateProcessor;
+import cn.heimdall.storage.core.processor.server.StoreCommonProcessor;
 import cn.heimdall.storage.core.processor.server.StoreMetricProcessor;
 import cn.heimdall.storage.core.processor.server.StoreTraceLogProcessor;
 
@@ -56,9 +63,9 @@ public class StorageCoordinator implements StoreInboundHandler, Coordinator, Mes
     @Override
     public AbstractRemotingServer generateServerRemoteInstance() {
         AbstractRemotingServer remotingServer = RemotingInstanceFactory.generateRemotingServer(getNettyServerType());
-        remotingServer.doRegisterProcessor(MessageType.STORE_APP_STATE_REQUEST, new StoreAppStateProcessor(this, remotingServer));
-        remotingServer.doRegisterProcessor(MessageType.STORE_METRIC_REQUEST, new StoreMetricProcessor(this, remotingServer));
-        remotingServer.doRegisterProcessor(MessageType.STORE_TRANCE_LOG_REQUEST, new StoreTraceLogProcessor(this, remotingServer));
+        remotingServer.doRegisterProcessor(MessageType.STORE_APP_STATE_REQUEST, new StoreCommonProcessor(this, remotingServer));
+        remotingServer.doRegisterProcessor(MessageType.STORE_METRIC_REQUEST, new StoreCommonProcessor(this, remotingServer));
+        remotingServer.doRegisterProcessor(MessageType.STORE_TRANCE_LOG_REQUEST, new StoreCommonProcessor(this, remotingServer));
         return remotingServer;
     }
 
@@ -92,6 +99,21 @@ public class StorageCoordinator implements StoreInboundHandler, Coordinator, Mes
 
     @Override
     public StoreAppStateResponse handle(StoreAppStateRequest request) {
+        return storeManager.handle(request);
+    }
+
+    @Override
+    public SearchAppStateResponse handle(SearchAppStateRequest request) {
+        return storeManager.handle(request);
+    }
+
+    @Override
+    public SearchTraceResponse handle(SearchTraceRequest request) {
+        return storeManager.handle(request);
+    }
+
+    @Override
+    public SearchMetricResponse handle(SearchMetricRequest request) {
         return storeManager.handle(request);
     }
 
