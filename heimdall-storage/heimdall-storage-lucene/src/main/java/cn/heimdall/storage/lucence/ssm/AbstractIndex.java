@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 public abstract class AbstractIndex {
+    public static final String FIELD_NAME_APP_NAME = "h_appName";
+    public static final String FIELD_NAME_IP = "h_ip";
+    public static final String FIELD_COMPUTE_IP = "h_computeIp";
+
     protected Directory dir;
     protected IndexWriterConfig indexWriterConfig;
 
