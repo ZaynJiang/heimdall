@@ -44,8 +44,14 @@ public class GuarderCoordinator implements MessageDoorway, GuarderInboundHandler
 
     @Override
     public void init() {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("GuarderCoordinator init end");
+        }
         clusterInfoManager = ClusterInfoManager.getInstance();
         clusterInfo = clusterInfoManager.getClusterInfo();
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("GuarderCoordinator init end");
+        }
     }
 
     @Override

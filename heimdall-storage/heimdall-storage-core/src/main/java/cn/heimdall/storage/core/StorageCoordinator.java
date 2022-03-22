@@ -31,15 +31,15 @@ import cn.heimdall.core.utils.constants.LoadLevelConstants;
 import cn.heimdall.core.utils.enums.NettyServerType;
 import cn.heimdall.core.utils.spi.EnhancedServiceLoader;
 import cn.heimdall.core.utils.spi.Initialize;
-import cn.heimdall.storage.core.processor.server.StoreAppStateProcessor;
 import cn.heimdall.storage.core.processor.server.StoreCommonProcessor;
-import cn.heimdall.storage.core.processor.server.StoreMetricProcessor;
-import cn.heimdall.storage.core.processor.server.StoreTraceLogProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static cn.heimdall.core.utils.constants.ConfigurationKeys.STORAGE_TYPE;
 
 @LoadLevel(name = LoadLevelConstants.COORDINATOR_STORAGE)
 public class StorageCoordinator implements StoreInboundHandler, Coordinator, MessageDoorway, Initialize {
+    private static final Logger LOGGER = LoggerFactory.getLogger(StorageCoordinator.class);
 
     private StoreManager storeManager;
 
@@ -49,10 +49,16 @@ public class StorageCoordinator implements StoreInboundHandler, Coordinator, Mes
 
     @Override
     public void init() {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("StorageCoordinator init starting");
+        }
         clusterInfo = ClusterInfoManager.getInstance().getClusterInfo();
         configuration = ConfigurationFactory.getInstance();
         storeManager =  EnhancedServiceLoader.load(StoreManager.class,
                 configuration.getConfig(STORAGE_TYPE, LoadLevelConstants.STORE_MANAGER_LUCENE));
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("StorageCoordinator init end");
+        }
     }
 
     @Override

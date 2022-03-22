@@ -20,13 +20,15 @@ import cn.heimdall.core.utils.annotation.LoadLevel;
 import cn.heimdall.core.utils.constants.LoadLevelConstants;
 import cn.heimdall.core.utils.enums.NettyServerType;
 import cn.heimdall.core.utils.spi.Initialize;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 /**
  * 处理和修改配置和查询的协调器
  */
 @LoadLevel(name = LoadLevelConstants.COORDINATOR_ACTION)
 public class ActionCoordinator implements MessageDoorway, Coordinator, ActionInboundHandler, Initialize {
-
+    private final Logger LOGGER = LogManager.getLogger(getClass());
     @Override
     public NettyServerType getNettyServerType() {
         return NettyServerType.ACTION;
@@ -50,6 +52,12 @@ public class ActionCoordinator implements MessageDoorway, Coordinator, ActionInb
     @Override
     public void init() {
         //TODO donothing
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("ActionCoordinator init starting");
+        }
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("ActionCoordinator init end");
+        }
     }
 
     @Override

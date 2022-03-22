@@ -27,6 +27,9 @@ public final class NettyServer {
 
 
     public void multiNettyServerStart() {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("multiNettyServerStart starting");
+        }
         List<AbstractRemotingServer> servers = null;
         try {
             servers = coordinators.stream().
@@ -38,7 +41,9 @@ public final class NettyServer {
                 servers.stream().forEach(server -> server.getServerBootstrap().closeFutureSync());
             }
         }
-
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("multiNettyServerStart end");
+        }
 
     }
 }

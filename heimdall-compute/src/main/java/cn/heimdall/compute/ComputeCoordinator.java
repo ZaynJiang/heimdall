@@ -69,12 +69,18 @@ public final class ComputeCoordinator implements MessageDoorway, Coordinator, Co
 
     @Override
     public void init() {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("ComputeCoordinator init starting");
+        }
         List<MessageAnalyzer> allAnalyzers = EnhancedServiceLoader.loadAll(MessageAnalyzer.class);
         analyzerMap = allAnalyzers.stream().collect(Collectors.
                 toMap(MessageAnalyzer::getMessageType, a -> a, (k1, k2) -> k1));
         MetricTimerListener metricTimerListener = new MetricTimerListener(StorageRemotingClient.getInstance());
         //开启metric上报至storage
         metricUploader.scheduleAtFixedRate(metricTimerListener, 0, METRIC_UPLOADER_PERIOD, TimeUnit.MILLISECONDS);
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("ComputeCoordinator init end");
+        }
     }
 
     @Override
