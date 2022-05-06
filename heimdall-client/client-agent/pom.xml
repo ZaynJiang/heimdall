@@ -3,20 +3,22 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>heimdall-parent</artifactId>
+        <artifactId>heimdall-client</artifactId>
         <groupId>cn.heimdall</groupId>
         <version>${heimdall.version}</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
-    <groupId>cn.heimdall</groupId>
-    <artifactId>heimdall-client</artifactId>
+
+    <artifactId>client-agent</artifactId>
     <packaging>pom</packaging>
-
-
     <modules>
-        <module>client-agent</module>
-        <module>client-core</module>
-        <module>client-spring</module>
+        <module>agent-bootstrap</module>
+        <module>agent-core</module>
     </modules>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
 </project>

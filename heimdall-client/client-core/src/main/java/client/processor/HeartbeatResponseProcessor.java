@@ -1,4 +1,4 @@
-package cn.heimdall.client.processor;
+package client.processor;
 
 import cn.heimdall.core.message.Message;
 import cn.heimdall.core.network.processor.ClientProcessor;

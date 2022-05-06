@@ -1,10 +1,10 @@
-package cn.heimdall.client;
+package client;
 
 import cn.heimdall.core.config.Configuration;
 import cn.heimdall.core.config.ConfigurationFactory;
+import cn.heimdall.core.utils.common.NetUtil;
 import cn.heimdall.core.utils.constants.ConfigurationKeys;
 import cn.heimdall.core.utils.enums.NodeRole;
-import cn.heimdall.core.utils.common.NetUtil;
 import cn.heimdall.core.utils.spi.Initialize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

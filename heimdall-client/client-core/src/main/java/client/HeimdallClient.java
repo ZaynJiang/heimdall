@@ -1,7 +1,7 @@
-package cn.heimdall.client;
+package client;
 
-import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatRequest;
 import cn.heimdall.core.message.RpcMessage;
+import cn.heimdall.core.message.body.heartbeat.ClientHeartbeatRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

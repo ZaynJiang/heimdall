@@ -1,4 +1,4 @@
-package cn.heimdall.client;
+package client;
 
 import cn.heimdall.core.utils.enums.NodeRole;
 

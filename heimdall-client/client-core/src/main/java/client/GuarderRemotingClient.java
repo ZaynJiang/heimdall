@@ -1,14 +1,10 @@
-package cn.heimdall.client;
+package client;
 
-import cn.heimdall.client.processor.HeartbeatResponseProcessor;
-import cn.heimdall.client.processor.RegisterResponseProcessor;
+import client.processor.HeartbeatResponseProcessor;
+import client.processor.RegisterResponseProcessor;
 import cn.heimdall.core.cluster.ClusterInfo;
 import cn.heimdall.core.cluster.ClusterInfoManager;
-import cn.heimdall.core.config.Configuration;
-import cn.heimdall.core.config.ConfigurationFactory;
-import cn.heimdall.core.config.HeimdallConfig;
-import cn.heimdall.core.config.NetworkConfig;
-import cn.heimdall.core.config.NetworkManageConfig;
+import cn.heimdall.core.config.*;
 import cn.heimdall.core.message.MessageBody;
 import cn.heimdall.core.message.MessageType;
 import cn.heimdall.core.message.ResultCode;
